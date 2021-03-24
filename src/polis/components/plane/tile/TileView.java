@@ -1,4 +1,4 @@
-package polis.components.tile;
+package polis.components.plane.tile;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -8,9 +8,7 @@ public class TileView extends ImageView implements InvalidationListener {
 
     private TileModel model;
 
-    // Initialize a new tile-view
     public TileView(TileModel model) {
-        // Setup the corresponding model for the view
         this.model = model;
         model.addListener(this);
         // Adjusts the view to an isometric grid based on it's row and column
