@@ -3,31 +3,34 @@ package polis.components.tile;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.image.Image;
+import polis.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TileModel implements Observable {
-    
-    private String name;
+
+    private final static String IMAGE_LOCATION = "images/grass.png";
+
+    private final ImageLoader imageLoader;
+    private final List<InvalidationListener> listenerList = new ArrayList<>();
+
     private Image image;
     private int row;
     private int column;
     private int size;
     private int cellSize;
-    private final List<InvalidationListener> listenerList = new ArrayList<>();
 
-    // Handle name
-    public String getName() {
-        return name;
+    // initialize
+    public TileModel(ImageLoader imageLoader, int row, int column, int size, int cellSize){
+        this.imageLoader = imageLoader;
+        this.image = imageLoader.getImage("grass");
+        this.row = row;
+        this.column = column;
+        this.size = size;
+        this.cellSize = cellSize;
     }
-    public void setName(String name) {
-        if(!name.equals(this.name)){
-            this.name = name;
-            fireInvalidationEvent();
-        }
-    }
-    
+
     // Handle image
     public Image getImage() {
         return image; 
@@ -39,6 +42,7 @@ public class TileModel implements Observable {
         }
     }
 
+    // return basic data about the tile-model
     public int getRow() {
         return row;
     }

@@ -2,8 +2,8 @@ package polis.components;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import polis.ImageLoader;
 import polis.components.tile.TileModel;
-import polis.components.tiles.Grass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,16 +11,18 @@ import java.util.List;
 public class TileManagerModel implements Observable {
 
     private static final int GRID_SIZE = 32;
+    private static final int CELL_SIZE = 62;
 
-    private TileModel[][] tiles;
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
-    // initialize
-    public TileManagerModel(){
+    private TileModel[][] tiles;
+
+    // initialize, fill the grid with new tiles
+    public TileManagerModel(ImageLoader imageLoader){
         tiles = new TileModel[GRID_SIZE][GRID_SIZE];
         for(int i=0; i<GRID_SIZE; i++){
             for(int j=0; j<GRID_SIZE; j++){
-                tiles[i][j] = new Grass();
+                tiles[i][j] = new TileModel(imageLoader, i, j, 1, CELL_SIZE);
             }
         }
     }
