@@ -1,9 +1,9 @@
-package polis.components.tile;
+package polis.components.plane.tile;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.image.Image;
-import polis.ImageLoader;
+import polis.other.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,8 @@
-package polis.components;
+package polis.components.plane.tile;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.layout.Pane;
-import polis.components.tile.TileModel;
-import polis.components.tile.TileView;
 
 public class TileManagerView extends Pane implements InvalidationListener {
 

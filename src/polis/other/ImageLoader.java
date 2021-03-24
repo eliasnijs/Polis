@@ -1,4 +1,4 @@
-package polis;
+package polis.other;
 
 import javafx.scene.image.Image;
 

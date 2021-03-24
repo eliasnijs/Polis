@@ -1,9 +1,8 @@
-package polis.components;
+package polis.components.plane.tile;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import polis.ImageLoader;
-import polis.components.tile.TileModel;
+import polis.other.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 public class TileManagerModel implements Observable {
 
     private static final int GRID_SIZE = 32;
-    private static final int CELL_SIZE = 62;
+    private static final int CELL_SIZE = 64;
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
