@@ -2,6 +2,8 @@ package polis.components.cursor;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
@@ -14,16 +16,18 @@ public class CursorTileView extends Polygon implements InvalidationListener {
         super(0, 0,
                 model.getCellSize() * model.getSize(), 0.5 * model.getCellSize() * model.getSize(),
                 0, model.getCellSize() * model.getSize(),
-                -model.getCellSize() * model.getSize(), 0.5 * model.getCellSize() * model.getSize()
-        );
-        this.model = model;
-        model.addListener(this);
-        // Adjusts the view to an isometric grid based on it's row and column
+                -model.getCellSize() * model.getSize(), 0.5 * model.getCellSize() * model.getSize());
+
         int x = model.getCellSize() * (model.getSize() - model.getRow()  + model.getColumn() );
         int y = model.getCellSize() * (model.getRow() + model.getColumn()) / 2;
         this.setTranslateX(x);
         this.setTranslateY(y);
+
         this.setFill(Color.web(model.getColor()));
+
+        this.model = model;
+        model.addListener(this);
+
     }
 
     // return the model

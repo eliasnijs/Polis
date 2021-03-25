@@ -1,4 +1,4 @@
-package polis.components.plane.tile;
+package polis.components.plane;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -10,16 +10,15 @@ import java.util.List;
 
 public class TileModel implements Observable {
 
-    private final static String IMAGE_LOCATION = "images/grass.png";
-
     private final ImageLoader imageLoader;
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
+    private final int row;
+    private final int column;
+    private final int cellSize;
+
     private Image image;
-    private int row;
-    private int column;
     private int size;
-    private int cellSize;
 
     // initialize
     public TileModel(ImageLoader imageLoader, int row, int column, int size, int cellSize){
@@ -31,18 +30,11 @@ public class TileModel implements Observable {
         this.cellSize = cellSize;
     }
 
-    // Handle image
+    // Getters
     public Image getImage() {
         return image; 
     }
-    public void setImage(Image image) {
-        if(image != this.image){
-            this.image = image;
-            fireInvalidationEvent();
-        }
-    }
 
-    // return basic data about the tile-model
     public int getRow() {
         return row;
     }
@@ -57,6 +49,14 @@ public class TileModel implements Observable {
 
     public int getCellSize() {
         return cellSize;
+    }
+
+    // Setters
+    public void setImage(Image image) {
+        if(image != this.image){
+            this.image = image;
+            fireInvalidationEvent();
+        }
     }
 
     // Handle external communication
