@@ -2,15 +2,12 @@ package polis.components.cursor;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.geometry.Pos;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import polis.components.plane.tile.TileManagerModel;
-import polis.components.plane.tile.TileModel;
-import polis.components.plane.tile.TileView;
 
-public class CursorPlainView extends Pane  implements InvalidationListener {
+public class CursorPlainView extends Pane implements InvalidationListener {
 
-    private CursorPlainModel model;
+    private final CursorPlainModel model;
 
     public CursorPlainView(CursorPlainModel tileManagerModel){
         this.model = tileManagerModel;
@@ -20,23 +17,13 @@ public class CursorPlainView extends Pane  implements InvalidationListener {
                 this.getChildren().add(cursorTileView);
             }
         }
+        this.setOnMouseMoved(e -> model.hoover(e.getX(),e.getY()));
+        this.setOnMousePressed(e -> model.setStartDrag(e.getX(), e.getY()));
+        this.setOnMouseDragged(e -> model.drag(e.getX(), e.getY()));
+        this.setOnMouseReleased(e -> model.mousePressed());
     }
 
-    // Handles the model
-    public CursorPlainModel getModel(){
-        return model;
-    }
-    public void setModel(CursorPlainModel model){
-        if(model != this.model){
-            model.removeListener(this);
-        }
-        this.model = model;
-        if(model != null){
-            model.addListener(this);
-        }
-    }
-
-    // Handles events
+    // Event from model
     @Override
     public void invalidated(Observable observable) {
         System.out.println("CursorPlain event to be executed");

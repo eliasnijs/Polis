@@ -25,7 +25,7 @@ public class CursorTileModel implements Observable {
         this.cellSize = cellSize;
     }
 
-    // return basic data about the tile
+    // Getters
     public int getRow() { return row; }
 
     public int getColumn() {
@@ -42,13 +42,14 @@ public class CursorTileModel implements Observable {
 
     public String getColor(){ return color; }
 
-    // Set values of this tile
+    // Setters
     public void setSize(int size){
         this.size =  size;
     }
 
     public void setColor(String color){
         this.color = color;
+        fireInvalidationEvent();
     }
 
 
@@ -59,6 +60,12 @@ public class CursorTileModel implements Observable {
 
     @Override
     public void removeListener(InvalidationListener invalidationListener) {
+        for(InvalidationListener listener : listenerList){
+            listener.invalidated(this);
+        }
+    }
+
+    private void fireInvalidationEvent(){
         for(InvalidationListener listener : listenerList){
             listener.invalidated(this);
         }

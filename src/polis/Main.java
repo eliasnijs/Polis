@@ -8,13 +8,15 @@ import javafx.stage.Stage;
 import other.Viewport;
 import polis.components.cursor.CursorPlainModel;
 import polis.components.cursor.CursorPlainView;
-import polis.components.cursor.CursorTileModel;
-import polis.components.cursor.CursorTileView;
-import polis.components.plane.tile.TileManagerModel;
-import polis.components.plane.tile.TileManagerView;
+import polis.components.plane.TileManagerModel;
+import polis.components.plane.TileManagerView;
 import polis.other.ImageLoader;
 
 public class Main extends Application {
+
+    // TODO: Clean up the cursor package
+    // TODO: Make the UI
+    // TODO: Abstract further to combine UI and cursor-mode
 
     private static final String TITLE = "Polis - A city builder";
 
@@ -23,10 +25,12 @@ public class Main extends Application {
 
         CursorPlainModel cursorPlainModel = new CursorPlainModel();
         CursorPlainView cursorPlainView = new CursorPlainView(cursorPlainModel);
+        cursorPlainView.setTranslateY(-16*64);
 
         ImageLoader imageLoader = new ImageLoader();
         TileManagerModel tileManagerModel = new TileManagerModel(imageLoader);
         TileManagerView tileManagerView = new TileManagerView(tileManagerModel);
+        tileManagerView.setTranslateY(-16*64);
 
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
