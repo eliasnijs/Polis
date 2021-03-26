@@ -2,17 +2,16 @@ package polis.components.cursor;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CursorPlainModel implements Observable {
+public class CursorTileManagerModel implements Observable {
 
     private static final Map<String,String> colors = Map.of(
-            "UNAVAILABLE", "#FA7232",
-            "AVAILABLE", "#11AD9E",
+            "UNAVAILABLE", "#FA373299",
+            "AVAILABLE", "#11AD9E99",
             "UNSELECTED","#FFFFFF00"
     );
 
@@ -27,7 +26,7 @@ public class CursorPlainModel implements Observable {
     private int size = 1;
     private CursorTileModel startOfDrag;
 
-    public CursorPlainModel(){
+    public CursorTileManagerModel(){
         activeTiles = new ArrayList<>();
         tiles = new CursorTileModel[GRID_SIZE][GRID_SIZE];
         for(int i=0; i<GRID_SIZE; i++){
@@ -38,19 +37,22 @@ public class CursorPlainModel implements Observable {
     }
 
     // Getters
-    public CursorTileModel getTile(int row, int column){ return tiles[row][column]; }
+    public CursorTileModel getTile(int row, int column){
+        return tiles[row][column];
+    }
 
-    public CursorTileModel[][] getTiles() { return tiles; }
+    public CursorTileModel[][] getTiles() {
+        return tiles;
+    }
 
-    public ArrayList<CursorTileModel> getActiveTiles(){ return activeTiles; }
+    public ArrayList<CursorTileModel> getActiveTiles(){
+        return activeTiles;
+    }
 
-    // Get a tile from coordinates
     public CursorTileModel getTileFromCoordinates(double x, double y){
-        // Convert coordinates to row and column
         int column = (int) ((((x/CELL_SIZE)-size) + (2*(y/CELL_SIZE)-size))/2 + 0.5);
         int row = (int) ((-((x/CELL_SIZE)-size) + (2*(y/CELL_SIZE)-size))/2 + 0.5);
-        // Return the tile if we are certain there is a tile on the coordinates
-        if(row >= 0 && column >= 0 && row <= 31 && column <= 31){
+        if(row >= 0 && column >= 0 && row < GRID_SIZE && column < GRID_SIZE){
             return this.getTile(row , column);
         }
         return null;
@@ -92,16 +94,9 @@ public class CursorPlainModel implements Observable {
         }
     }
 
-    public void hoover(double x, double y) {
-        // Remove previous hoover tiles
-        clearActiveTiles();
-        // Set new hoover tiles
-        CursorTileModel tile = getTileFromCoordinates(x, y);
-        if(tile == null){
-            return;
-        }
+    public void addActiveTile(CursorTileModel tile){
         if (size == 2) {
-            if(tile.getRow()+1 >= 0 && tile.getRow()+1 < 32 && tile.getColumn()+1 >= 0 && tile.getColumn()+1 < 32){
+            if(tile.getRow()+1 >= 0 && tile.getRow()+1 < GRID_SIZE && tile.getColumn()+1 >= 0 && tile.getColumn()+1 < GRID_SIZE){
                 activeTiles.add(tile);
                 activeTiles.add(getTile(tile.getRow(), tile.getColumn()+1));
                 activeTiles.add(getTile(tile.getRow()+1, tile.getColumn()));
@@ -110,6 +105,15 @@ public class CursorPlainModel implements Observable {
         } else {
             activeTiles.add(tile);
         }
+    }
+
+    public void hoover(double x, double y) {
+        clearActiveTiles();
+        CursorTileModel tile = getTileFromCoordinates(x, y);
+        if(tile == null){
+            return;
+        }
+        addActiveTile(tile);
         colorActiveTiles();
     }
 
@@ -120,18 +124,17 @@ public class CursorPlainModel implements Observable {
     public void drag(double x, double y){
         CursorTileModel tile = getTileFromCoordinates(x,y);
         clearActiveTiles();
-        // If the current tile is out of bounds
         if(tile == null){
             return;
         }
-        // Add the new active tiles
+        // Add active tiles
         int t = 1;
         if (startOfDrag.getRow() > tile.getRow()) {
             t = -1;
         }
         int i=startOfDrag.getRow();
-        while(i != tile.getRow()+t){
-            activeTiles.add(getTile(i, startOfDrag.getColumn()));
+        while(i != tile.getRow() + t){
+            addActiveTile(getTile(i, startOfDrag.getColumn()));
             i += t;
         }
         t = 1;
@@ -139,8 +142,8 @@ public class CursorPlainModel implements Observable {
             t = -1;
         }
         i=startOfDrag.getColumn();
-        while(i != tile.getColumn()+t){
-            activeTiles.add(getTile(tile.getRow(), i));
+        while(i != tile.getColumn() + t){
+            addActiveTile(getTile(tile.getRow(), i));
             i += t;
         }
         colorActiveTiles();
@@ -152,7 +155,7 @@ public class CursorPlainModel implements Observable {
     }
 
 
-    // Handle external communication
+    // External communication
     @Override
     public void addListener(InvalidationListener invalidationListener) {
         listenerList.add(invalidationListener);

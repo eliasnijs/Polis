@@ -4,11 +4,11 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.image.ImageView;
 
-public class TileView extends ImageView implements InvalidationListener {
+public class BuildingTileView extends ImageView implements InvalidationListener {
 
-    private TileModel model;
+    private BuildingTileModel model;
 
-    public TileView(TileModel model) {
+    public BuildingTileView(BuildingTileModel model) {
         this.model = model;
         model.addListener(this);
         // Adjusts the view to an isometric grid based on it's row and column
@@ -21,13 +21,13 @@ public class TileView extends ImageView implements InvalidationListener {
         this.setTranslateY(y);
     }
 
-    // return the model
-    public TileModel getModel(){
+    // Getters
+    public BuildingTileModel getModel(){
         return model;
     }
 
-    // Change the corresponding model
-    public void setModel(TileModel model){
+    // Setters
+    public void setModel(BuildingTileModel model){
         if(model != this.model){
             model.removeListener(this);
         }

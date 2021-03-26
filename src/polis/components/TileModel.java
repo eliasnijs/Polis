@@ -1,8 +1,7 @@
-package polis.components.plane;
+package polis.components;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.scene.image.Image;
 import polis.other.ImageLoader;
 
 import java.util.ArrayList;
@@ -10,20 +9,15 @@ import java.util.List;
 
 public class TileModel implements Observable {
 
-    private final ImageLoader imageLoader;
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
     private final int row;
     private final int column;
     private final int cellSize;
 
-    private Image image;
     private int size;
 
-    // initialize
-    public TileModel(ImageLoader imageLoader, int row, int column, int size, int cellSize){
-        this.imageLoader = imageLoader;
-        this.image = imageLoader.getImage("grass");
+    public TileModel(int row, int column, int size, int cellSize){
         this.row = row;
         this.column = column;
         this.size = size;
@@ -31,10 +25,6 @@ public class TileModel implements Observable {
     }
 
     // Getters
-    public Image getImage() {
-        return image; 
-    }
-
     public int getRow() {
         return row;
     }
@@ -52,14 +42,18 @@ public class TileModel implements Observable {
     }
 
     // Setters
-    public void setImage(Image image) {
-        if(image != this.image){
-            this.image = image;
-            fireInvalidationEvent();
-        }
+    public void setSize(int size) {
+        this.size = size;
     }
 
-    // Handle external communication
+    // Converters
+    public int[] gridToCoordinates(){
+        int x = cellSize * (size - row  + column);
+        int y = cellSize * (row + column) / 2;
+        return new int[]{x,y};
+    }
+
+    // External communication with view
     @Override
     public void addListener(InvalidationListener invalidationListener) {
         listenerList.add(invalidationListener);
@@ -68,11 +62,10 @@ public class TileModel implements Observable {
     public void removeListener(InvalidationListener invalidationListener) {
         listenerList.remove(invalidationListener);
     }
-    private void fireInvalidationEvent(){
+    public void fireInvalidationEvent(){
         for(InvalidationListener listener : listenerList){
             listener.invalidated(this);
         }
     }
-    
 
 }

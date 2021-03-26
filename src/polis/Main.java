@@ -6,15 +6,14 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import other.Viewport;
-import polis.components.cursor.CursorPlainModel;
-import polis.components.cursor.CursorPlainView;
-import polis.components.plane.TileManagerModel;
-import polis.components.plane.TileManagerView;
+import polis.components.cursor.CursorTileManagerModel;
+import polis.components.cursor.CursorTileManagerView;
+import polis.components.plane.BuildingTileManagerModel;
+import polis.components.plane.BuildingTileManagerView;
 import polis.other.ImageLoader;
 
 public class Main extends Application {
 
-    // TODO: Clean up the cursor package
     // TODO: Make the UI
     // TODO: Abstract further to combine UI and cursor-mode
 
@@ -23,18 +22,16 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        CursorPlainModel cursorPlainModel = new CursorPlainModel();
-        CursorPlainView cursorPlainView = new CursorPlainView(cursorPlainModel);
-        cursorPlainView.setTranslateY(-16*64);
+        CursorTileManagerModel cursorTileManagerModel = new CursorTileManagerModel();
+        CursorTileManagerView cursorTileManagerView = new CursorTileManagerView(cursorTileManagerModel);
 
         ImageLoader imageLoader = new ImageLoader();
-        TileManagerModel tileManagerModel = new TileManagerModel(imageLoader);
-        TileManagerView tileManagerView = new TileManagerView(tileManagerModel);
-        tileManagerView.setTranslateY(-16*64);
+        BuildingTileManagerModel buildingTileManagerModel = new BuildingTileManagerModel(imageLoader);
+        BuildingTileManagerView buildingTileManagerView = new BuildingTileManagerView(buildingTileManagerModel);
 
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.getChildren().addAll(tileManagerView,cursorPlainView);
+        gridPane.getChildren().addAll(buildingTileManagerView, cursorTileManagerView);
 
         Viewport view = new Viewport(gridPane,0.5);
 
