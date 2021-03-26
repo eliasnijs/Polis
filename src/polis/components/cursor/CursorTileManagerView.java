@@ -2,15 +2,16 @@ package polis.components.cursor;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import polis.components.plane.BuildingTileManagerModel;
 
-public class CursorPlainView extends Pane implements InvalidationListener {
+public class CursorTileManagerView extends Pane implements InvalidationListener {
 
-    private final CursorPlainModel model;
+    private final CursorTileManagerModel model;
 
-    public CursorPlainView(CursorPlainModel tileManagerModel){
+    public CursorTileManagerView(CursorTileManagerModel tileManagerModel){
         this.model = tileManagerModel;
+        this.setTranslateY((double)(-BuildingTileManagerModel.getGridSize())/2* BuildingTileManagerModel.getCellSize());
         for(CursorTileModel[] row : model.getTiles()){
             for(CursorTileModel cell : row){
                 CursorTileView cursorTileView = new CursorTileView(cell);
