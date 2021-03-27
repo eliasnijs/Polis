@@ -14,6 +14,7 @@ import polis.other.ImageLoader;
 
 public class Main extends Application {
 
+    // TODO: Make fxml
     // TODO: Make the UI
     // TODO: Abstract further to combine UI and cursor-mode
 
