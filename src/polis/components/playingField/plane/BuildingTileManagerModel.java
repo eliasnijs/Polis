@@ -1,4 +1,4 @@
-package polis.components.plane;
+package polis.components.playingField.plane;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -12,26 +12,31 @@ public class BuildingTileManagerModel implements Observable {
     private static final int GRID_SIZE = 32;
     private static final int CELL_SIZE = 64;
 
+    private ImageLoader imageLoader;
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
-    private BuildingTileModel[][] tiles;
+    private final BuildingTileView[][] tiles;
 
-    // initialize, fill the grid with new tiles
     public BuildingTileManagerModel(ImageLoader imageLoader){
-        tiles = new BuildingTileModel[GRID_SIZE][GRID_SIZE];
+        this.imageLoader = imageLoader;
+        tiles = new BuildingTileView[GRID_SIZE][GRID_SIZE];
         for(int i=0; i<GRID_SIZE; i++){
             for(int j=0; j<GRID_SIZE; j++){
-                tiles[i][j] = new BuildingTileModel(imageLoader, i, j, 1, CELL_SIZE);
+                tiles[i][j] = new BuildingTileView(new BuildingTileModel(imageLoader, i, j, 1, CELL_SIZE));
             }
         }
     }
 
     // Getters
-    public BuildingTileModel getTile(int row, int column){
+    public ImageLoader getImageLoader() {
+        return imageLoader;
+    }
+
+    public BuildingTileView getTile(int row, int column){
         return tiles[row][column];
     }
 
-    public BuildingTileModel[][] getTiles(){
+    public BuildingTileView[][] getTiles(){
         return tiles;
     }
 
@@ -44,16 +49,13 @@ public class BuildingTileManagerModel implements Observable {
     }
 
     // Setters
-    public void setTile(BuildingTileModel tile, int row, int column){
-        if(tile != this.tiles[row][column] ){
-            tiles[row][column]  = tile;
-            fireInvalidationEvent();
-        }
+    public void setImageLoader(ImageLoader imageLoader) {
+        this.imageLoader = imageLoader;
     }
 
-    public void setTiles(BuildingTileModel[][] tiles){
-        if(tiles != this.tiles){
-            this.tiles = tiles;
+    public void setTile(BuildingTileModel tile, int row, int column){
+        if(tile != tiles[row][column].getModel() ){
+            tiles[row][column].setModel(tile);
             fireInvalidationEvent();
         }
     }

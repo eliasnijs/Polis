@@ -1,18 +1,17 @@
-package polis.components.plane;
+package polis.components.playingField.plane;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.image.Image;
-import polis.components.TileModel;
+import polis.components.playingField.TileModel;
 import polis.other.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildingTileModel extends TileModel implements Observable {
+public class BuildingTileModel extends TileModel {
 
     private final ImageLoader imageLoader;
-    private final List<InvalidationListener> listenerList = new ArrayList<>();
 
     private Image image;
     private int size;
