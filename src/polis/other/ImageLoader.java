@@ -7,7 +7,7 @@ import java.util.Map;
 public class ImageLoader {
 
     private static final Map<String,Image> images = Map.of(
-            "grass", new Image("images/grass.png")
+            "grass", new Image("polis/tiles/grass.png")
     );
 
     public Image getImage(String name){
