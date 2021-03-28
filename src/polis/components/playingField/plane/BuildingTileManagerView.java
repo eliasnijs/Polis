@@ -1,4 +1,4 @@
-package polis.components.plane;
+package polis.components.playingField.plane;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -8,14 +8,12 @@ public class BuildingTileManagerView extends Pane implements InvalidationListene
 
     private BuildingTileManagerModel model;
 
-    // initialize
     public BuildingTileManagerView(BuildingTileManagerModel buildingTileManagerModel){
         this.model = buildingTileManagerModel;
         this.setTranslateY((double)(-BuildingTileManagerModel.getGridSize())/2 * BuildingTileManagerModel.getCellSize());
-        for(BuildingTileModel[] row : model.getTiles()){
-            for(BuildingTileModel cell : row){
-                BuildingTileView buildingTileView = new BuildingTileView(cell);
-                this.getChildren().add(buildingTileView);
+        for(BuildingTileView[] row : model.getTiles()){
+            for(BuildingTileView cell : row){
+                this.getChildren().add(cell);
             }
         }
     }

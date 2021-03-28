@@ -1,4 +1,4 @@
-package polis.components.plane;
+package polis.components.playingField.plane;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;

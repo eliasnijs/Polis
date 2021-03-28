@@ -1,8 +1,8 @@
-package polis.components.cursor;
+package polis.components.playingField.cursor;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import polis.components.TileModel;
+import polis.components.playingField.TileModel;
 
 import java.util.ArrayList;
 import java.util.List;

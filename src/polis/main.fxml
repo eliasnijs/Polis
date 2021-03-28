@@ -4,9 +4,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+
+<?import java.net.URL?>
 <StackPane alignment="BOTTOM_CENTER" prefHeight="685" prefWidth="1600" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polis.MainCompanion">
+   <stylesheets>
+      <URL value="@/polis/main.css"/>
+   </stylesheets>
    <children>
-      <StackPane fx:id="viewportStackPane" />
+      <StackPane fx:id="viewportStackPane">
+      </StackPane>
       <HBox fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="65.0" prefWidth="1500.0">
          <children>
             <HBox id="panel" alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="910.0" spacing="50.0">

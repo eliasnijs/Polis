@@ -1,8 +1,7 @@
-package polis.components;
+package polis.components.playingField;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import polis.other.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;

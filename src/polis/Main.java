@@ -17,8 +17,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource(FXML_LOCATION));
-        root.getStylesheets().addAll(CSS_LOCATION);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_LOCATION));
+        Parent root = (Parent) loader.load();
         Scene scene = new Scene(root, 1600,685);
         stage.setScene(scene);
         stage.setTitle(TITLE);
