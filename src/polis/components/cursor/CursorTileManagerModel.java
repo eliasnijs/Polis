@@ -10,8 +10,8 @@ import java.util.Map;
 public class CursorTileManagerModel implements Observable {
 
     private static final Map<String,String> colors = Map.of(
-            "UNAVAILABLE", "#FA373299",
-            "AVAILABLE", "#11AD9E99",
+            "UNAVAILABLE", "#D95B6699",
+            "AVAILABLE", "#59D98699",
             "UNSELECTED","#FFFFFF00"
     );
 
@@ -23,7 +23,7 @@ public class CursorTileManagerModel implements Observable {
     private final CursorTileModel[][] tiles;
     private final ArrayList<CursorTileModel> activeTiles;
 
-    private int size = 1;
+    private int size = 2;
     private CursorTileModel startOfDrag;
 
     public CursorTileManagerModel(){
@@ -72,9 +72,8 @@ public class CursorTileManagerModel implements Observable {
     }
 
     public void switchSize(){
-        if(this.size == 1){
-            this.size = 2;
-        } else {
+        size = size+1;
+        if(this.size == 3){
             this.size = 1;
         }
     }
