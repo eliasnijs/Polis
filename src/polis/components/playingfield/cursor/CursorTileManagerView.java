@@ -7,9 +7,9 @@ import javafx.scene.layout.Pane;
 
 public class CursorTileManagerView extends Pane {
 
-    private final CursorTileManagerModel model;
+    private final CursorTileManager2 model;
 
-    public CursorTileManagerView(CursorTileManagerModel tileManagerModel){
+    public CursorTileManagerView(CursorTileManager2 tileManagerModel){
         this.model = tileManagerModel;
         this.setTranslateY((double)(-model.getGridSize())/2* model.getCellSize());
 
@@ -18,8 +18,8 @@ public class CursorTileManagerView extends Pane {
         }
 
         this.setOnMouseMoved(e -> model.hoover(e.getX(),e.getY()));
-        this.setOnMousePressed(e -> model.setStartDrag(e.getX(), e.getY()));
-        this.setOnMouseDragged(e -> model.drag(e.getX(), e.getY()));
+//        this.setOnMousePressed(e -> model.setStartDrag(e.getX(), e.getY()));
+//        this.setOnMouseDragged(e -> model.drag(e.getX(), e.getY()));
         this.setOnMouseReleased(e -> model.mousePressed());
 
     }
