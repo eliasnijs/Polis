@@ -1,4 +1,4 @@
-package polis.components.playingfield.cursor;
+package polis.components.playingfield.cursor.cursortile;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;

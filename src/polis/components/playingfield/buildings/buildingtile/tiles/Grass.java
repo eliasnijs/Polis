@@ -1,6 +1,6 @@
-package polis.components.playingfield.plane.tiles;
+package polis.components.playingfield.buildings.buildingtile.tiles;
 
-import polis.components.playingfield.plane.BuildingTileModel;
+import polis.components.playingfield.buildings.buildingtile.BuildingTileModel;
 import polis.other.ImageLoader;
 
 public class Grass extends BuildingTileModel {
