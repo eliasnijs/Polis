@@ -22,14 +22,17 @@
 }
 
 .button:hover {
-    -fx-background-color: #4ad0d099;
+    -fx-effect: dropshadow(gaussian, #000000, 1, 0.99, 0, 0);
 }
 
 #panel {
-    -fx-background-radius: 90px;
+    -fx-background-radius: 9px;
+    -fx-border-radius: 9px;
     -fx-text-fill: #000000;
-    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-color: rgba(235, 235, 235, 0.9);
     -fx-animated: false;
+    -fx-border-width: 3px 0px 0px 0px;
+    -fx-border-color: white;
 }
 
 #label_title {

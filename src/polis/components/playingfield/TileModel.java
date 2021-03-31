@@ -1,4 +1,4 @@
-package polis.components.playingField;
+package polis.components.playingfield;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -14,16 +14,12 @@ public class TileModel implements Observable {
     private final int column;
     private final int cellSize;
 
-    private int size;
-
-    public TileModel(int row, int column, int size, int cellSize){
+    public TileModel(int row, int column, int cellSize){
         this.row = row;
         this.column = column;
-        this.size = size;
         this.cellSize = cellSize;
     }
 
-    // Getters
     public int getRow() {
         return row;
     }
@@ -32,22 +28,12 @@ public class TileModel implements Observable {
         return column;
     }
 
-    public int getSize() {
-        return size;
-    }
-
     public int getCellSize() {
         return cellSize;
     }
 
-    // Setters
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    // Converters
     public int[] gridToCoordinates(){
-        int x = cellSize * (size - row  + column);
+        int x = cellSize * (1 - row  + column);
         int y = cellSize * (row + column) / 2;
         return new int[]{x,y};
     }

@@ -1,13 +1,10 @@
-package polis.components.playingField.plane;
+package polis.components.playingfield.plane;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.scene.image.Image;
-import polis.components.playingField.TileModel;
+import polis.components.playingfield.TileModel;
 import polis.other.ImageLoader;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
 
 public class BuildingTileModel extends TileModel {
 
@@ -17,10 +14,10 @@ public class BuildingTileModel extends TileModel {
     private int size;
 
     // initialize
-    public BuildingTileModel(ImageLoader imageLoader, int row, int column, int size, int cellSize){
-        super(row, column, size, cellSize);
+    public BuildingTileModel(ImageLoader imageLoader, int row, int column, int size, int cellSize, String name){
+        super(row, column, cellSize);
         this.imageLoader = imageLoader;
-        this.image = imageLoader.getImage("grass");
+        this.image = imageLoader.getImage(name);
     }
 
     // Getters

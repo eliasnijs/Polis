@@ -2,22 +2,22 @@ package polis;
 
 import javafx.scene.layout.StackPane;
 import other.Viewport;
-import polis.components.playingField.cursor.CursorTileManagerModel;
-import polis.components.playingField.cursor.CursorTileManagerView;
-import polis.components.playingField.plane.BuildingTileManagerModel;
-import polis.components.playingField.plane.BuildingTileManagerView;
-import polis.other.ImageLoader;
+import polis.components.playingfield.cursor.CursorTileManagerModel;
+import polis.components.playingfield.cursor.CursorTileManagerView;
+import polis.components.playingfield.plane.BuildingTileManagerView;
 
 public class MainCompanion {
 
     public StackPane viewportStackPane;
 
     public void initialize(){
-        ImageLoader imageLoader = new ImageLoader();
+
+
+        CursorTileManagerModel field = new CursorTileManagerModel(32,62);
 
         StackPane stackPane = new StackPane(
-                new BuildingTileManagerView(new BuildingTileManagerModel(imageLoader)),
-                new CursorTileManagerView(new CursorTileManagerModel())
+                new BuildingTileManagerView(field.getBuildingField()),
+                new CursorTileManagerView(field)
         );
 
         Viewport view = new Viewport(stackPane,0.5);
