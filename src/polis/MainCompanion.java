@@ -2,7 +2,7 @@ package polis;
 
 import javafx.scene.layout.StackPane;
 import other.Viewport;
-import polis.components.playingfield.cursor.CursorTileManagerModel;
+import polis.components.playingfield.cursor.CursorTileManager2;
 import polis.components.playingfield.cursor.CursorTileManagerView;
 import polis.components.playingfield.plane.BuildingTileManagerView;
 
@@ -13,7 +13,7 @@ public class MainCompanion {
     public void initialize(){
 
 
-        CursorTileManagerModel field = new CursorTileManagerModel(32,62);
+        CursorTileManager2 field = new CursorTileManager2(32,62);
 
         StackPane stackPane = new StackPane(
                 new BuildingTileManagerView(field.getBuildingField()),

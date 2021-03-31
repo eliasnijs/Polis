@@ -1,15 +1,14 @@
 package polis.components.playingfield.cursor;
 
-import javafx.beans.InvalidationListener;
 import polis.components.playingfield.plane.BuildingTileManagerModel;
 import polis.components.playingfield.plane.tiles.Road;
 import polis.other.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 
-public class CursorTileManagerModel {
+public class CursorTileManager1 {
 
     private static final Map<String,String> colors = Map.of(
             "UNAVAILABLE", "#D95B6699",
@@ -28,7 +27,7 @@ public class CursorTileManagerModel {
     private int size = 1;
     private CursorTileModel startOfDrag;
 
-    public CursorTileManagerModel(int gridSize, int cellSize){
+    public CursorTileManager1(int gridSize, int cellSize){
         this.gridSize = gridSize;
         this.cellSize = cellSize;
         selected = new ArrayList<>();
@@ -58,10 +57,6 @@ public class CursorTileManagerModel {
         return tiles[row][column].getModel();
     }
 
-    public CursorTileView[][] getTiles() {
-        return tiles;
-    }
-
     public CursorTileModel getTileFromCoordinates(double x, double y){
         int column = (int) ((x/ cellSize)/2 + y/ cellSize - size + 0.5);
         int row = (int) ((-x/ cellSize)/2 + y/ cellSize + 0.5);
@@ -71,7 +66,6 @@ public class CursorTileManagerModel {
         return null;
     }
 
-    // Setters
     public void setTileActive(CursorTileModel t){
         if(t != null ){
             t.setColor(colors.get(t.getStatus()));
@@ -151,11 +145,12 @@ public class CursorTileManagerModel {
 
     public void addActiveTile(CursorTileModel tile){
         if (size == 2) {
-            if(tile.getRow()+1 >= 0 && tile.getRow()+1 < gridSize && tile.getColumn()+1 >= 0 && tile.getColumn()+1 < gridSize){
-                selected.add(tile);
-                selected.add(getTileModel(tile.getRow(), tile.getColumn()+1));
-                selected.add(getTileModel(tile.getRow()+1, tile.getColumn()));
-                selected.add(getTileModel(tile.getRow()+1, tile.getColumn()+1));
+            if(tile.getRow()+1 >= 0 && tile.getRow()+1 < gridSize && tile.getColumn()+1 >= 0 && tile.getColumn()+1 < gridSize) {
+                CursorTileModel tile2 = getTileModel(tile.getRow(), tile.getColumn() + 1);
+                CursorTileModel tile3 = getTileModel(tile.getRow() + 1, tile.getColumn());
+                CursorTileModel tile4 = getTileModel(tile.getRow() + 1, tile.getColumn() + 1);
+                CursorTileModel[] tileModels = new CursorTileModel[]{tile, tile2, tile3, tile4};
+                selected.addAll(Arrays.asList(tileModels));
             }
         } else {
             selected.add(tile);
