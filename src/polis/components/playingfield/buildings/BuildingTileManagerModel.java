@@ -1,7 +1,9 @@
-package polis.components.playingfield.plane;
+package polis.components.playingfield.buildings;
 
 import javafx.beans.InvalidationListener;
-import polis.components.playingfield.plane.tiles.Grass;
+import polis.components.playingfield.buildings.buildingtile.BuildingTileModel;
+import polis.components.playingfield.buildings.buildingtile.BuildingTileView;
+import polis.components.playingfield.buildings.buildingtile.tiles.Grass;
 import polis.other.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;

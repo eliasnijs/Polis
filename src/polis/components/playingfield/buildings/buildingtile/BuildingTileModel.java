@@ -1,10 +1,8 @@
-package polis.components.playingfield.plane;
+package polis.components.playingfield.buildings.buildingtile;
 
 import javafx.scene.image.Image;
 import polis.components.playingfield.TileModel;
 import polis.other.ImageLoader;
-
-import java.util.Locale;
 
 public class BuildingTileModel extends TileModel {
 
