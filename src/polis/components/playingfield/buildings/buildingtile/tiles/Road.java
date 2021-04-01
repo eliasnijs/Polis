@@ -7,8 +7,8 @@ public class Road extends BuildingTileModel {
 
     private String name;
 
-    public Road(ImageLoader imageLoader, int row, int column, int size, int cellSize, String name) {
-        super(imageLoader, row, column, size, cellSize, name);
+    public Road(ImageLoader imageLoader, int row, int column, int cellSize, String name) {
+        super(imageLoader, row, column, cellSize, "road-0");
     }
 
 }
