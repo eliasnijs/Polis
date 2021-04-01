@@ -1,17 +1,21 @@
 package polis.components.playingfield.buildings;
 
 import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import polis.components.playingfield.buildings.buildingtile.BuildingTileModel;
 import polis.components.playingfield.buildings.buildingtile.BuildingTileView;
 import polis.components.playingfield.buildings.buildingtile.tiles.Grass;
 import polis.other.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
-public class BuildingTileManagerModel {
+public class BuildingTileManagerModel implements Observable {
 
     private ImageLoader imageLoader;
     private final List<InvalidationListener> listenerList = new ArrayList<>();
+
+    private BuildingTileView addView;
 
     private final int gridSize;
     private final int cellSize;
@@ -23,11 +27,6 @@ public class BuildingTileManagerModel {
         this.cellSize = cellSize;
         this.imageLoader = new ImageLoader();
         tiles = new BuildingTileView[gridSize][gridSize];
-        for(int i=0; i<gridSize; i++){
-            for(int j=0; j<gridSize; j++){
-                tiles[i][j] = new BuildingTileView(new Grass(imageLoader, i, j, 1, cellSize));
-            }
-        }
     }
 
     public BuildingTileModel getTile(int row, int column){
@@ -46,9 +45,31 @@ public class BuildingTileManagerModel {
         return cellSize;
     }
 
-    public void setTile(BuildingTileModel tile, int row, int column){
-        tiles[row][column].setModel(tile);
-        tiles[row][column].getModel().fireInvalidationEvent();
+    public BuildingTileView getAddView() {
+        return addView;
     }
 
+    public void setTile(BuildingTileModel tile, int row, int column){
+        BuildingTileView b = new BuildingTileView();
+        b.setModel(tile);
+        b.getModel().fireInvalidationEvent();
+        addView = b;
+        tiles[row][column] = b;
+        fireInvalidationEvent();
+    }
+
+    // External communication with view
+    @Override
+    public void addListener(InvalidationListener invalidationListener) {
+        listenerList.add(invalidationListener);
+    }
+    @Override
+    public void removeListener(InvalidationListener invalidationListener) {
+        listenerList.remove(invalidationListener);
+    }
+    public void fireInvalidationEvent(){
+        for(InvalidationListener listener : listenerList){
+            listener.invalidated(this);
+        }
+    }
 }

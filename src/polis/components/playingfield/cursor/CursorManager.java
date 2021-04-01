@@ -1,8 +1,5 @@
 package polis.components.playingfield.cursor;
 
-import polis.components.playingfield.buildings.buildingtile.tiles.Road;
-import polis.components.playingfield.cursor.cursors.CursorTileManagerBuildings;
-import polis.components.playingfield.cursor.cursors.CursorTileManagerRoads;
 import polis.components.playingfield.cursor.cursortile.CursorTileModel;
 import polis.components.playingfield.cursor.cursortile.CursorTileView;
 import polis.components.playingfield.buildings.BuildingTileManagerModel;
@@ -10,75 +7,68 @@ import polis.other.ImageLoader;
 
 import java.util.ArrayList;
 
-public class CursorManager<T> {
-
-    private ImageLoader imageLoader;
+public abstract class CursorManager {
 
     private final int gridSize;
     private final int cellSize;
 
+    private final ImageLoader imageLoader = new ImageLoader();
+
     private final CursorTileView[][] tiles;
-    private final ArrayList<int[]> selected;
     private final BuildingTileManagerModel buildingField;
 
-    private final CursorTileManagerBuildings buildings;
-    private final CursorTileManagerRoads roads;
+    public ArrayList<int[]> selected;
 
-    private ArrayList<CursorTileManager> managers;
-    private CursorTileManager activeManager;
-
-    private CursorManagerView view;
-    
-    public CursorManager(int gridSize, int cellSize){
-        this.imageLoader = new ImageLoader();
+    public CursorManager(int gridSize, int cellSize, BuildingTileManagerModel buildingField, ArrayList<int[]> selected, CursorTileView[][] tiles){
         this.gridSize = gridSize;
         this.cellSize = cellSize;
-        this.tiles = new CursorTileView[gridSize][gridSize];
-        this.selected = new ArrayList<>();
-        this.buildingField = new BuildingTileManagerModel(gridSize,cellSize);
-
-        for(int i = 0; i< this.gridSize; i++){
-            for(int j = 0; j< this.gridSize; j++){
-                tiles[i][j] = new CursorTileView(new CursorTileModel("#00000000", i, j, this.cellSize));
-            }
-        }
-
-        this.buildings = new CursorTileManagerBuildings(gridSize,cellSize,buildingField,selected,tiles);
-        this.roads = new CursorTileManagerRoads(gridSize, cellSize, buildingField,selected,tiles);
-
-        managers = new ArrayList<>();
-
-        managers.add(buildings);
-        managers.add(roads);
-
-        activeManager = buildings;
-    }
-
-    public CursorTileManager getActiveManager() {
-        return activeManager;
+        this.buildingField = buildingField;
+        this.selected = selected;
+        this.tiles = tiles;
     }
 
     public BuildingTileManagerModel getBuildingField() {
         return buildingField;
     }
 
-    public void setView(CursorManagerView view){
-        this.view = view;
+    public int getGridSize() {
+        return gridSize;
     }
 
-    public void setActiveManager(int i) {
-        System.out.println(managers.get(i));
-        this.activeManager = managers.get(i);
-        view.setModel(activeManager);
+    public int getCellSize() {
+        return cellSize;
     }
 
-    public void place(){
-        for (int[] t : selected) {
-            activeManager.getTileModel(t[0],t[1]).setStatus("UNAVAILABLE");
-            Road road = new Road(imageLoader, t[0], t[1], 1,cellSize,"road-1");
-            buildingField.setTile(road,t[0],t[1]);
-        }
-        activeManager.clearSelectedTiles();
+    public CursorTileView[][] getTiles(){
+        return tiles;
     }
 
+    public CursorTileModel getTileModel(int row, int column){
+        return tiles[row][column].getModel();
+    }
+
+    public int[] getTileFromCoordinates(double x, double y){
+        int column = (int) ((x/cellSize)/2 + y/cellSize - 0.5);
+        int row = (int) (-(x/cellSize)/2 + y/cellSize + 0.5);
+        return new int[]{row,column};
+    }
+
+    public void hoover(double x, double y) {
+        clearSelectedTiles();
+        int[] coords = getTileFromCoordinates(x,y);
+        addActiveTile(coords);
+        colorSelectedTiles();
+    }
+
+    protected abstract void colorSelectedTiles();
+
+    protected abstract void addActiveTile(int[] coords);
+
+    protected abstract void clearSelectedTiles();
+
+    protected abstract void drag(double x, double y);
+
+    protected abstract void setStartDrag(double x, double y);
+
+    protected abstract void place();
 }

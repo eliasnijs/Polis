@@ -1,14 +1,17 @@
 package polis.components.playingfield.cursor.cursors;
 
-import polis.components.playingfield.cursor.CursorTileManager;
+import polis.components.playingfield.TileModel;
+import polis.components.playingfield.buildings.buildingtile.tiles.Road;
+import polis.components.playingfield.cursor.CursorManager;
 import polis.components.playingfield.cursor.cursortile.CursorTileModel;
 import polis.components.playingfield.cursor.cursortile.CursorTileView;
 import polis.components.playingfield.buildings.BuildingTileManagerModel;
+import polis.other.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class CursorTileManagerRoads extends CursorTileManager {
+public class CursorManagerRoads extends CursorManager {
 
     private static final Map<String,String> colors = Map.of(
             "UNAVAILABLE", "#D95B6699",
@@ -19,8 +22,29 @@ public class CursorTileManagerRoads extends CursorTileManager {
 
     private int[] startOfDrag;
 
-    public CursorTileManagerRoads(int gridSize, int cellSize, BuildingTileManagerModel buildingField, ArrayList<int[]> selected, CursorTileView[][] tiles){
+    public CursorManagerRoads(int gridSize, int cellSize, BuildingTileManagerModel buildingField, ArrayList<int[]> selected, CursorTileView[][] tiles){
         super(gridSize,  cellSize, buildingField, selected, tiles);
+    }
+
+    @Override
+    protected void addActiveTile(int[] coords) {
+        selected.add(new int[]{coords[0],coords[1]});
+    }
+
+    public void setStartDrag(double x, double y){
+        startOfDrag = getTileFromCoordinates(x, y);
+    }
+
+    @Override
+    protected void place() {
+        for (int[] c : selected) {
+            CursorTileModel t = getTileModel(c[0],c[1]);
+            if (!t.getStatus().equals("UNAVAILABLE")) {
+                Road r = new Road(new ImageLoader(), c[0], c[1], getCellSize(),"road-0");
+                getBuildingField().setTile(r,c[0],c[1]);
+                getTileModel(c[0],c[1]).setStatus("UNAVAILABLE");
+            }
+        }
     }
 
     public void clearSelectedTiles(){
@@ -34,15 +58,6 @@ public class CursorTileManagerRoads extends CursorTileManager {
             CursorTileModel t = getTileModel(c[0],c[1]);
             t.setColor(colors.get(t.getStatus()));
         }
-    }
-
-    @Override
-    protected void addActiveTile(int[] coords) {
-        selected.add(new int[]{coords[0],coords[1]});
-    }
-
-    public void setStartDrag(double x, double y){
-        startOfDrag = getTileFromCoordinates(x, y);
     }
 
     public void selectDragTiles(int x, int y){

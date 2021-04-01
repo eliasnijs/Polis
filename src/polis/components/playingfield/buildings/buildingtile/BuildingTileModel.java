@@ -9,10 +9,9 @@ public class BuildingTileModel extends TileModel {
     private final ImageLoader imageLoader;
 
     private Image image;
-    private int size;
 
     // initialize
-    public BuildingTileModel(ImageLoader imageLoader, int row, int column, int size, int cellSize, String name){
+    public BuildingTileModel(ImageLoader imageLoader, int row, int column, int cellSize, String name){
         super(row, column, cellSize);
         this.imageLoader = imageLoader;
         this.image = imageLoader.getImage(name);
@@ -24,7 +23,8 @@ public class BuildingTileModel extends TileModel {
     }
 
     // Setters
-    public void setImage(Image image) {
+    public void setImage(String name) {
+        Image image = imageLoader.getImage(name);
         if(image != this.image){
             this.image = image;
             fireInvalidationEvent();

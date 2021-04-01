@@ -1,13 +1,15 @@
 package polis.components.playingfield.cursor.cursors;
 
-import polis.components.playingfield.cursor.CursorTileManager;
+import polis.components.playingfield.buildings.buildingtile.tiles.Residence;
+import polis.components.playingfield.cursor.CursorManager;
 import polis.components.playingfield.cursor.cursortile.CursorTileView;
 import polis.components.playingfield.buildings.BuildingTileManagerModel;
+import polis.other.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class CursorTileManagerBuildings extends CursorTileManager {
+public class CursorManagerBuildings extends CursorManager {
 
     private static final Map<String,String> colors = Map.of(
             "UNAVAILABLE", "#D95B6699",
@@ -15,8 +17,19 @@ public class CursorTileManagerBuildings extends CursorTileManager {
             "UNSELECTED","#FFFFFF00"
     );
 
-    public CursorTileManagerBuildings(int gridSize, int cellSize, BuildingTileManagerModel buildingField, ArrayList<int[]> selected, CursorTileView[][] tiles){
-        super(gridSize,  cellSize, buildingField, selected, tiles);
+    public CursorManagerBuildings(int gridSize, int cellSize, BuildingTileManagerModel buildingField, ArrayList<int[]> selected, CursorTileView[][] tiles){
+        super(gridSize, cellSize, buildingField, selected, tiles);
+    }
+
+    @Override
+    public void drag(double x, double y) { }
+
+    @Override
+    public void setStartDrag(double x, double y) { }
+
+    @Override
+    protected void place() {
+        placeTiles();
     }
 
 
@@ -25,17 +38,6 @@ public class CursorTileManagerBuildings extends CursorTileManager {
             getTileModel(c[0],c[1]).setColor(colors.get("UNSELECTED"));
         } selected.clear();
     }
-
-    @Override
-    public void drag(double x, double y) {
-
-    }
-
-    @Override
-    public void setStartDrag(double x, double y) {
-
-    }
-
 
     public boolean checkAvailable(){
         for (int[] c : selected) {
@@ -72,9 +74,15 @@ public class CursorTileManagerBuildings extends CursorTileManager {
         selected.add(new int[]{c[0]+1,c[1]+1});
     }
 
-    public void mousePressed(){
-        for (int[] c : selected) {
-            getTileModel(c[0],c[1]).setStatus("UNAVAILABLE");
+    public void placeTiles(){
+        if (checkAvailable()) {
+            int[] c =  selected.get(0);
+            Residence residence = new Residence(new ImageLoader(), c[0], c[1], getCellSize());
+            getBuildingField().setTile(residence,c[0],c[1]);
+            for (int[] s : selected) {
+                getTileModel(s[0],s[1]).setStatus("UNAVAILABLE");
+            }
         }
     }
+
 }

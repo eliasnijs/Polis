@@ -1,15 +1,30 @@
 package polis.components.playingfield.buildings;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import polis.components.playingfield.buildings.buildingtile.BuildingTileView;
 
-public class BuildingTileManagerView extends Pane {
+public class BuildingTileManagerView extends Pane implements InvalidationListener {
+
+    private final BuildingTileManagerModel model;
 
     public BuildingTileManagerView(BuildingTileManagerModel buildingTileManagerModel){
-        this.setTranslateY((double)(-buildingTileManagerModel.getGridSize())/2 * buildingTileManagerModel.getCellSize());
-        for(BuildingTileView[] row : buildingTileManagerModel.getTiles()){
-            this.getChildren().addAll(row);
-        }
+        model = buildingTileManagerModel;
+        model.addListener(this);
+        this.setTranslateX((double)(model.getGridSize()-1)*model.getCellSize());
+    }
+
+    public void addView(BuildingTileView v){
+        this.getChildren().add(v);
+    }
+
+    @Override
+    public void invalidated(Observable observable) {
+        addView(model.getAddView());
     }
 
 }
