@@ -1,20 +1,17 @@
-package polis.components.playingfield.buildings;
+package polis.components.buildings;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import polis.components.playingfield.buildings.buildingtile.BuildingTileModel;
-import polis.components.playingfield.buildings.buildingtile.BuildingTileView;
-import polis.components.playingfield.buildings.buildingtile.tiles.Grass;
-import polis.other.ImageLoader;
+import polis.components.buildings.buildingtile.BuildingTileModel;
+import polis.components.buildings.buildingtile.BuildingTileView;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 public class BuildingTileManagerModel implements Observable {
 
-    private ImageLoader imageLoader;
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
+    private int mode;
     private BuildingTileView addView;
 
     private final int gridSize;
@@ -25,7 +22,6 @@ public class BuildingTileManagerModel implements Observable {
     public BuildingTileManagerModel(int gridSize, int cellSize){
         this.gridSize = gridSize;
         this.cellSize = cellSize;
-        this.imageLoader = new ImageLoader();
         tiles = new BuildingTileView[gridSize][gridSize];
     }
 
@@ -51,14 +47,36 @@ public class BuildingTileManagerModel implements Observable {
 
     public void setTile(BuildingTileModel tile, int row, int column){
         BuildingTileView b = new BuildingTileView();
+        tiles[row][column] = b;
+        if (tile.getSize() == 2) {
+            b.setViewOrder(-row-1 - column-1 - 1.0);
+            tiles[row][column+1] = b;
+            tiles[row+1][column] = b;
+            tiles[row+1][column+1] = b;
+        } else {
+            b.setViewOrder(-row - column - 1.0);
+        }
         b.setModel(tile);
         b.getModel().fireInvalidationEvent();
+        mode = 0;
         addView = b;
-        tiles[row][column] = b;
         fireInvalidationEvent();
     }
 
-    // External communication with view
+    public void deleteTile(int row, int column){
+        mode = 1;
+        addView = tiles[row][column];
+        fireInvalidationEvent();
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+
     @Override
     public void addListener(InvalidationListener invalidationListener) {
         listenerList.add(invalidationListener);

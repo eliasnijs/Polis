@@ -1,9 +1,9 @@
-package polis.components.playingfield.cursor.cursors;
+package polis.components.cursor.cursors;
 
-import polis.components.playingfield.buildings.buildingtile.tiles.Residence;
-import polis.components.playingfield.cursor.CursorManager;
-import polis.components.playingfield.cursor.cursortile.CursorTileView;
-import polis.components.playingfield.buildings.BuildingTileManagerModel;
+import polis.components.buildings.buildingtile.tiles.Building;
+import polis.components.cursor.CursorManager;
+import polis.components.cursor.cursortile.CursorTileView;
+import polis.components.buildings.BuildingTileManagerModel;
 import polis.other.ImageLoader;
 
 import java.util.ArrayList;
@@ -32,7 +32,6 @@ public class CursorManagerBuildings extends CursorManager {
         placeTiles();
     }
 
-
     public void clearSelectedTiles(){
         for (int[] c : selected) {
             getTileModel(c[0],c[1]).setColor(colors.get("UNSELECTED"));
@@ -45,7 +44,8 @@ public class CursorManagerBuildings extends CursorManager {
             if (s.equals("UNAVAILABLE")) {
                return false;
             }
-        } return true;
+        }
+        return !selected.isEmpty();
     }
 
     public void colorSelectedTiles(){
@@ -67,21 +67,30 @@ public class CursorManagerBuildings extends CursorManager {
         colorSelectedTiles();
     }
 
+    public boolean checkBounds(int[] c){
+        return ( c[0] >= 0 && c[0] < getGridSize()-1 && c[1] >= 0 && c[1] < getGridSize()-1);
+    }
+
     public void addActiveTile(int[] c){
-        selected.add(c);
-        selected.add(new int[]{c[0],c[1]+1});
-        selected.add(new int[]{c[0]+1,c[1]});
-        selected.add(new int[]{c[0]+1,c[1]+1});
+        if (checkBounds(c)){
+            selected.add(c);
+            selected.add(new int[]{c[0],c[1]+1});
+            selected.add(new int[]{c[0]+1,c[1]});
+            selected.add(new int[]{c[0]+1,c[1]+1});
+        }
     }
 
     public void placeTiles(){
         if (checkAvailable()) {
             int[] c =  selected.get(0);
-            Residence residence = new Residence(new ImageLoader(), c[0], c[1], getCellSize());
-            getBuildingField().setTile(residence,c[0],c[1]);
-            for (int[] s : selected) {
-                getTileModel(s[0],s[1]).setStatus("UNAVAILABLE");
+            if (checkBounds(c)) {
+                Building residence = new Building(new ImageLoader(), c[0], c[1], getCellSize(),getTool());
+                getBuildingField().setTile(residence,c[0],c[1]);
+                for (int[] c2 : selected) {
+                    getTileModel(c2[0],c2[1]).setStatus("UNAVAILABLE");
+                }
             }
+            clearSelectedTiles();
         }
     }
 

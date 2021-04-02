@@ -1,8 +1,8 @@
-package polis.components.playingfield.cursor;
+package polis.components.cursor;
 
 import javafx.scene.layout.Pane;
-import polis.components.playingfield.Manager;
-import polis.components.playingfield.cursor.cursortile.CursorTileView;
+import polis.components.Manager;
+import polis.components.cursor.cursortile.CursorTileView;
 
 
 public class CursorManagerView extends Pane {

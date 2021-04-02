@@ -1,4 +1,4 @@
-package polis.components.playingfield.cursor.cursortile;
+package polis.components.cursor.cursortile;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -20,20 +20,22 @@ public class CursorTileView extends Polygon implements InvalidationListener {
         this.setTranslateX(coords[0]);
         this.setTranslateY(coords[1]);
 
-        setColor();
+        setCursorStyle();
     }
 
     public CursorTileModel getModel() {
         return model;
     }
 
-    public void setColor(){
+    public void setCursorStyle(){
         this.setFill(Color.web(model.getColor()));
+        this.setStroke(Color.web(model.getStrokeColor()));
+        this.setStrokeWidth(model.getStrokeWidth());
     }
 
     @Override
     public void invalidated(Observable o) {
-        setColor();
+        setCursorStyle();
     }
 
 }

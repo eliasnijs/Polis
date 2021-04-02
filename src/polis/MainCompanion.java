@@ -1,13 +1,19 @@
 package polis;
 
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import other.Viewport;
-import polis.components.playingfield.Manager;
-import polis.components.playingfield.buildings.BuildingTileManagerView;
-import polis.components.playingfield.cursor.CursorManagerView;
+import polis.components.Manager;
+import polis.components.buildings.BuildingTileManagerView;
+import polis.components.cursor.CursorManagerView;
+import polis.other.MusicPlayer;
+
+import java.io.File;
 
 public class MainCompanion {
 
@@ -18,26 +24,32 @@ public class MainCompanion {
     public Button residenceButton;
     public Button nukeButton;
     public Button bulldozerButton;
-
+    public Button selectButton;
 
     private final static int CELL_SIZE = 64;
-    private final static int GRID_SIZE = 32;
+    private final static int GRID_SIZE = 33;
+
+    private MusicPlayer musicPlayer;
 
     public void initialize(){
 
+        musicPlayer = new MusicPlayer("resources/polis/music/soundtrack.wav");
+
         Manager manager = new Manager(GRID_SIZE, CELL_SIZE);
         CursorManagerView cursorView = new CursorManagerView(manager);
-        BuildingTileManagerView buildingView = new BuildingTileManagerView(manager.getBuildingField());
+        BuildingTileManagerView buildingView = new BuildingTileManagerView(manager);
 
         Polygon poly = new Polygon(
                 0, 0,
                 CELL_SIZE * GRID_SIZE, 0.5 * CELL_SIZE * GRID_SIZE,
                 0, CELL_SIZE * GRID_SIZE,
                 -CELL_SIZE * GRID_SIZE, 0.5 * CELL_SIZE * GRID_SIZE);
-        poly.setFill(Color.web("#58A67A"));
-
+        poly.setFill(Color.web("#9BC20E"));
+        poly.setStroke(Color.BLACK);
+        poly.setStrokeWidth(10);
 
         manager.setView(cursorView);
+        manager.getActiveManager().setTool("select");
 
         StackPane stackPane = new StackPane(
                 poly,
@@ -48,11 +60,12 @@ public class MainCompanion {
         Viewport view = new Viewport(stackPane,0.5);
         viewportStackPane.getChildren().add(view);
 
-        roadButton.setOnAction(actionEvent -> manager.setActiveManager(1));
-
-        shoppingButton.setOnAction(actionEvent -> manager.setActiveManager(0));
-        residenceButton.setOnAction(actionEvent -> manager.setActiveManager(0));
-        factoryButton.setOnAction(actionEvent -> manager.setActiveManager(0));
+        shoppingButton.setOnAction(e -> manager.setActiveManager(0,"commerce"));
+        residenceButton.setOnAction(e -> manager.setActiveManager(0,"residence"));
+        factoryButton.setOnAction(e -> manager.setActiveManager(0,"factory"));
+        roadButton.setOnAction(e -> manager.setActiveManager(1));
+        bulldozerButton.setOnAction(e -> manager.setActiveManager(2,"bulldoze"));
+        selectButton.setOnAction(e -> manager.setActiveManager(2,"select"));
 
     }
 
