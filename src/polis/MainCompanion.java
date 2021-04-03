@@ -1,9 +1,6 @@
 package polis;
 
-import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -12,8 +9,6 @@ import polis.components.Manager;
 import polis.components.buildings.BuildingTileManagerView;
 import polis.components.cursor.CursorManagerView;
 import polis.other.MusicPlayer;
-
-import java.io.File;
 
 public class MainCompanion {
 
@@ -27,7 +22,7 @@ public class MainCompanion {
     public Button selectButton;
 
     private final static int CELL_SIZE = 64;
-    private final static int GRID_SIZE = 33;
+    private final static int GRID_SIZE = 32;
 
     private MusicPlayer musicPlayer;
 
@@ -44,9 +39,7 @@ public class MainCompanion {
                 CELL_SIZE * GRID_SIZE, 0.5 * CELL_SIZE * GRID_SIZE,
                 0, CELL_SIZE * GRID_SIZE,
                 -CELL_SIZE * GRID_SIZE, 0.5 * CELL_SIZE * GRID_SIZE);
-        poly.setFill(Color.web("#9BC20E"));
-        poly.setStroke(Color.BLACK);
-        poly.setStrokeWidth(10);
+        poly.setFill(Color.web("#88A129"));
 
         manager.setView(cursorView);
         manager.getActiveManager().setTool("select");

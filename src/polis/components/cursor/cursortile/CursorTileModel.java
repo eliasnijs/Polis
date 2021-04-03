@@ -1,7 +1,6 @@
 package polis.components.cursor.cursortile;
 
 
-import javafx.scene.paint.Color;
 import polis.components.TileModel;
 
 public class CursorTileModel extends TileModel {
