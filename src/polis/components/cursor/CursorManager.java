@@ -47,7 +47,6 @@ public abstract class CursorManager {
     }
 
     public String getTool() {
-        System.out.println(tool);
         return tool;
     }
 

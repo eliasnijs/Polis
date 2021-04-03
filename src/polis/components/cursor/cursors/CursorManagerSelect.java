@@ -36,7 +36,6 @@ public class CursorManagerSelect extends CursorManager {
     }
 
     public void clearSelectedTiles(){
-        System.out.println("c");
         for (int[] c : selected) {
             getTileModel(c[0],c[1]).setStroke("#00000000",0);
         } selected.clear();
