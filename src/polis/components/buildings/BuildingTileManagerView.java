@@ -8,32 +8,30 @@ import polis.components.buildings.buildingtile.BuildingTileView;
 
 public class BuildingTileManagerView extends Pane implements InvalidationListener {
 
-    private final Manager manager;
     private final BuildingTileManagerModel model;
 
-    public BuildingTileManagerView(Manager manager){
-        this.manager = manager;
-        model = manager.getBuildingField();
+    public BuildingTileManagerView(Manager manager) {
+        this.model = manager.getBuildingField();
         model.addListener(this);
-        this.setTranslateX((double)(model.getGridSize()-1)*model.getCellSize());
+        this.setTranslateX((double) (model.getGridSize() - 1) * model.getCellSize());
         manager.setStartupTiles();
     }
 
-    public void addView(BuildingTileView v){
+    public void addView(BuildingTileView v) {
         this.getChildren().add(v);
     }
 
-    public void deleteView(BuildingTileView v){
+    public void deleteView(BuildingTileView v) {
         this.getChildren().remove(v);
     }
 
     @Override
     public void invalidated(Observable observable) {
-        int mode = model.getMode();
-        if (mode == 0) {
-            addView(model.getAddView());
+        BuildingTileView t = model.getPendingView();
+        if (model.getPendingMode() == 0) {
+            addView(t);
         } else {
-            deleteView(model.getAddView());
+            deleteView(t);
         }
     }
 

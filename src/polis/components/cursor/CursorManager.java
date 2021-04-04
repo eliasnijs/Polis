@@ -1,8 +1,8 @@
 package polis.components.cursor;
 
+import polis.components.buildings.BuildingTileManagerModel;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
-import polis.components.buildings.BuildingTileManagerModel;
 
 import java.util.ArrayList;
 
@@ -15,15 +15,14 @@ public abstract class CursorManager {
 
     private final CursorTileView[][] tiles;
     private final BuildingTileManagerModel buildingField;
-
     public ArrayList<int[]> selected;
 
-    public CursorManager(int gridSize, int cellSize, BuildingTileManagerModel buildingField, ArrayList<int[]> selected, CursorTileView[][] tiles){
-        this.gridSize = gridSize;
-        this.cellSize = cellSize;
-        this.buildingField = buildingField;
-        this.selected = selected;
-        this.tiles = tiles;
+    public CursorManager(int g, int c, BuildingTileManagerModel bf, ArrayList<int[]> s, CursorTileView[][] t){
+        this.gridSize = g;
+        this.cellSize = c;
+        this.buildingField = bf;
+        this.selected = s;
+        this.tiles = t;
     }
 
     public BuildingTileManagerModel getBuildingField() {
@@ -50,10 +49,6 @@ public abstract class CursorManager {
         return tool;
     }
 
-    public ArrayList<int[]> getSelected() {
-        return selected;
-    }
-
     public void setTool(String tool) {
         this.tool = tool;
     }
@@ -66,8 +61,7 @@ public abstract class CursorManager {
 
     public void hoover(double x, double y) {
         clearSelectedTiles();
-        int[] coords = getTileFromCoordinates(x,y);
-        addActiveTile(coords);
+        addActiveTile(getTileFromCoordinates(x,y));
         colorSelectedTiles();
     }
 

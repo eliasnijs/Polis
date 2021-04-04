@@ -9,7 +9,10 @@ public class BuildingTileView extends ImageView implements InvalidationListener 
 
     private BuildingTileModel model;
 
-    public BuildingTileView() { }
+    public BuildingTileView(BuildingTileModel m){
+        setModel(m);
+        loadImage();
+    }
 
     public BuildingTileModel getModel(){
         return model;

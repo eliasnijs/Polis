@@ -7,11 +7,9 @@ import polis.other.ImageLoader;
 public abstract class BuildingTileModel extends TileModel {
 
     private final ImageLoader imageLoader;
-
     private Image image;
     private final String name;
     private final int size;
-
     private boolean destructible;
 
     public BuildingTileModel(ImageLoader imageLoader, int row, int column, int cellSize, String name, int size){
@@ -22,6 +20,8 @@ public abstract class BuildingTileModel extends TileModel {
         this.size = size;
         destructible = true;
     }
+
+    public void Update() { }
 
     public Image getImage(){
         return image;
@@ -35,10 +35,12 @@ public abstract class BuildingTileModel extends TileModel {
         }
     }
 
-    public void Update() {}
-
     public String getName(){
         return name;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public boolean isDestructible() {
@@ -47,10 +49,6 @@ public abstract class BuildingTileModel extends TileModel {
 
     public void setDestructible(boolean destructible) {
         this.destructible = destructible;
-    }
-
-    public int getSize() {
-        return size;
     }
 
 }

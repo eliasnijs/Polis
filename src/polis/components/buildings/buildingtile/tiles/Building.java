@@ -6,12 +6,10 @@ import polis.other.ImageLoader;
 
 public class Building extends BuildingTileModel {
 
-    private static final int[] capacities = new int[]{0,0,0,0};
-
     private int level;
-
     private int occupancy;
     private int capacity;
+    private static final int[] capacities = new int[]{0,0,0,0};
 
     public Building(ImageLoader imageLoader, int row, int column, int cellSize, String name){
         super(imageLoader, row, column, cellSize, name, 2);
