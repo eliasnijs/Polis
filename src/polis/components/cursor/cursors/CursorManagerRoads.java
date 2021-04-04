@@ -20,8 +20,8 @@ public class CursorManagerRoads extends CursorManager {
 
     private int[] startOfDrag;
 
-    public CursorManagerRoads(int gridSize, int cellSize, BuildingTileManagerModel buildingField, ArrayList<int[]> selected, CursorTileView[][] tiles){
-        super(gridSize,  cellSize, buildingField, selected, tiles);
+    public CursorManagerRoads(int g, int c, BuildingTileManagerModel bf, ArrayList<int[]> s, CursorTileView[][] t){
+        super(g,  c, bf, s, t);
     }
 
     public boolean checkBounds(int[] c){
@@ -29,27 +29,18 @@ public class CursorManagerRoads extends CursorManager {
     }
 
     @Override
-    protected void addActiveTile(int[] coords) {
-        if (checkBounds(coords)) {
-            selected.add(new int[]{coords[0],coords[1]});
-        }
+    protected void addActiveTile(int[] c) {
+        if (checkBounds(c)) { selected.add(new int[]{c[0],c[1]}); }
     }
 
+    @Override
     public void setStartDrag(double x, double y){
         startOfDrag = getTileFromCoordinates(x, y);
     }
 
     @Override
     protected void place() {
-        for (int[] c : selected) {
-            CursorTileModel t = getTileModel(c[0],c[1]);
-            if (!t.getStatus().equals("UNAVAILABLE")) {
-                Road r = new Road(new ImageLoader(), c[0], c[1], getCellSize());
-                getBuildingField().setTile(r,c[0],c[1]);
-                getTileModel(c[0],c[1]).setStatus("UNAVAILABLE");
-            }
-        }
-        clearSelectedTiles();
+        placeTiles();
     }
 
     public void clearSelectedTiles(){
@@ -66,21 +57,15 @@ public class CursorManagerRoads extends CursorManager {
     }
 
     public void selectDragTiles(int x, int y){
-        int t = 1;
-        if (startOfDrag[0] > x) {
-            t = -1;
-        }
-        int i=startOfDrag[0];
-        while(i != x + t){
+        int t = (startOfDrag[0] > x)? -1 : 1;
+        int i = startOfDrag[0];
+        while(i != x+t){
             addActiveTile(new int[]{i, startOfDrag[1]});
             i += t;
         }
-        t = 1;
-        if (startOfDrag[1] > y) {
-            t = -1;
-        }
-        i=startOfDrag[1];
-        while(i != y + t){
+        t = (startOfDrag[1] > y)? -1 : 1;
+        i = startOfDrag[1];
+        while(i != y+t){
             addActiveTile(new int[]{x,i});
             i += t;
         }
@@ -93,6 +78,18 @@ public class CursorManagerRoads extends CursorManager {
             selectDragTiles(tile[0],tile[1]);
             colorSelectedTiles();
         }
+    }
+
+    public void placeTiles(){
+        for (int[] c : selected) {
+            CursorTileModel t = getTileModel(c[0],c[1]);
+            if (!t.getStatus().equals("UNAVAILABLE")) {
+                Road r = new Road(new ImageLoader(), c[0], c[1], getCellSize());
+                getBuildingField().setTile(r,c[0],c[1]);
+                getTileModel(c[0],c[1]).setStatus("UNAVAILABLE");
+            }
+        }
+        clearSelectedTiles();
     }
 
 }

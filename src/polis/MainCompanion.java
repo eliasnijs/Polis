@@ -1,6 +1,9 @@
 package polis;
 
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -28,17 +31,14 @@ public class MainCompanion {
 
     public void initialize(){
 
-        musicPlayer = new MusicPlayer("resources/polis/music/soundtrack.wav");
+        musicPlayer = new MusicPlayer();
 
         Manager manager = new Manager(GRID_SIZE, CELL_SIZE);
         CursorManagerView cursorView = new CursorManagerView(manager);
         BuildingTileManagerView buildingView = new BuildingTileManagerView(manager);
 
-        Polygon poly = new Polygon(
-                0, 0,
-                CELL_SIZE * GRID_SIZE, 0.5 * CELL_SIZE * GRID_SIZE,
-                0, CELL_SIZE * GRID_SIZE,
-                -CELL_SIZE * GRID_SIZE, 0.5 * CELL_SIZE * GRID_SIZE);
+        int length = CELL_SIZE * GRID_SIZE;
+        Polygon poly = new Polygon(0, 0, length, 0.5 * length, 0, length, -length, 0.5 * length);
         poly.setFill(Color.web("#88A129"));
 
         manager.setView(cursorView);
@@ -51,6 +51,8 @@ public class MainCompanion {
         );
 
         Viewport view = new Viewport(stackPane,0.5);
+        view.setCursor(Cursor.NONE);
+
         viewportStackPane.getChildren().add(view);
 
         shoppingButton.setOnAction(e -> manager.setActiveManager(0,"commerce"));
@@ -59,7 +61,7 @@ public class MainCompanion {
         roadButton.setOnAction(e -> manager.setActiveManager(1));
         bulldozerButton.setOnAction(e -> manager.setActiveManager(2,"bulldoze"));
         selectButton.setOnAction(e -> manager.setActiveManager(2,"select"));
-
+        nukeButton.setOnAction(e -> manager.reset());
     }
 
 }

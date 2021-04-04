@@ -10,7 +10,6 @@ public class CursorTileModel extends TileModel {
     private String strokeColor;
     private int strokeWidth;
 
-
     public CursorTileModel(int row, int column, int cellSize){
         super(row, column, cellSize);
         this.color = "#00000000";
@@ -49,4 +48,5 @@ public class CursorTileModel extends TileModel {
     public int getStrokeWidth() {
         return strokeWidth;
     }
+
 }

@@ -11,8 +11,8 @@ public class BuildingTileManagerModel implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
-    private int mode;
-    private BuildingTileView addView;
+    private int pendingMode;
+    private BuildingTileView pendingView;
 
     private final int gridSize;
     private final int cellSize;
@@ -23,10 +23,6 @@ public class BuildingTileManagerModel implements Observable {
         this.gridSize = gridSize;
         this.cellSize = cellSize;
         tiles = new BuildingTileView[gridSize][gridSize];
-    }
-
-    public BuildingTileModel getTile(int row, int column){
-        return tiles[row][column].getModel();
     }
 
     public BuildingTileView[][] getTiles(){
@@ -41,53 +37,48 @@ public class BuildingTileManagerModel implements Observable {
         return cellSize;
     }
 
-    public BuildingTileView getAddView() {
-        return addView;
+    public BuildingTileView getPendingView() {
+        return pendingView;
     }
 
     public void setTile(BuildingTileModel tile, int row, int column){
-        BuildingTileView b = new BuildingTileView();
+        BuildingTileView b = new BuildingTileView(tile);
         tiles[row][column] = b;
         if (tile.getSize() == 2) {
-            b.setViewOrder(-row-1 - column-1 - 1.0);
-            tiles[row][column+1] = b;
-            tiles[row+1][column] = b;
-            tiles[row+1][column+1] = b;
-        } else {
-            b.setViewOrder(-row - column - 1.0);
+            tiles[row][column + 1] = b;
+            tiles[row + 1][column] = b;
+            tiles[row + 1][column + 1] = b;
         }
-        b.setModel(tile);
-        b.getModel().fireInvalidationEvent();
-        mode = 0;
-        addView = b;
+        b.setViewOrder(-row - column - 2*(tile.getSize()-1) - 1.0);
+        pendingMode = 0;
+        pendingView = b;
         fireInvalidationEvent();
     }
 
     public void deleteTile(int row, int column){
-        mode = 1;
-        addView = tiles[row][column];
+        pendingMode = 1;
+        pendingView = tiles[row][column];
         fireInvalidationEvent();
     }
 
-    public int getMode() {
-        return mode;
-    }
-
-    public void setMode(int mode) {
-        this.mode = mode;
+    public int getPendingMode() {
+        return pendingMode;
     }
 
     @Override
     public void addListener(InvalidationListener invalidationListener) {
         listenerList.add(invalidationListener);
     }
+
     @Override
     public void removeListener(InvalidationListener invalidationListener) {
         listenerList.remove(invalidationListener);
     }
+
     public void fireInvalidationEvent(){
         for(InvalidationListener listener : listenerList){
             listener.invalidated(this);
         }
     }
+
 }

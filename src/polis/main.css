@@ -12,11 +12,10 @@
 
 .button {
     -fx-background-radius: 90px;
-    -fx-text-fill: #dddddd00;
+    -fx-text-fill: #ffffff;
     -fx-background-size: 40%;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
-    -fx-background-image: url("/polis/tiles/residence-0.png");
     -fx-background-color: #00000000;
     -fx-animated: false;
 }

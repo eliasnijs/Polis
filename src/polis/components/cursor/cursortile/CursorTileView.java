@@ -12,14 +12,11 @@ public class CursorTileView extends Polygon implements InvalidationListener {
     public CursorTileView(CursorTileModel model){
         super(0, 0, model.getCellSize(), 0.5 * model.getCellSize(), 0,
                 model.getCellSize(), -model.getCellSize(), 0.5 * model.getCellSize());
-
         this.model = model;
         model.addListener(this);
-
-        int[] coords = model.gridToCoordinates();
-        this.setTranslateX(coords[0]);
-        this.setTranslateY(coords[1]);
-
+        int[] c = model.gridToCoordinates();
+        this.setTranslateX(c[0]);
+        this.setTranslateY(c[1]);
         setCursorStyle();
     }
 
@@ -28,9 +25,9 @@ public class CursorTileView extends Polygon implements InvalidationListener {
     }
 
     public void setCursorStyle(){
-        this.setFill(Color.web(model.getColor()));
-        this.setStroke(Color.web(model.getStrokeColor()));
-        this.setStrokeWidth(model.getStrokeWidth());
+        setFill(Color.web(model.getColor()));
+        setStroke(Color.web(model.getStrokeColor()));
+        setStrokeWidth(model.getStrokeWidth());
     }
 
     @Override

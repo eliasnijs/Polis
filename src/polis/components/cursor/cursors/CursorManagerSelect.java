@@ -48,13 +48,6 @@ public class CursorManagerSelect extends CursorManager {
         }
     }
 
-    public void hoover(double x, double y) {
-        clearSelectedTiles();
-        int[] coords = getTileFromCoordinates(x,y);
-        addActiveTile(coords);
-        colorSelectedTiles();
-    }
-
     public void addActiveTile(int[] c){
         if (checkBounds(c)) {
             selected.add(c);
