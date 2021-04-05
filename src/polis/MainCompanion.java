@@ -1,9 +1,7 @@
 package polis;
 
 import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -27,11 +25,7 @@ public class MainCompanion {
     private final static int CELL_SIZE = 64;
     private final static int GRID_SIZE = 32;
 
-    private MusicPlayer musicPlayer;
-
     public void initialize(){
-
-        musicPlayer = new MusicPlayer();
 
         Manager manager = new Manager(GRID_SIZE, CELL_SIZE);
         CursorManagerView cursorView = new CursorManagerView(manager);
@@ -57,11 +51,12 @@ public class MainCompanion {
 
         shoppingButton.setOnAction(e -> manager.setActiveManager(0,"commerce"));
         residenceButton.setOnAction(e -> manager.setActiveManager(0,"residence"));
-        factoryButton.setOnAction(e -> manager.setActiveManager(0,"factory"));
+        factoryButton.setOnAction(e -> manager.setActiveManager(0,"industry"));
         roadButton.setOnAction(e -> manager.setActiveManager(1));
         bulldozerButton.setOnAction(e -> manager.setActiveManager(2,"bulldoze"));
         selectButton.setOnAction(e -> manager.setActiveManager(2,"select"));
         nukeButton.setOnAction(e -> manager.reset());
+
     }
 
 }

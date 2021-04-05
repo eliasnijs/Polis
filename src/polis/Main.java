@@ -2,41 +2,31 @@ package polis;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import polis.other.MusicPlayer;
 
 public class Main extends Application {
 
-    private static final String TITLE = "Polis - A city builder";
+    private static final String TITLE = "Polis";
     private static final String FXML_GAME = "/polis/main.fxml";
     private static final String FXML_START = "/polis/startmenu.fxml";
+    private MusicPlayer musicPlayer;
 
 
     @Override
     public void start(Stage stage) throws Exception {
 
+        musicPlayer = new MusicPlayer();
 
-        FXMLLoader start = new FXMLLoader(getClass().getResource(FXML_START));
-        Parent startParent = start.load();
+        Parent startParent = FXMLLoader.load(getClass().getResource(FXML_START));
+        Parent gameParent = FXMLLoader.load(getClass().getResource(FXML_GAME));
 
-        FXMLLoader game = new FXMLLoader(getClass().getResource(FXML_GAME));
-        Parent gameParent = game.load();
-
-        Scene gameScene = new Scene(gameParent, 1600,685);
-
-        startParent.setOnMouseReleased(e -> {stage.setScene(gameScene);
-            System.out.println("asd");});
         Scene startScene = new Scene(startParent, 1600,685);
-
+        Scene gameScene = new Scene(gameParent, 1600,685);
+        startParent.setOnMouseReleased(e -> stage.setScene(gameScene));
 
         stage.setScene(startScene);
         stage.setTitle(TITLE);

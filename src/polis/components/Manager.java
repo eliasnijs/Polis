@@ -10,7 +10,6 @@ import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
 import polis.components.buildings.BuildingTileManagerModel;
 import polis.other.ImageLoader;
-import polis.other.MusicPlayer;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ public class Manager {
         managers = new ArrayList<>();
         managers.add(new CursorManagerBuildings(gridSize, cellSize, buildingField, selected, tiles));
         managers.add(new CursorManagerRoads(gridSize, cellSize, buildingField, selected, tiles));
-        managers.add(new CursorManagerSelect(gridSize, cellSize, buildingField, selected, tiles));
+        managers.add(new CursorManagerSelect(gridSize, cellSize, buildingField, selected, tiles, this));
         activeManager = managers.get(2);
     }
 
@@ -69,19 +68,28 @@ public class Manager {
         view.setModel(activeManager);
     }
 
+    public CursorManager getManager(int i){
+        return managers.get(i);
+    }
+
     public void setStartupTiles(){
-        for (int i=0; i<gridSize/2; i+=1) {
-            Road r = new Road(imageLoader, i, gridSize/2-1, cellSize);
+        for (int i=0; i<gridSize/2-1; i+=1) {
+            Road r = new Road(imageLoader, i, gridSize/2-1, cellSize, buildingField, new boolean[]{true,false,true,false});
             r.setDestructible(false);
             buildingField.setTile(r,i,gridSize/2-1);
             tiles[i][gridSize/2-1].getModel().setStatus("UNAVAILABLE");
         }
+        Road r = new Road(imageLoader, gridSize/2-1, gridSize/2-1, cellSize, buildingField,new boolean[]{true,false,false,false});
+        r.setDestructible(false);
+        buildingField.setTile(r,gridSize/2-1,gridSize/2-1);
+        tiles[gridSize/2-1][gridSize/2-1].getModel().setStatus("UNAVAILABLE");
     }
 
     public void reset(){
         for (int i =0; i< gridSize; i++) {
             for (int j =0; j< gridSize; j++) {
                 buildingField.deleteTile(i,j);
+                buildingField.getTiles()[i][j]= null;
                 tiles[i][j].getModel().setStatus("AVAILABLE");
                 tiles[i][j].getModel().setStroke("#00000000", 0);
                 tiles[i][j].getModel().setColor("#00000000");

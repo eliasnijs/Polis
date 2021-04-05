@@ -38,15 +38,16 @@ public class TileModel implements Observable {
         return new int[]{x,y};
     }
 
-    // External communication with view
     @Override
     public void addListener(InvalidationListener invalidationListener) {
         listenerList.add(invalidationListener);
     }
+
     @Override
     public void removeListener(InvalidationListener invalidationListener) {
         listenerList.remove(invalidationListener);
     }
+
     public void fireInvalidationEvent(){
         for(InvalidationListener listener : listenerList){
             listener.invalidated(this);

@@ -1,10 +1,13 @@
 package polis.components.cursor;
 
 import polis.components.buildings.BuildingTileManagerModel;
+import polis.components.buildings.buildingtile.BuildingTileView;
+import polis.components.buildings.buildingtile.tiles.Road;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class CursorManager {
 
@@ -75,6 +78,8 @@ public abstract class CursorManager {
 
     protected abstract void setStartDrag(double x, double y);
 
-    protected abstract void place();
+    public abstract void place();
+
+    protected abstract boolean checkBounds(int[] ints);
 
 }
