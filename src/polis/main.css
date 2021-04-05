@@ -4,15 +4,16 @@
 
 
 .label, .button {
-    -fx-font-family: FreeSans;
+    -fx-text-fill: white;
+    -fx-font-family: VT323;
     -fx-font-weight: bold;
-    -fx-font-size: 18px;
+    -fx-font-size: 24px;
     -fx-background-radius: 0px
 }
 
 .button {
+    -fx-text-fill: black;
     -fx-background-radius: 90px;
-    -fx-text-fill: #ffffff;
     -fx-background-size: 40%;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
@@ -35,8 +36,9 @@
 }
 
 #label_title {
-    -fx-text-fill: black;
-    -fx-font-size: 36px;
+    -fx-background-color: #d2d2d2;
+    -fx-text-fill: #202426;
+    -fx-font-size: 120px;
 }
 
 #homeButton {
