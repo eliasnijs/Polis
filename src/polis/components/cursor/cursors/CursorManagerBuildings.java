@@ -30,7 +30,7 @@ public class CursorManagerBuildings extends CursorManager {
     public void setStartDrag(double x, double y) { }
 
     @Override
-    protected void place() {
+    public void place() {
         placeTiles();
     }
 
@@ -75,9 +75,9 @@ public class CursorManagerBuildings extends CursorManager {
                 BuildingTileModel b = new Building(new ImageLoader(),c[0],c[1],getCellSize(),getTool());
                 getBuildingField().setTile(b,b.getRow(),b.getColumn());
             }
-        }
-        for (int[] c2 : selected) {
-            getTileModel(c2[0],c2[1]).setStatus("UNAVAILABLE");
+            for (int[] c2 : selected) {
+                getTileModel(c2[0],c2[1]).setStatus("UNAVAILABLE");
+            }
         }
         clearSelectedTiles();
     }

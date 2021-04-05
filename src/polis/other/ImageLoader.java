@@ -3,31 +3,33 @@ package polis.other;
 import javafx.scene.image.Image;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ImageLoader {
 
-    private static final Map<String,Image> images = Map.ofEntries(
+    private static final String imageLocation = "resources/polis/tiles/";
+    private static final String extension = ".png";
+    private static final String[] names = new String[]{
+            "road-0", "road-1", "road-2","road-3",
+            "road-4", "road-5", "road-6", "road-7",
+            "road-8", "road-9", "road-10", "road-11",
+            "road-12", "road-13", "road-14", "road-15",
 
-            Map.entry("road-0", new Image("polis/tiles/road-0.png")),
+            "residence-0", "residence-1", "residence-2", "residence-3",
+            "industry-0", "industry-1", "industry-2", "industry-3",
+            "commerce-0", "commerce-1", "commerce-2", "commerce-3",
+    };
 
-            Map.entry("residence-0", new Image("polis/customtiles/residence-0.png")),
-            Map.entry("residence-1", new Image("polis/customtiles/residence-1.png")),
-            Map.entry("residence-2", new Image("polis/customtiles/residence-2.png")),
-            Map.entry("residence-3", new Image("polis/customtiles/residence-3.png")),
+    private final Map<String,Image> images;
 
-            Map.entry("factory-0", new Image("polis/customtiles/industry-0.png")),
-            Map.entry("factory-1", new Image("polis/customtiles/industry-1.png")),
-            Map.entry("factory-2", new Image("polis/customtiles/industry-2.png")),
-            Map.entry("factory-3", new Image("polis/customtiles/industry-3.png")),
-
-            Map.entry("commerce-0", new Image("polis/customtiles/commerce-0.png")),
-            Map.entry("commerce-1", new Image("polis/customtiles/commerce-1.png")),
-            Map.entry("commerce-2", new Image("polis/customtiles/commerce-2.png")),
-            Map.entry("commerce-3", new Image("polis/customtiles/commerce-3.png"))
-
-    );
-
+    public ImageLoader(){
+        images = new HashMap<>();
+        for (String s : names) {
+            Image image = new Image(new File(imageLocation+s+extension).toURI().toString());
+            images.put(s,image);
+        }
+    }
 
     public Image getImage(String name){
         return images.get(name);

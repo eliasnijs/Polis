@@ -1,13 +1,15 @@
 package polis.components.cursor.cursors;
 
+import polis.components.buildings.BuildingTileManagerModel;
+import polis.components.buildings.buildingtile.BuildingTileView;
 import polis.components.buildings.buildingtile.tiles.Road;
 import polis.components.cursor.CursorManager;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
-import polis.components.buildings.BuildingTileManagerModel;
 import polis.other.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 public class CursorManagerRoads extends CursorManager {
@@ -19,9 +21,12 @@ public class CursorManagerRoads extends CursorManager {
     );
 
     private int[] startOfDrag;
+    private final ArrayList<int[]> pos;
 
     public CursorManagerRoads(int g, int c, BuildingTileManagerModel bf, ArrayList<int[]> s, CursorTileView[][] t){
         super(g,  c, bf, s, t);
+        pos = new ArrayList<>();
+        Collections.addAll(pos,new int[]{-1,0},new int[]{0,1},new int[]{1,0},new int[]{0,-1});
     }
 
     public boolean checkBounds(int[] c){
@@ -39,7 +44,7 @@ public class CursorManagerRoads extends CursorManager {
     }
 
     @Override
-    protected void place() {
+    public void place() {
         placeTiles();
     }
 
@@ -74,7 +79,7 @@ public class CursorManagerRoads extends CursorManager {
     public void drag(double x, double y){
         int[] tile = getTileFromCoordinates(x,y);
         clearSelectedTiles();
-        if(tile != null && startOfDrag != null){
+        if (tile != null && startOfDrag != null){
             selectDragTiles(tile[0],tile[1]);
             colorSelectedTiles();
         }
@@ -84,12 +89,61 @@ public class CursorManagerRoads extends CursorManager {
         for (int[] c : selected) {
             CursorTileModel t = getTileModel(c[0],c[1]);
             if (!t.getStatus().equals("UNAVAILABLE")) {
-                Road r = new Road(new ImageLoader(), c[0], c[1], getCellSize());
+                boolean[] adjacent = checkNeighbours(c[0],c[1]);
+                Road r = new Road(new ImageLoader(), c[0], c[1], getCellSize(), getBuildingField(),adjacent);
                 getBuildingField().setTile(r,c[0],c[1]);
-                getTileModel(c[0],c[1]).setStatus("UNAVAILABLE");
+                for (int i=0; i<pos.size(); i++) {
+                    int[] s = pos.get(i);
+                    if (adjacent[i]) {
+                        boolean[] adj = checkNeighbours(c[0]+s[0],c[1]+s[1]);
+                        getBuildingField().getTiles()[c[0]+s[0]][c[1]+s[1]].getModel().setNeighbours(adj);
+                    }
+                }
+                t.setStatus("UNAVAILABLE");
             }
         }
         clearSelectedTiles();
     }
 
+    public boolean[] checkNeighbours(int row, int column){
+        boolean[] neighbours = new boolean[]{false,false,false,false};
+        for (int i=0; i<4; i++) {
+            int[] c = pos.get(i);
+            if (checkBounds(new int[]{row+c[0],column+c[1]})) {
+                BuildingTileView t = getBuildingField().getTiles()[row+c[0]][column+c[1]];
+                if (t != null){
+                    if (t.getModel().getName().equals("road")) {
+                        neighbours[i] = true;
+                    }
+                }
+            }
+        }
+        return neighbours;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

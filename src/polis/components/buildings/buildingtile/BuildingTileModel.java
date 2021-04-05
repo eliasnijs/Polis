@@ -51,4 +51,5 @@ public abstract class BuildingTileModel extends TileModel {
         this.destructible = destructible;
     }
 
+    public void setNeighbours(boolean[] adj){};
 }
