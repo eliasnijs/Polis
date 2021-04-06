@@ -21,7 +21,7 @@
                         <Font name="VT323 Regular" size="90.0" />
                      </font>
                   </Label>
-                  <Label id="label_title" text="P O L I S" textAlignment="CENTER">
+                  <Label id="label_title" text="P O L I S 2 0 2 1" textAlignment="CENTER">
                      <font>
                         <Font name="VT323 Regular" size="90.0" />
                      </font>
@@ -30,22 +30,22 @@
             </VBox>
             <VBox alignment="BOTTOM_CENTER" prefHeight="239.0" prefWidth="1600.0" spacing="10.0">
                <children>
-                  <Label text="Programming: Elias Nijs" textAlignment="CENTER">
-                     <font>
-                        <Font name="VT323 Regular" size="24.0" />
-                     </font>
-                  </Label>
-                  <Label text="Conceptualisation: Kris Coolsaet @ Universiteit Gent" textAlignment="CENTER">
-                     <font>
-                        <Font name="VT323 Regular" size="24.0" />
-                     </font>
-                  </Label>
                   <Label text="Asset design: Elias Nijs" textAlignment="CENTER">
                      <font>
                         <Font name="VT323 Regular" size="24.0" />
                      </font>
                   </Label>
+                  <Label text="Concept: Kris Coolsaet @ Universiteit Gent" textAlignment="CENTER">
+                     <font>
+                        <Font name="VT323 Regular" size="24.0" />
+                     </font>
+                  </Label>
                   <Label text="Music: HeatleyBros" textAlignment="CENTER">
+                     <font>
+                        <Font name="VT323 Regular" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label text="Programming: Elias Nijs" textAlignment="CENTER">
                      <font>
                         <Font name="VT323 Regular" size="24.0" />
                      </font>

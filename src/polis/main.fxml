@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane alignment="BOTTOM_CENTER" prefHeight="685" prefWidth="1600" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polis.MainCompanion">
+<StackPane fx:id="main" prefHeight="685" prefWidth="1600" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polis.MainCompanion">
    <stylesheets>
       <URL value="@/polis/main.css" />
    </stylesheets>
@@ -50,6 +50,17 @@
          </padding>
          <StackPane.margin>
             <Insets bottom="50.0" left="50.0" right="50.0" top="250.0" />
+         </StackPane.margin>
+      </HBox>
+      <HBox id="panel" alignment="CENTER_LEFT" maxHeight="65.0" maxWidth="-Infinity" prefHeight="65.0" prefWidth="110.0" StackPane.alignment="TOP_LEFT">
+         <children>
+            <Button id="soundButton" fx:id="soundButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="93.0" />
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+         <StackPane.margin>
+            <Insets left="50.0" right="50.0" top="50.0" />
          </StackPane.margin>
       </HBox>
    </children>

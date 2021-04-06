@@ -16,7 +16,6 @@ public class MusicPlayer {
     private boolean muted;
 
     public MusicPlayer() {
-
         ArrayList<String> filenames = new ArrayList<>();
         Collections.addAll(filenames,
                 "BitThink_HeatleyBros.wav",
@@ -29,9 +28,7 @@ public class MusicPlayer {
         for (String s : filenames) {
             tracks.add(new Media(new File(soundtrackLocation+s).toURI().toString()));
         }
-
         muted = false;
-
         Media s = selectRandomMusic();
         changeMusic(s);
     }

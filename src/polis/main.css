@@ -72,3 +72,7 @@
 #nukeButton {
     -fx-background-image: url("/polis/icons/bomb.png");
 }
+
+#soundButton {
+    -fx-background-image: url("/polis/icons/sound.png");
+}
