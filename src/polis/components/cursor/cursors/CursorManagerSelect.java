@@ -89,7 +89,6 @@ public class CursorManagerSelect extends CursorManager {
                             int[] s = pos.get(i);
                             if (adjacent[i]) {
                                 boolean[] adj = roads.checkNeighbours(c[0]+s[0],c[1]+s[1]);
-                                System.out.println(Arrays.toString(adj));
                                 getBuildingField().getTiles()[c[0]+s[0]][c[1]+s[1]].getModel().setNeighbours(adj);
                             }
                         }
