@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class ImageLoader {
 
-    private static final String imageLocation = "/resources/polis/tiles/";
+    private static final String imageLocation = "/polis/tiles/";
     private static final String[] names = new String[]{
             "road-0", "road-1", "road-2","road-3",
             "road-4", "road-5", "road-6", "road-7",
@@ -29,7 +29,7 @@ public class ImageLoader {
     public ImageLoader() throws FileNotFoundException {
         images = new HashMap<>();
         for (String s : names) {
-            Image image = new Image(new FileInputStream(imageLocation+s+".png"));
+            Image image = new Image(imageLocation+s+".png");
             images.put(s,image);
         }
     }
@@ -37,5 +37,6 @@ public class ImageLoader {
     public Image getImage(String name){
         return images.get(name);
     }
+
 
 }
