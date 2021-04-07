@@ -1,10 +1,6 @@
 package polis;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -14,8 +10,6 @@ import polis.components.Manager;
 import polis.components.buildings.BuildingTileManagerView;
 import polis.components.cursor.CursorManagerView;
 import polis.other.MusicPlayer;
-
-import java.util.Map;
 
 public class MainCompanion  {
 

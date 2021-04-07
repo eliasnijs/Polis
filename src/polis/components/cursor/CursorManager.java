@@ -1,13 +1,10 @@
 package polis.components.cursor;
 
 import polis.components.buildings.BuildingTileManagerModel;
-import polis.components.buildings.buildingtile.BuildingTileView;
-import polis.components.buildings.buildingtile.tiles.Road;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public abstract class CursorManager {
 

@@ -1,16 +1,13 @@
 package polis.components.cursor.cursors;
 
 import polis.components.Manager;
+import polis.components.buildings.BuildingTileManagerModel;
 import polis.components.buildings.buildingtile.BuildingTileModel;
 import polis.components.buildings.buildingtile.BuildingTileView;
-import polis.components.buildings.buildingtile.tiles.Road;
 import polis.components.cursor.CursorManager;
 import polis.components.cursor.cursortile.CursorTileView;
-import polis.components.buildings.BuildingTileManagerModel;
-import polis.other.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 

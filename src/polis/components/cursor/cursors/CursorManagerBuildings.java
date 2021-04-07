@@ -1,10 +1,10 @@
 package polis.components.cursor.cursors;
 
+import polis.components.buildings.BuildingTileManagerModel;
 import polis.components.buildings.buildingtile.BuildingTileModel;
 import polis.components.buildings.buildingtile.tiles.Building;
 import polis.components.cursor.CursorManager;
 import polis.components.cursor.cursortile.CursorTileView;
-import polis.components.buildings.BuildingTileManagerModel;
 import polis.other.ImageLoader;
 
 import java.util.ArrayList;

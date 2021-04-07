@@ -4,6 +4,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import polis.components.buildings.buildingtile.BuildingTileModel;
 import polis.components.buildings.buildingtile.BuildingTileView;
+
 import java.util.ArrayList;
 import java.util.List;
 
