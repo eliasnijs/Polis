@@ -26,7 +26,7 @@ public class ImageLoader {
 
     private final Map<String,Image> images;
 
-    public ImageLoader() throws FileNotFoundException {
+    public ImageLoader() {
         images = new HashMap<>();
         for (String s : names) {
             Image image = new Image(imageLocation+s+".png");

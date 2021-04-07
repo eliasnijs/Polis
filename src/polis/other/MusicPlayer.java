@@ -4,36 +4,30 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class MusicPlayer {
 
     private static final String soundtrackLocation = "resources/polis/music/soundtracks/";
-    private final ArrayList<Media> tracks;
+    private final ArrayList<File> tracks;
 
     private MediaPlayer mediaPlayer;
     private boolean muted;
 
-    public MusicPlayer() throws MalformedURLException {
-        ArrayList<String> filenames = new ArrayList<>();
-        Collections.addAll(filenames,
-                "BitThink_HeatleyBros.wav",
-                "BlossomTown_HeatleyBros.wav",
-                "Chillout_HeatleyBros.wav",
-                "DayDream_HeatleyBros.wav",
-                "UpliftingCity_HeatleyBros.wav"
-        );
+    public MusicPlayer() {
+
         tracks = new ArrayList<>();
-        for (String s : filenames) {
-            File mediaFile = new File(soundtrackLocation+s);
-            Media m = new Media(mediaFile.toURI().toURL().toExternalForm());
-            tracks.add(m);
+
+        File dir = new File(soundtrackLocation);
+        File[] songs = dir.listFiles();
+        if(songs != null){
+            tracks.addAll(Arrays.asList(songs));
         }
+
         muted = false;
-        Media s = selectRandomMusic();
+        Media s = new Media(selectRandomMusic());
         changeMusic(s);
     }
 
@@ -45,7 +39,7 @@ public class MusicPlayer {
     }
 
     public void newMusic(){
-        Media s = selectRandomMusic();
+        Media s = new Media(selectRandomMusic());
         changeMusic(s);
     }
 
@@ -58,9 +52,9 @@ public class MusicPlayer {
         return muted;
     }
 
-    private Media selectRandomMusic(){
+    private String selectRandomMusic(){
         Collections.shuffle(tracks);
-        return tracks.get(0);
+        return tracks.get(0).toURI().toString();
     }
 
 }
