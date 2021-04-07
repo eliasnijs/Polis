@@ -9,7 +9,7 @@ import java.util.Collections;
 
 public class MusicPlayer {
 
-    private static final String soundtrackLocation = "resources/polis/music/soundtracks/";
+    private static final String soundtrackLocation = "/resources/polis/music/soundtracks/";
     private final ArrayList<Media> tracks;
 
     private MediaPlayer mediaPlayer;
