@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ImageLoader {
 
-    private static final String imageLocation = "/resources/polis/tiles/";
+    private static final String imageLocation = "./resources/polis/tiles/";
     private static final String extension = ".png";
     private static final String[] names = new String[]{
             "road-0", "road-1", "road-2","road-3",

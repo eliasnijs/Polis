@@ -42,37 +42,37 @@
 }
 
 #homeButton {
-    -fx-background-image: url("/polis/buttons/residency.png");
+    -fx-background-image: url("../polis/buttons/residency.png");
 }
 
 #industryButton {
-    -fx-background-image: url("/polis/buttons/factory.png");
+    -fx-background-image: url("../polis/buttons/factory.png");
 }
 
 #shoppingButton {
-    -fx-background-image: url("/polis/buttons/commerce.png");
+    -fx-background-image: url("../polis/buttons/commerce.png");
 }
 
 #roadButton {
-    -fx-background-image: url("/polis/buttons/road.png");
+    -fx-background-image: url("../polis/buttons/road.png");
 }
 
 #bulldozerButton {
-    -fx-background-image: url("/polis/buttons/bulldozer.png");
+    -fx-background-image: url("../polis/buttons/bulldozer.png");
 }
 
 #selectButton {
-    -fx-background-image: url("/polis/buttons/select.png");
+    -fx-background-image: url("../polis/buttons/select.png");
 }
 
 #playButton {
-    -fx-background-image: url("/polis/buttons/play.png");
+    -fx-background-image: url("../polis/buttons/play.png");
 }
 
 #nukeButton {
-    -fx-background-image: url("/polis/buttons/bomb.png");
+    -fx-background-image: url("../polis/buttons/bomb.png");
 }
 
 #soundButton {
-    -fx-background-image: url("/polis/buttons/sound.png");
+    -fx-background-image: url("../polis/buttons/sound.png");
 }
