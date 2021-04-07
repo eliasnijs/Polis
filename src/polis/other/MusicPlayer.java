@@ -6,6 +6,8 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,18 +15,18 @@ import java.util.Objects;
 
 public class MusicPlayer {
 
-    private String soundtrackLocation = "polis/music/soundtracks/";
+    private String soundtrackLocation = "resources/polis/music/soundtracks/";
     private final ArrayList<File> tracks;
 
     private MediaPlayer mediaPlayer;
     private boolean muted;
 
-    public MusicPlayer() throws URISyntaxException {
+    public MusicPlayer() {
 
 
         tracks = new ArrayList<>();
 
-        File dir = new File("resources/"+soundtrackLocation);
+        File dir = new File(soundtrackLocation);
         File[] songs = dir.listFiles();
         if(songs != null){
             tracks.addAll(Arrays.asList(songs));
@@ -47,8 +49,10 @@ public class MusicPlayer {
     }
 
     public void switchMute(){
-        muted = !muted;
-        mediaPlayer.setMute(muted);
+        if (tracks != null) {
+            muted = !muted;
+            mediaPlayer.setMute(muted);
+        }
     }
 
     public boolean getMuted(){
