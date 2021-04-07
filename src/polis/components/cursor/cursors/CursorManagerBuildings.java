@@ -7,6 +7,7 @@ import polis.components.cursor.CursorManager;
 import polis.components.cursor.cursortile.CursorTileView;
 import polis.other.ImageLoader;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class CursorManagerBuildings extends CursorManager {
     public void setStartDrag(double x, double y) { }
 
     @Override
-    public void place() {
+    public void place() throws FileNotFoundException {
         placeTiles();
     }
 
@@ -68,7 +69,7 @@ public class CursorManagerBuildings extends CursorManager {
         }
     }
 
-    public void placeTiles(){
+    public void placeTiles() throws FileNotFoundException {
         if (checkAvailable()) {
             int[] c =  selected.get(0);
             if (checkBounds(c)) {

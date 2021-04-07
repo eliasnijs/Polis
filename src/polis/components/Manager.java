@@ -11,6 +11,7 @@ import polis.components.cursor.cursortile.CursorTileView;
 import polis.components.buildings.BuildingTileManagerModel;
 import polis.other.ImageLoader;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Manager {
@@ -24,7 +25,7 @@ public class Manager {
     private CursorManager activeManager;
     private CursorManagerView view;
 
-    public Manager(int gridSize, int cellSize){
+    public Manager(int gridSize, int cellSize) throws FileNotFoundException {
         this.imageLoader = new ImageLoader();
         this.gridSize = gridSize;
         this.cellSize = cellSize;

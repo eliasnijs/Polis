@@ -8,6 +8,7 @@ import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
 import polis.other.ImageLoader;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class CursorManagerRoads extends CursorManager {
     }
 
     @Override
-    public void place() {
+    public void place() throws FileNotFoundException {
         placeTiles();
     }
 
@@ -85,7 +86,7 @@ public class CursorManagerRoads extends CursorManager {
         }
     }
 
-    public void placeTiles(){
+    public void placeTiles() throws FileNotFoundException {
         for (int[] c : selected) {
             CursorTileModel t = getTileModel(c[0],c[1]);
             if (!t.getStatus().equals("UNAVAILABLE")) {

@@ -4,6 +4,7 @@ import polis.components.buildings.BuildingTileManagerModel;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public abstract class CursorManager {
@@ -75,7 +76,7 @@ public abstract class CursorManager {
 
     protected abstract void setStartDrag(double x, double y);
 
-    public abstract void place();
+    public abstract void place() throws FileNotFoundException;
 
     protected abstract boolean checkBounds(int[] ints);
 

@@ -11,6 +11,8 @@ import polis.components.buildings.BuildingTileManagerView;
 import polis.components.cursor.CursorManagerView;
 import polis.other.MusicPlayer;
 
+import java.io.FileNotFoundException;
+
 public class MainCompanion  {
 
     public StackPane viewportStackPane;
@@ -31,7 +33,7 @@ public class MainCompanion  {
 //    private MusicPlayer musicPlayer;
     private Viewport viewport;
 
-    public void initialize() {
+    public void initialize() throws FileNotFoundException {
 
 //        musicPlayer = new MusicPlayer();
 

@@ -3,13 +3,16 @@ package polis.other;
 import javafx.scene.image.Image;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ImageLoader {
 
-    private static final String imageLocation = "./resources/polis/tiles/";
-    private static final String extension = ".png";
+    private static final String imageLocation = "resources/polis/tiles/";
     private static final String[] names = new String[]{
             "road-0", "road-1", "road-2","road-3",
             "road-4", "road-5", "road-6", "road-7",
@@ -23,10 +26,10 @@ public class ImageLoader {
 
     private final Map<String,Image> images;
 
-    public ImageLoader(){
+    public ImageLoader() throws FileNotFoundException {
         images = new HashMap<>();
         for (String s : names) {
-            Image image = new Image(new File(imageLocation+s+extension).toURI().toString());
+            Image image = new Image(new FileInputStream(imageLocation+s+".png"));
             images.put(s,image);
         }
     }

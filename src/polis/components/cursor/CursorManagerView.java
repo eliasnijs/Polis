@@ -4,6 +4,8 @@ import javafx.scene.layout.Pane;
 import polis.components.Manager;
 import polis.components.cursor.cursortile.CursorTileView;
 
+import java.io.FileNotFoundException;
+
 public class CursorManagerView extends Pane {
 
     private CursorManager model;
@@ -20,7 +22,13 @@ public class CursorManagerView extends Pane {
         this.setOnMouseMoved(e -> model.hoover(e.getX(),e.getY()));
         this.setOnMousePressed(e -> model.setStartDrag(e.getX(), e.getY()));
         this.setOnMouseDragged(e -> model.drag(e.getX(), e.getY()));
-        this.setOnMouseReleased(e -> model.place());
+        this.setOnMouseReleased(e -> {
+            try {
+                model.place();
+            } catch (FileNotFoundException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
+        });
     }
 
     public void setModel(CursorManager model) {
