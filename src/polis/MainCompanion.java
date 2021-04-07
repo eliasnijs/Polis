@@ -13,6 +13,7 @@ import polis.other.MusicPlayer;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 public class MainCompanion  {
 
@@ -34,7 +35,7 @@ public class MainCompanion  {
     private MusicPlayer musicPlayer;
     private Viewport viewport;
 
-    public void initialize() throws FileNotFoundException, MalformedURLException {
+    public void initialize() throws FileNotFoundException, URISyntaxException {
 
         musicPlayer = new MusicPlayer();
 
