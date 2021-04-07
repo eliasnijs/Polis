@@ -28,12 +28,12 @@ public class MainCompanion  {
     public StackPane main;
 
     private Manager manager;
-    private MusicPlayer musicPlayer;
+//    private MusicPlayer musicPlayer;
     private Viewport viewport;
 
     public void initialize() {
 
-        musicPlayer = new MusicPlayer();
+//        musicPlayer = new MusicPlayer();
 
         this.manager = new Manager(GRID_SIZE, CELL_SIZE);
         CursorManagerView cursorView = new CursorManagerView(manager);
@@ -105,15 +105,15 @@ public class MainCompanion  {
                 manager.reset();
                 break;
             case "mute":
-                muteMusicPlayer();
+//                muteMusicPlayer();
                 break;
         }
         viewport.requestFocus();
     }
 
-    public void muteMusicPlayer(){
-        musicPlayer.switchMute();
-    }
+//    public void muteMusicPlayer(){
+//        musicPlayer.switchMute();
+//    }
 
 
 }
