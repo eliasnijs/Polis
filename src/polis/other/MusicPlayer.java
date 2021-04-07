@@ -24,11 +24,11 @@ public class MusicPlayer {
         File[] songs = dir.listFiles();
         if(songs != null){
             tracks.addAll(Arrays.asList(songs));
-        }
 
-        muted = false;
-        Media s = new Media(selectRandomMusic());
-        changeMusic(s);
+            muted = false;
+            Media s = new Media(selectRandomMusic());
+            changeMusic(s);
+        }
     }
 
     public void changeMusic(Media musicFile){
