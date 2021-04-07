@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class ImageLoader {
 
-    private static final String imageLocation = "resources/polis/tiles/";
+    private static final String imageLocation = "/resources/polis/tiles/";
     private static final String[] names = new String[]{
             "road-0", "road-1", "road-2","road-3",
             "road-4", "road-5", "road-6", "road-7",
