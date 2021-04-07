@@ -5,7 +5,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import other.Viewport;
+import prog2.util.Viewport;
 import polis.components.Manager;
 import polis.components.buildings.BuildingTileManagerView;
 import polis.components.cursor.CursorManagerView;
