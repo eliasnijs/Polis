@@ -5,6 +5,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import polis.other.Background;
 import prog2.util.Viewport;
 import polis.components.Manager;
 import polis.components.buildings.BuildingTileManagerView;
@@ -26,6 +27,7 @@ public class MainCompanion  {
     public Button bulldozerButton;
     public Button selectButton;
     public Button soundButton;
+    public Button playButton;
 
     private final static int CELL_SIZE = 64;
     private final static int GRID_SIZE = 32;
@@ -50,13 +52,24 @@ public class MainCompanion  {
         manager.setView(cursorView);
         manager.getActiveManager().setTool("select");
 
-        StackPane stackPane = new StackPane(
-                poly,
+        Background background = new Background();
+
+        StackPane field = new StackPane(
                 buildingView,
                 cursorView
         );
 
-        Viewport view = new Viewport(stackPane, 0.5);
+        StackPane backgroundStack = new StackPane(
+                background,
+                field
+        );
+
+        StackPane centerStack = new StackPane(
+                poly,
+                field
+        );
+
+        Viewport view = new Viewport(centerStack, 1);
         viewport= view;
 
         viewportStackPane.getChildren().add(view);
@@ -69,9 +82,11 @@ public class MainCompanion  {
         selectButton.setOnAction(e -> handleButtonEvent(2, "select"));
         nukeButton.setOnAction(e -> handleButtonEvent("reset"));
         soundButton.setOnAction(e -> handleButtonEvent("mute"));
+        playButton.setOnAction(e -> handleButtonEvent("play"));
 
         main.setOnKeyPressed(this::handleKeyEvent);
 
+        view.setFocusTraversable(true);
         viewport.requestFocus();
     }
 

@@ -22,6 +22,8 @@ public class ImageLoader {
             "residence-0", "residence-1", "residence-2", "residence-3",
             "industry-0", "industry-1", "industry-2", "industry-3",
             "commerce-0", "commerce-1", "commerce-2", "commerce-3",
+
+            "tree-0", "tree-1", "tree-2", "tree-3"
     };
 
     private final Map<String,Image> images;

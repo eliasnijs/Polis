@@ -4,35 +4,26 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Objects;
 
 public class MusicPlayer {
 
-    private String soundtrackLocation = "resources/polis/music/soundtracks/";
-    private final ArrayList<File> tracks;
+    private final ArrayList<Media> tracks;
 
     private MediaPlayer mediaPlayer;
     private boolean muted;
 
     public MusicPlayer() {
-
-
         tracks = new ArrayList<>();
-
-        File dir = new File(soundtrackLocation);
-        File[] songs = dir.listFiles();
-        if(songs != null){
-            tracks.addAll(Arrays.asList(songs));
+        File dir = new File("resources/polis/music/soundtracks/");
+        File[] files = dir.listFiles();
+        if(files != null){
+            for (File f : files) {
+                tracks.add(new Media(new File(f.getPath()).toURI().toString()));
+            }
             muted = false;
-            Media s = new Media(selectRandomMusic());
-            changeMusic(s);
+            changeMusic(selectRandomMusic());
         }
     }
 
@@ -44,8 +35,7 @@ public class MusicPlayer {
     }
 
     public void newMusic(){
-        Media s = new Media(selectRandomMusic());
-        changeMusic(s);
+        changeMusic(selectRandomMusic());
     }
 
     public void switchMute(){
@@ -55,13 +45,9 @@ public class MusicPlayer {
         }
     }
 
-    public boolean getMuted(){
-        return muted;
-    }
-
-    private String selectRandomMusic(){
+    private Media selectRandomMusic(){
         Collections.shuffle(tracks);
-        return tracks.get(0).toURI().toString();
+        return tracks.get(0);
     }
 
 }

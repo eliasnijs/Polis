@@ -42,7 +42,7 @@
       </HBox>
       <HBox id="panel" alignment="CENTER_LEFT" maxHeight="65.0" maxWidth="-Infinity" prefHeight="65.0" prefWidth="110.0" StackPane.alignment="BOTTOM_RIGHT">
          <children>
-            <Button id="playButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="93.0" />
+            <Button id="playButton" fx:id="playButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="93.0" />
          </children>
          <padding>
             <Insets left="10.0" right="10.0" />
