@@ -86,13 +86,16 @@ public class CursorManagerRoads extends CursorManager {
         }
     }
 
-    public void placeTiles() throws FileNotFoundException {
+    public void placeTiles() {
         for (int[] c : selected) {
             CursorTileModel t = getTileModel(c[0],c[1]);
+
             if (!t.getStatus().equals("UNAVAILABLE")) {
+
                 boolean[] adjacent = checkNeighbours(c[0],c[1]);
                 Road r = new Road(new ImageLoader(), c[0], c[1], getCellSize(), getBuildingField(),adjacent);
                 getBuildingField().setTile(r,c[0],c[1]);
+
                 for (int i=0; i<pos.size(); i++) {
                     int[] s = pos.get(i);
                     if (adjacent[i]) {
@@ -100,6 +103,7 @@ public class CursorManagerRoads extends CursorManager {
                         getBuildingField().getTiles()[c[0]+s[0]][c[1]+s[1]].getModel().setNeighbours(adj);
                     }
                 }
+
                 t.setStatus("UNAVAILABLE");
             }
         }

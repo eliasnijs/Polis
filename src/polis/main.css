@@ -1,5 +1,6 @@
 .root {
     -fx-background-color: radial-gradient(center 50% 100%, radius 125%, #202426, #000000);
+    /*-fx-background-color:  linear-gradient(rgba(80,110,99,1) 0%, rgba(46,69,68,1) 100%);*/
 }
 
 

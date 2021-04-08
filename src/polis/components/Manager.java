@@ -11,6 +11,7 @@ import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
 import polis.components.buildings.BuildingTileManagerModel;
 import polis.other.ImageLoader;
+import polis.other.Noise;
 import polis.other.locationGen;
 
 import java.util.ArrayList;
@@ -79,14 +80,27 @@ public class Manager {
     }
 
     public void setStartupTiles(){
-        setStartupTrees(500);
+        setStartupTrees(-.2f);
         setStartupRoads();
     }
 
 
-    public void setStartupTrees(int amount){
-        ArrayList<int[]> locations = locationGen.getRandomLocations(gridSize,amount);
+    public void setStartupTrees(float roughness){
+        Noise noise = new Noise(null, roughness, gridSize, gridSize);
+        noise.initialise();
+        boolean[][] noiseMap = noise.toBooleans();
+
+        ArrayList<int[]> locations = new ArrayList<>();
+        for (int i=0; i<gridSize;i++) {
+            for (int j=0; j<gridSize;j++) {
+                if (noiseMap[i][j]) {
+                    locations.add(new int[]{i,j});
+                }
+            }
+        }
+
         locations.removeIf(c -> c[1] == gridSize / 2 -1 && c[0] < gridSize / 2);
+
         for (int[] c : locations) {
             Tree deco = new Tree(imageLoader, c[0], c[1], cellSize, "tree", 1);
             buildingField.setTile(deco,c[0],c[1]);

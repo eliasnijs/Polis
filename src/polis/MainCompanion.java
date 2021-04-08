@@ -12,10 +12,6 @@ import polis.components.buildings.BuildingTileManagerView;
 import polis.components.cursor.CursorManagerView;
 import polis.other.MusicPlayer;
 
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-
 public class MainCompanion  {
 
     public StackPane viewportStackPane;
@@ -37,7 +33,7 @@ public class MainCompanion  {
     private MusicPlayer musicPlayer;
     private Viewport viewport;
 
-    public void initialize() throws FileNotFoundException, URISyntaxException {
+    public void initialize(){
 
         musicPlayer = new MusicPlayer();
 
@@ -59,15 +55,16 @@ public class MainCompanion  {
                 cursorView
         );
 
-        StackPane backgroundStack = new StackPane(
-                background,
-                field
-        );
 
         StackPane centerStack = new StackPane(
                 poly,
                 field
         );
+
+//        StackPane backgroundStack = new StackPane(
+//                background,
+//                field
+//        );
 
         Viewport view = new Viewport(centerStack, 1);
         viewport= view;
