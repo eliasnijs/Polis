@@ -4,7 +4,7 @@
 }
 
 
-.label, .button {
+.label, .button, .toggle-button {
     -fx-text-fill: white;
     -fx-font-family: VT323;
     -fx-font-weight: bold;
@@ -12,7 +12,7 @@
     -fx-background-radius: 0px
 }
 
-.button {
+.button, .toggle-button{
     -fx-text-fill: black;
     -fx-background-radius: 90px;
     -fx-background-size: 40%;
@@ -24,6 +24,10 @@
 
 .button:hover {
     -fx-effect: dropshadow(gaussian, #000000, 1, 0.99, 0, 0);
+}
+
+.toggle-button:selected {
+    -fx-background-color: #5DC9D4;
 }
 
 #panel {
@@ -76,4 +80,8 @@
 
 #soundButton {
     -fx-background-image: url("../polis/buttons/sound.png");
+}
+
+#treeButton {
+    -fx-background-image: url("../polis/buttons/tree.png");
 }

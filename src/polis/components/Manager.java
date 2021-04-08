@@ -27,8 +27,10 @@ public class Manager {
     private CursorManager activeManager;
     private CursorManagerView view;
     private final locationGen locationGen;
+    private boolean trees;
 
     public Manager(int gridSize, int cellSize) {
+        this.trees = true;
         this.locationGen = new locationGen();
         this.imageLoader = new ImageLoader();
         this.gridSize = gridSize;
@@ -80,7 +82,9 @@ public class Manager {
     }
 
     public void setStartupTiles(){
-        setStartupTrees(-.2f);
+        if (trees) {
+            setStartupTrees(-.2f);
+        }
         setStartupRoads();
     }
 
@@ -137,4 +141,7 @@ public class Manager {
         setStartupTiles();
     }
 
+    public void switchTree() {
+        trees = !trees;
+    }
 }

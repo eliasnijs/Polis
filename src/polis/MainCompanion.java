@@ -1,6 +1,7 @@
 package polis;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -24,6 +25,9 @@ public class MainCompanion  {
     public Button selectButton;
     public Button soundButton;
     public Button playButton;
+    public ToggleButton treeButton;
+
+    public Button activeButton;
 
     private final static int CELL_SIZE = 64;
     private final static int GRID_SIZE = 32;
@@ -47,6 +51,7 @@ public class MainCompanion  {
 
         manager.setView(cursorView);
         manager.getActiveManager().setTool("select");
+        activeButton = selectButton;
 
         Background background = new Background();
 
@@ -61,25 +66,22 @@ public class MainCompanion  {
                 field
         );
 
-//        StackPane backgroundStack = new StackPane(
-//                background,
-//                field
-//        );
-
-        Viewport view = new Viewport(centerStack, 1);
-        viewport= view;
+        Viewport view = new Viewport(centerStack, 0.5);
+        viewport = view;
 
         viewportStackPane.getChildren().add(view);
 
-        shoppingButton.setOnAction(e -> handleButtonEvent(0, "commerce"));
-        residenceButton.setOnAction(e -> handleButtonEvent(0, "residence"));
-        factoryButton.setOnAction(e ->handleButtonEvent(0, "industry"));
-        roadButton.setOnAction(e -> handleButtonEvent(1,"road"));
-        bulldozerButton.setOnAction(e -> handleButtonEvent(2, "bulldoze"));
-        selectButton.setOnAction(e -> handleButtonEvent(2, "select"));
-        nukeButton.setOnAction(e -> handleButtonEvent("reset"));
-        soundButton.setOnAction(e -> handleButtonEvent("mute"));
-        playButton.setOnAction(e -> handleButtonEvent("play"));
+        treeButton.setSelected(true);
+        treeButton.setOnAction(e -> manager.switchTree());
+        shoppingButton.setOnAction(e -> {handleButtonEvent(0, "commerce"); setActiveButton(shoppingButton);});
+        residenceButton.setOnAction(e -> {handleButtonEvent(0, "residence"); setActiveButton(residenceButton);});
+        factoryButton.setOnAction(e -> {handleButtonEvent(0, "industry"); setActiveButton(factoryButton);});
+        roadButton.setOnAction(e -> {handleButtonEvent(1,"road"); setActiveButton(roadButton);});
+        bulldozerButton.setOnAction(e -> {handleButtonEvent(2, "bulldoze"); setActiveButton(bulldozerButton);});
+        selectButton.setOnAction(e -> {handleButtonEvent(2, "select"); setActiveButton(selectButton);});
+        nukeButton.setOnAction(e -> {handleButtonEvent("reset");});
+        soundButton.setOnAction(e -> {handleButtonEvent("mute");});
+        playButton.setOnAction(e -> {handleButtonEvent("play"); setActiveButton(playButton);});
 
         main.setOnKeyPressed(this::handleKeyEvent);
 
@@ -91,21 +93,27 @@ public class MainCompanion  {
         switch (keyEvent.getCode()) {
             case R:
                 manager.setActiveManager(0, "residence");
+                setActiveButton(residenceButton);
                 break;
             case I:
                 manager.setActiveManager(0, "industry");
+                setActiveButton(factoryButton);
                 break;
             case C:
                 manager.setActiveManager(0, "commerce");
+                setActiveButton(shoppingButton);
                 break;
             case S:
                 manager.setActiveManager(1);
+                setActiveButton(roadButton);
                 break;
             case B:
                 manager.setActiveManager(2, "bulldoze");
+                setActiveButton(bulldozerButton);
                 break;
             case ESCAPE:
                 manager.setActiveManager(2, "select");
+                setActiveButton(selectButton);
                 break;
         }
     }
@@ -131,5 +139,9 @@ public class MainCompanion  {
         musicPlayer.switchMute();
     }
 
-
+    public void setActiveButton(Button a) {
+        activeButton.setStyle("-fx-background-color: #00000000");
+        this.activeButton = a;
+        activeButton.setStyle("-fx-background-color: #5DC9D4");
+    }
 }
