@@ -1,13 +1,13 @@
 package polis.components.cursor.cursors;
 
-import polis.components.buildings.BuildingTileManagerModel;
+import polis.components.buildings.BuildingFieldModel;
 import polis.components.buildings.buildingtile.BuildingTileModel;
 import polis.components.buildings.buildingtile.tiles.Building;
+import polis.components.cursor.CursorFieldModel;
 import polis.components.cursor.CursorManager;
 import polis.components.cursor.cursortile.CursorTileView;
 import polis.other.ImageLoader;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class CursorManagerBuildings extends CursorManager {
             "UNSELECTED","#FFFFFF00"
     );
 
-    public CursorManagerBuildings(int gridSize, int cellSize, BuildingTileManagerModel buildingField, ArrayList<int[]> selected, CursorTileView[][] tiles){
+    public CursorManagerBuildings(int gridSize, int cellSize, BuildingFieldModel buildingField, ArrayList<int[]> selected, CursorFieldModel tiles){
         super(gridSize, cellSize, buildingField, selected, tiles);
     }
 
@@ -31,7 +31,7 @@ public class CursorManagerBuildings extends CursorManager {
     public void setStartDrag(double x, double y) { }
 
     @Override
-    public void place() throws FileNotFoundException {
+    public void place() {
         placeTiles();
     }
 
@@ -69,7 +69,7 @@ public class CursorManagerBuildings extends CursorManager {
         }
     }
 
-    public void placeTiles() throws FileNotFoundException {
+    public void placeTiles() {
         if (checkAvailable()) {
             int[] c =  selected.get(0);
             if (checkBounds(c)) {

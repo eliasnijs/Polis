@@ -8,7 +8,7 @@ import polis.components.buildings.buildingtile.BuildingTileView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildingTileManagerModel implements Observable {
+public class BuildingFieldModel implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
@@ -20,7 +20,7 @@ public class BuildingTileManagerModel implements Observable {
 
     private final BuildingTileView[][] tiles;
 
-    public BuildingTileManagerModel(int gridSize, int cellSize){
+    public BuildingFieldModel(int gridSize, int cellSize){
         this.gridSize = gridSize;
         this.cellSize = cellSize;
         tiles = new BuildingTileView[gridSize][gridSize];

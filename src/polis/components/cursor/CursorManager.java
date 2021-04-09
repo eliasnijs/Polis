@@ -1,10 +1,9 @@
 package polis.components.cursor;
 
-import polis.components.buildings.BuildingTileManagerModel;
+import polis.components.buildings.BuildingFieldModel;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public abstract class CursorManager {
@@ -14,19 +13,19 @@ public abstract class CursorManager {
     private final int gridSize;
     private final int cellSize;
 
-    private final CursorTileView[][] tiles;
-    private final BuildingTileManagerModel buildingField;
+    private final CursorFieldModel cursorField;
+    private final BuildingFieldModel buildingField;
     public ArrayList<int[]> selected;
 
-    public CursorManager(int g, int c, BuildingTileManagerModel bf, ArrayList<int[]> s, CursorTileView[][] t){
+    public CursorManager(int g, int c, BuildingFieldModel bf, ArrayList<int[]> s, CursorFieldModel t){
         this.gridSize = g;
         this.cellSize = c;
         this.buildingField = bf;
         this.selected = s;
-        this.tiles = t;
+        this.cursorField = t;
     }
 
-    public BuildingTileManagerModel getBuildingField() {
+    public BuildingFieldModel getBuildingField() {
         return buildingField;
     }
 
@@ -38,12 +37,16 @@ public abstract class CursorManager {
         return cellSize;
     }
 
-    public CursorTileView[][] getTiles(){
-        return tiles;
+    public CursorTileView[][] getCursorField(){
+        return cursorField.getTiles();
     }
 
     public CursorTileModel getTileModel(int row, int column){
-        return tiles[row][column].getModel();
+        return cursorField.getTiles()[row][column].getModel();
+    }
+
+    public CursorFieldModel getCursorFieldModel(){
+        return cursorField;
     }
 
     public String getTool() {
@@ -66,6 +69,11 @@ public abstract class CursorManager {
         colorSelectedTiles();
     }
 
+    public boolean isAvailable(int[] c) {
+        return getBuildingField().getTiles()[c[0]][c[1]] == null;
+    }
+
+
     protected abstract void colorSelectedTiles();
 
     protected abstract void addActiveTile(int[] coords);
@@ -76,7 +84,7 @@ public abstract class CursorManager {
 
     protected abstract void setStartDrag(double x, double y);
 
-    public abstract void place() throws FileNotFoundException;
+    public abstract void place();
 
     protected abstract boolean checkBounds(int[] ints);
 

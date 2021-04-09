@@ -6,11 +6,11 @@ import javafx.scene.layout.Pane;
 import polis.components.Manager;
 import polis.components.buildings.buildingtile.BuildingTileView;
 
-public class BuildingTileManagerView extends Pane implements InvalidationListener {
+public class BuildingFieldView extends Pane implements InvalidationListener {
 
-    private final BuildingTileManagerModel model;
+    private final BuildingFieldModel model;
 
-    public BuildingTileManagerView(Manager manager) {
+    public BuildingFieldView(Manager manager) {
         this.model = manager.getBuildingField();
         model.addListener(this);
         this.setTranslateX((double) (model.getGridSize() - 1) * model.getCellSize());

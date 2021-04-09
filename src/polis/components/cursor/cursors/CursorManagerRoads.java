@@ -1,31 +1,30 @@
 package polis.components.cursor.cursors;
 
-import polis.components.buildings.BuildingTileManagerModel;
+import polis.components.buildings.BuildingFieldModel;
 import polis.components.buildings.buildingtile.BuildingTileView;
 import polis.components.buildings.buildingtile.tiles.Road;
+import polis.components.cursor.CursorFieldModel;
 import polis.components.cursor.CursorManager;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
 import polis.other.ImageLoader;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
 public class CursorManagerRoads extends CursorManager {
 
-    private static final Map<String,String> colors = Map.of(
-            "UNAVAILABLE", "#D95B6699",
-            "AVAILABLE", "#59D98699",
-            "UNSELECTED","#FFFFFF00"
+    private static final Map<Boolean,String> colors = Map.of(
+            false, "#D95B6699",
+            true, "#59D98699"
     );
 
     private int[] startOfDrag;
     private final ArrayList<int[]> pos;
-    private  ImageLoader imageLoader;
+    private final ImageLoader imageLoader;
 
-    public CursorManagerRoads(ImageLoader imageLoader ,int g, int c, BuildingTileManagerModel bf, ArrayList<int[]> s, CursorTileView[][] t){
+    public CursorManagerRoads(ImageLoader imageLoader , int g, int c, BuildingFieldModel bf, ArrayList<int[]> s, CursorFieldModel t){
         super(g,  c, bf, s, t);
         pos = new ArrayList<>();
         Collections.addAll(pos,new int[]{-1,0},new int[]{0,1},new int[]{1,0},new int[]{0,-1});
@@ -38,7 +37,9 @@ public class CursorManagerRoads extends CursorManager {
 
     @Override
     protected void addActiveTile(int[] c) {
-        if (checkBounds(c)) { selected.add(new int[]{c[0],c[1]}); }
+        if (checkBounds(c)) {
+            selected.add(new int[]{c[0],c[1]});
+        }
     }
 
     @Override
@@ -53,14 +54,15 @@ public class CursorManagerRoads extends CursorManager {
 
     public void clearSelectedTiles(){
         for (int[] c : selected) {
-            getTileModel(c[0],c[1]).setColor(colors.get("UNSELECTED"));
+               getCursorFieldModel().deleteTile(c[0],c[1]);
         } selected.clear();
     }
 
+    // Instead of coloring a tile here, I should create a tile and add it to the view
     public void colorSelectedTiles(){
         for (int[] c : selected) {
-            CursorTileModel t = getTileModel(c[0],c[1]);
-            t.setColor(colors.get(t.getStatus()));
+            CursorTileModel cursorTile = new CursorTileModel(c[0], c[1], getCellSize());
+            getCursorFieldModel().setTile(cursorTile, c[0], c[1], 1);
         }
     }
 
@@ -90,14 +92,10 @@ public class CursorManagerRoads extends CursorManager {
 
     public void placeTiles() {
         for (int[] c : selected) {
-            CursorTileModel t = getTileModel(c[0],c[1]);
-
-            if (!t.getStatus().equals("UNAVAILABLE")) {
-
+            if (!isAvailable(c)) {
                 boolean[] adjacent = checkNeighbours(c[0],c[1]);
                 Road r = new Road(imageLoader, c[0], c[1], getCellSize(), getBuildingField(),adjacent);
                 getBuildingField().setTile(r,c[0],c[1]);
-
                 for (int i=0; i<pos.size(); i++) {
                     int[] s = pos.get(i);
                     if (adjacent[i]) {
@@ -105,7 +103,6 @@ public class CursorManagerRoads extends CursorManager {
                         getBuildingField().getTiles()[c[0] + s[0]][c[1] + s[1]].getModel().setNeighbours(adj);
                     }
                 }
-                t.setStatus("UNAVAILABLE");
             }
         }
         clearSelectedTiles();

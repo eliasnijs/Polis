@@ -10,8 +10,8 @@ import polis.other.Background;
 import polis.other.clouds.CloudView;
 import prog2.util.Viewport;
 import polis.components.Manager;
-import polis.components.buildings.BuildingTileManagerView;
-import polis.components.cursor.CursorManagerView;
+import polis.components.buildings.BuildingFieldView;
+import polis.components.cursor.CursorFieldView;
 import polis.other.MusicPlayer;
 
 public class MainCompanion  {
@@ -43,8 +43,8 @@ public class MainCompanion  {
         musicPlayer = new MusicPlayer();
 
         this.manager = new Manager(GRID_SIZE, CELL_SIZE);
-        CursorManagerView cursorView = new CursorManagerView(manager);
-        BuildingTileManagerView buildingView = new BuildingTileManagerView(manager);
+        CursorFieldView cursorView = new CursorFieldView(manager);
+        BuildingFieldView buildingView = new BuildingFieldView(manager);
 
         int length = CELL_SIZE * GRID_SIZE;
         Polygon poly = new Polygon(0, 0, length, 0.5 * length, 0, length, -length, 0.5 * length);

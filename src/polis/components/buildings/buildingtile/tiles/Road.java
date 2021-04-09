@@ -1,8 +1,7 @@
 package polis.components.buildings.buildingtile.tiles;
 
-import polis.components.buildings.BuildingTileManagerModel;
+import polis.components.buildings.BuildingFieldModel;
 import polis.components.buildings.buildingtile.BuildingTileModel;
-import polis.components.buildings.buildingtile.BuildingTileView;
 import polis.other.ImageLoader;
 
 public class Road extends BuildingTileModel {
@@ -18,9 +17,9 @@ public class Road extends BuildingTileModel {
      * **/
 
     private boolean[] neighbours;
-    private BuildingTileManagerModel tiles;
+    private BuildingFieldModel tiles;
 
-    public Road(ImageLoader imageLoader, int row, int column, int cellSize, BuildingTileManagerModel tiles, boolean[] neighbours) {
+    public Road(ImageLoader imageLoader, int row, int column, int cellSize, BuildingFieldModel tiles, boolean[] neighbours) {
         super(imageLoader, row, column, cellSize, "road", 1);
         this.neighbours = neighbours;
         this.tiles = tiles;

@@ -1,10 +1,12 @@
 package polis.components.cursor.cursors;
 
 import polis.components.Manager;
-import polis.components.buildings.BuildingTileManagerModel;
+import polis.components.buildings.BuildingFieldModel;
 import polis.components.buildings.buildingtile.BuildingTileModel;
 import polis.components.buildings.buildingtile.BuildingTileView;
+import polis.components.cursor.CursorFieldModel;
 import polis.components.cursor.CursorManager;
+import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class CursorManagerSelect extends CursorManager {
             "bulldoze",this::bulldoze
     );
 
-    public CursorManagerSelect(int gridSize, int cellSize, BuildingTileManagerModel buildingField, ArrayList<int[]> selected, CursorTileView[][] tiles, Manager manager1){
+    public CursorManagerSelect(int gridSize, int cellSize, BuildingFieldModel buildingField, ArrayList<int[]> selected, CursorFieldModel tiles, Manager manager1){
         super(gridSize, cellSize, buildingField, selected, tiles);
         this.manager = manager1;
     }
@@ -41,14 +43,15 @@ public class CursorManagerSelect extends CursorManager {
 
     public void clearSelectedTiles(){
         for (int[] c : selected) {
-            getTileModel(c[0],c[1]).setStroke("#00000000",0);
+            getCursorFieldModel().deleteTile(c[0],c[1]);
         } selected.clear();
     }
 
     public void colorSelectedTiles(){
-        String color = colors.get(getTool());
         for (int[] c : selected) {
-            getTileModel(c[0],c[1]).setStroke(color,strokeWidth);
+            CursorTileModel cursorTile = new CursorTileModel(c[0], c[1], getCellSize());
+            cursorTile.setColor(colors.get(getTool()));
+            getCursorFieldModel().setTile(cursorTile,c[0], c[1], 1);
         }
     }
 
@@ -73,7 +76,7 @@ public class CursorManagerSelect extends CursorManager {
                         for (int j = 0; j < getGridSize(); j += 1) {
                             if (getBuildingField().getTiles()[i][j] == v) {
                                 getBuildingField().getTiles()[i][j] = null;
-                                getTiles()[i][j].getModel().setStatus("AVAILABLE");
+                                getCursorField()[i][j].getModel().setStatus("AVAILABLE");
                             }
                         }
                     }
