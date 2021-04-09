@@ -1,5 +1,6 @@
 package polis.components.cursor.cursors;
 
+import javafx.scene.paint.Color;
 import polis.components.buildings.BuildingFieldModel;
 import polis.components.buildings.buildingtile.BuildingTileView;
 import polis.components.buildings.buildingtile.tiles.Road;
@@ -9,6 +10,7 @@ import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
 import polis.other.ImageLoader;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -50,6 +52,7 @@ public class CursorManagerRoads extends CursorManager {
     @Override
     public void place() {
         placeTiles();
+        clearSelectedTiles();
     }
 
     public void clearSelectedTiles(){
@@ -58,11 +61,11 @@ public class CursorManagerRoads extends CursorManager {
         } selected.clear();
     }
 
-    // Instead of coloring a tile here, I should create a tile and add it to the view
     public void colorSelectedTiles(){
         for (int[] c : selected) {
             CursorTileModel cursorTile = new CursorTileModel(c[0], c[1], getCellSize());
             getCursorFieldModel().setTile(cursorTile, c[0], c[1], 1);
+            cursorTile.setColor(colors.get(isAvailable(c)));
         }
     }
 
@@ -82,8 +85,8 @@ public class CursorManagerRoads extends CursorManager {
     }
 
     public void drag(double x, double y){
-        int[] tile = getTileFromCoordinates(x,y);
         clearSelectedTiles();
+        int[] tile = getTileFromCoordinates(x,y);
         if (tile != null && startOfDrag != null){
             selectDragTiles(tile[0],tile[1]);
             colorSelectedTiles();
@@ -92,7 +95,7 @@ public class CursorManagerRoads extends CursorManager {
 
     public void placeTiles() {
         for (int[] c : selected) {
-            if (!isAvailable(c)) {
+            if (isAvailable(c)) {
                 boolean[] adjacent = checkNeighbours(c[0],c[1]);
                 Road r = new Road(imageLoader, c[0], c[1], getCellSize(), getBuildingField(),adjacent);
                 getBuildingField().setTile(r,c[0],c[1]);
@@ -105,7 +108,6 @@ public class CursorManagerRoads extends CursorManager {
                 }
             }
         }
-        clearSelectedTiles();
     }
 
     public boolean[] checkNeighbours(int row, int column){

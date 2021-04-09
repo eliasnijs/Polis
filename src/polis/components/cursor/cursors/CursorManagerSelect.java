@@ -20,7 +20,6 @@ public class CursorManagerSelect extends CursorManager {
             "select", "#FFFFFF"
     );
 
-    private static final int strokeWidth = 7;
     private final Manager manager;
 
     private final Map<String, Runnable> tools = Map.of(
@@ -50,7 +49,7 @@ public class CursorManagerSelect extends CursorManager {
     public void colorSelectedTiles(){
         for (int[] c : selected) {
             CursorTileModel cursorTile = new CursorTileModel(c[0], c[1], getCellSize());
-            cursorTile.setColor(colors.get(getTool()));
+            cursorTile.setStroke(colors.get(getTool()));
             getCursorFieldModel().setTile(cursorTile,c[0], c[1], 1);
         }
     }

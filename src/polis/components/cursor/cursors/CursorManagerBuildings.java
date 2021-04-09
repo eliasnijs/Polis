@@ -5,6 +5,7 @@ import polis.components.buildings.buildingtile.BuildingTileModel;
 import polis.components.buildings.buildingtile.tiles.Building;
 import polis.components.cursor.CursorFieldModel;
 import polis.components.cursor.CursorManager;
+import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.cursor.cursortile.CursorTileView;
 import polis.other.ImageLoader;
 
@@ -14,10 +15,9 @@ import java.util.Map;
 
 public class CursorManagerBuildings extends CursorManager {
 
-    private static final Map<String,String> colors = Map.of(
-            "UNAVAILABLE", "#D95B6699",
-            "AVAILABLE", "#59D98699",
-            "UNSELECTED","#FFFFFF00"
+    private static final Map<Boolean,String> colors = Map.of(
+            false, "#D95B6699",
+            true, "#59D98699"
     );
 
     public CursorManagerBuildings(int gridSize, int cellSize, BuildingFieldModel buildingField, ArrayList<int[]> selected, CursorFieldModel tiles){
@@ -37,25 +37,25 @@ public class CursorManagerBuildings extends CursorManager {
 
     public void clearSelectedTiles(){
         for (int[] c : selected) {
-            getTileModel(c[0],c[1]).setColor(colors.get("UNSELECTED"));
+            getCursorFieldModel().deleteTile(c[0],c[1]);
         }
         selected.clear();
     }
 
     public boolean checkAvailable(){
         for (int[] c : selected) {
-            String s = getTileModel(c[0],c[1]).getStatus();
-            if (s.equals("UNAVAILABLE")) {
-               return false;
+            if (!isAvailable(c)) {
+                return false;
             }
         }
         return !selected.isEmpty();
     }
 
     public void colorSelectedTiles(){
-        String color = checkAvailable()? colors.get("AVAILABLE") : colors.get("UNAVAILABLE");
         for (int[] c : selected) {
-            getTileModel(c[0],c[1]).setColor(color);
+            CursorTileModel cursorTile = new CursorTileModel(c[0], c[1], getCellSize());
+            getCursorFieldModel().setTile(cursorTile, c[0], c[1], 1);
+            cursorTile.setColor(colors.get(isAvailable(c)));
         }
     }
 
@@ -75,9 +75,6 @@ public class CursorManagerBuildings extends CursorManager {
             if (checkBounds(c)) {
                 BuildingTileModel b = new Building(new ImageLoader(),c[0],c[1],getCellSize(),getTool());
                 getBuildingField().setTile(b,b.getRow(),b.getColumn());
-            }
-            for (int[] c2 : selected) {
-                getTileModel(c2[0],c2[1]).setStatus("UNAVAILABLE");
             }
         }
         clearSelectedTiles();

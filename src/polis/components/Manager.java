@@ -90,7 +90,6 @@ public class Manager {
         setStartupRoads();
     }
 
-
     public void setStartupTrees(float roughness){
         Noise noise = new Noise(null, roughness, gridSize, gridSize);
         noise.start();
@@ -121,16 +120,11 @@ public class Manager {
         buildingField.setTile(r,gridSize/2-1,gridSize/2-1);
     }
 
-
-
-
     public void reset(){
         for (int i =0; i< gridSize; i++) {
             for (int j =0; j< gridSize; j++) {
                 buildingField.deleteTile(i,j);
                 buildingField.getTiles()[i][j] = null;
-                cursorField.getTiles()[i][j].getModel().setStroke("#00000000", 0);
-                cursorField.getTiles()[i][j].getModel().setColor("#00000000");
             }
         }
         setStartupTiles();

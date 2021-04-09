@@ -73,7 +73,6 @@ public abstract class CursorManager {
         return getBuildingField().getTiles()[c[0]][c[1]] == null;
     }
 
-
     protected abstract void colorSelectedTiles();
 
     protected abstract void addActiveTile(int[] coords);

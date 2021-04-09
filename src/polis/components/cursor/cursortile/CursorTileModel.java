@@ -12,8 +12,8 @@ public class CursorTileModel extends TileModel {
 
     public CursorTileModel(int row, int column, int cellSize){
         super(row, column, cellSize);
-        this.color = "#ffffff";
-        this.strokeColor = "#ffffff";
+        this.color = "#00000000";
+        this.strokeColor = "#00000000";
         this.strokeWidth = 7;
         status = "AVAILABLE";
     }
@@ -27,9 +27,8 @@ public class CursorTileModel extends TileModel {
         fireInvalidationEvent();
     }
 
-    public void setStroke(String color, int width){
+    public void setStroke(String color){
         this.strokeColor = color;
-        this.strokeWidth = width;
         fireInvalidationEvent();
     }
 
