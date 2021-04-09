@@ -23,11 +23,13 @@ public class CursorManagerRoads extends CursorManager {
 
     private int[] startOfDrag;
     private final ArrayList<int[]> pos;
+    private  ImageLoader imageLoader;
 
-    public CursorManagerRoads(int g, int c, BuildingTileManagerModel bf, ArrayList<int[]> s, CursorTileView[][] t){
+    public CursorManagerRoads(ImageLoader imageLoader ,int g, int c, BuildingTileManagerModel bf, ArrayList<int[]> s, CursorTileView[][] t){
         super(g,  c, bf, s, t);
         pos = new ArrayList<>();
         Collections.addAll(pos,new int[]{-1,0},new int[]{0,1},new int[]{1,0},new int[]{0,-1});
+        this.imageLoader = imageLoader;
     }
 
     public boolean checkBounds(int[] c){
@@ -45,7 +47,7 @@ public class CursorManagerRoads extends CursorManager {
     }
 
     @Override
-    public void place() throws FileNotFoundException {
+    public void place() {
         placeTiles();
     }
 
@@ -93,17 +95,16 @@ public class CursorManagerRoads extends CursorManager {
             if (!t.getStatus().equals("UNAVAILABLE")) {
 
                 boolean[] adjacent = checkNeighbours(c[0],c[1]);
-                Road r = new Road(new ImageLoader(), c[0], c[1], getCellSize(), getBuildingField(),adjacent);
+                Road r = new Road(imageLoader, c[0], c[1], getCellSize(), getBuildingField(),adjacent);
                 getBuildingField().setTile(r,c[0],c[1]);
 
                 for (int i=0; i<pos.size(); i++) {
                     int[] s = pos.get(i);
                     if (adjacent[i]) {
-                        boolean[] adj = checkNeighbours(c[0]+s[0],c[1]+s[1]);
-                        getBuildingField().getTiles()[c[0]+s[0]][c[1]+s[1]].getModel().setNeighbours(adj);
+                        boolean[] adj = checkNeighbours(c[0] + s[0], c[1] + s[1]);
+                        getBuildingField().getTiles()[c[0] + s[0]][c[1] + s[1]].getModel().setNeighbours(adj);
                     }
                 }
-
                 t.setStatus("UNAVAILABLE");
             }
         }

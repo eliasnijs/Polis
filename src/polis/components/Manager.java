@@ -46,7 +46,7 @@ public class Manager {
 
         managers = new ArrayList<>();
         managers.add(new CursorManagerBuildings(gridSize, cellSize, buildingField, selected, cursorField));
-        managers.add(new CursorManagerRoads(gridSize, cellSize, buildingField, selected, cursorField));
+        managers.add(new CursorManagerRoads(imageLoader, gridSize, cellSize, buildingField, selected, cursorField));
         managers.add(new CursorManagerSelect(gridSize, cellSize, buildingField, selected, cursorField, this));
 
         activeManager = managers.get(2);
@@ -91,7 +91,7 @@ public class Manager {
 
     public void setStartupTrees(float roughness){
         Noise noise = new Noise(null, roughness, gridSize, gridSize);
-        noise.initialise();
+        noise.start();
         boolean[][] noiseMap = noise.toBooleans();
 
         ArrayList<int[]> locations = new ArrayList<>();

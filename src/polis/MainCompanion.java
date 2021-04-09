@@ -7,6 +7,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import polis.other.Background;
+import polis.other.clouds.CloudView;
 import prog2.util.Viewport;
 import polis.components.Manager;
 import polis.components.buildings.BuildingTileManagerView;
@@ -51,18 +52,22 @@ public class MainCompanion  {
 
         manager.setView(cursorView);
         manager.getActiveManager().setTool("select");
-        activeButton = selectButton;
+        setActiveButton(selectButton);
 
         Background background = new Background();
+        CloudView cloudView = new CloudView();
 
         StackPane field = new StackPane(
                 buildingView,
                 cursorView
         );
 
+        field.setTranslateX( 4.0 * CELL_SIZE);
+        field.setTranslateY(4.5 * CELL_SIZE);
+
 
         StackPane centerStack = new StackPane(
-                poly,
+                background,
                 field
         );
 
@@ -81,7 +86,7 @@ public class MainCompanion  {
         selectButton.setOnAction(e -> {handleButtonEvent(2, "select"); setActiveButton(selectButton);});
         nukeButton.setOnAction(e -> {handleButtonEvent("reset");});
         soundButton.setOnAction(e -> {handleButtonEvent("mute");});
-        playButton.setOnAction(e -> {handleButtonEvent("play"); setActiveButton(playButton);});
+        playButton.setOnAction(e -> {handleButtonEvent("play");});
 
         main.setOnKeyPressed(this::handleKeyEvent);
 
@@ -140,7 +145,9 @@ public class MainCompanion  {
     }
 
     public void setActiveButton(Button a) {
-        activeButton.setStyle("-fx-background-color: #00000000");
+        if (activeButton != null) {
+            activeButton.setStyle("-fx-background-color: #00000000");
+        }
         this.activeButton = a;
         activeButton.setStyle("-fx-background-color: #5DC9D4");
     }
