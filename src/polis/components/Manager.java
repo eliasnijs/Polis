@@ -111,11 +111,11 @@ public class Manager {
 
     public void setStartupRoads(){
         for (int i=0; i<gridSize/2-1; i+=1) {
-            Road r = new Road(imageLoader, i, gridSize/2-1, cellSize, buildingField, new boolean[]{true,false,true,false});
+            Road r = new Road(imageLoader, i, gridSize/2-1, cellSize, new boolean[]{true,false,true,false});
             r.setDestructible(false);
             buildingField.setTile(r,i,gridSize/2-1);
         }
-        Road r = new Road(imageLoader, gridSize/2-1, gridSize/2-1, cellSize, buildingField,new boolean[]{true,false,false,false});
+        Road r = new Road(imageLoader, gridSize/2-1, gridSize/2-1, cellSize, new boolean[]{true,false,false,false});
         r.setDestructible(false);
         buildingField.setTile(r,gridSize/2-1,gridSize/2-1);
     }
@@ -132,5 +132,9 @@ public class Manager {
 
     public void switchTree() {
         trees = !trees;
+    }
+
+    public boolean isTrees() {
+        return trees;
     }
 }

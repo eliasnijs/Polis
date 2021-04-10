@@ -37,14 +37,6 @@ public abstract class CursorManager {
         return cellSize;
     }
 
-    public CursorTileView[][] getCursorField(){
-        return cursorField.getTiles();
-    }
-
-    public CursorTileModel getTileModel(int row, int column){
-        return cursorField.getTiles()[row][column].getModel();
-    }
-
     public CursorFieldModel getCursorFieldModel(){
         return cursorField;
     }
@@ -70,7 +62,7 @@ public abstract class CursorManager {
     }
 
     public boolean isAvailable(int[] c) {
-        return getBuildingField().getTiles()[c[0]][c[1]] == null;
+        return buildingField.getTiles()[c[0]][c[1]] == null;
     }
 
     protected abstract void colorSelectedTiles();

@@ -1,6 +1,5 @@
 package polis.components.buildings.buildingtile.tiles;
 
-
 import polis.components.buildings.buildingtile.BuildingTileModel;
 import polis.other.ImageLoader;
 

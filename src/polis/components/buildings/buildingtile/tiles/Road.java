@@ -17,19 +17,17 @@ public class Road extends BuildingTileModel {
      * **/
 
     private boolean[] neighbours;
-    private BuildingFieldModel tiles;
 
-    public Road(ImageLoader imageLoader, int row, int column, int cellSize, BuildingFieldModel tiles, boolean[] neighbours) {
+    public Road(ImageLoader imageLoader, int row, int column, int cellSize, boolean[] neighbours) {
         super(imageLoader, row, column, cellSize, "road", 1);
         this.neighbours = neighbours;
-        this.tiles = tiles;
         Update();
     }
 
     public void setNeighbours(boolean[] adj){
         neighbours = adj;
         Update();
-    };
+    }
 
     public void Update(){
         int level = calculateLevel();

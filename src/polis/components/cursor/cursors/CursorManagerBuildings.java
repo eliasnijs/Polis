@@ -6,7 +6,6 @@ import polis.components.buildings.buildingtile.tiles.Building;
 import polis.components.cursor.CursorFieldModel;
 import polis.components.cursor.CursorManager;
 import polis.components.cursor.cursortile.CursorTileModel;
-import polis.components.cursor.cursortile.CursorTileView;
 import polis.other.ImageLoader;
 
 import java.util.ArrayList;
@@ -33,12 +32,11 @@ public class CursorManagerBuildings extends CursorManager {
     @Override
     public void place() {
         placeTiles();
+        clearSelectedTiles();
     }
 
     public void clearSelectedTiles(){
-        for (int[] c : selected) {
-            getCursorFieldModel().deleteTile(c[0],c[1]);
-        }
+        getCursorFieldModel().deleteTiles();
         selected.clear();
     }
 
@@ -54,8 +52,8 @@ public class CursorManagerBuildings extends CursorManager {
     public void colorSelectedTiles(){
         for (int[] c : selected) {
             CursorTileModel cursorTile = new CursorTileModel(c[0], c[1], getCellSize());
-            getCursorFieldModel().setTile(cursorTile, c[0], c[1], 1);
-            cursorTile.setColor(colors.get(isAvailable(c)));
+            getCursorFieldModel().setTile(cursorTile);
+            cursorTile.setColor(colors.get(checkAvailable()));
         }
     }
 
@@ -77,7 +75,6 @@ public class CursorManagerBuildings extends CursorManager {
                 getBuildingField().setTile(b,b.getRow(),b.getColumn());
             }
         }
-        clearSelectedTiles();
     }
 
 }

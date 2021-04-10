@@ -2,6 +2,7 @@ package polis;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -65,7 +66,6 @@ public class MainCompanion  {
         field.setTranslateX( 4.0 * CELL_SIZE);
         field.setTranslateY(4.5 * CELL_SIZE);
 
-
         StackPane centerStack = new StackPane(
                 background,
                 field
@@ -74,19 +74,24 @@ public class MainCompanion  {
         Viewport view = new Viewport(centerStack, 0.5);
         viewport = view;
 
+
         viewportStackPane.getChildren().add(view);
 
-        treeButton.setSelected(true);
+        treeButton.setSelected(manager.isTrees());
         treeButton.setOnAction(e -> manager.switchTree());
+
+        Tooltip tooltip = new Tooltip("Toggle tree generation when blowing up the world");
+        treeButton.setTooltip(tooltip);
+
         shoppingButton.setOnAction(e -> {handleButtonEvent(0, "commerce"); setActiveButton(shoppingButton);});
         residenceButton.setOnAction(e -> {handleButtonEvent(0, "residence"); setActiveButton(residenceButton);});
         factoryButton.setOnAction(e -> {handleButtonEvent(0, "industry"); setActiveButton(factoryButton);});
         roadButton.setOnAction(e -> {handleButtonEvent(1,"road"); setActiveButton(roadButton);});
         bulldozerButton.setOnAction(e -> {handleButtonEvent(2, "bulldoze"); setActiveButton(bulldozerButton);});
         selectButton.setOnAction(e -> {handleButtonEvent(2, "select"); setActiveButton(selectButton);});
-        nukeButton.setOnAction(e -> {handleButtonEvent("reset");});
-        soundButton.setOnAction(e -> {handleButtonEvent("mute");});
-        playButton.setOnAction(e -> {handleButtonEvent("play");});
+        nukeButton.setOnAction(e -> handleButtonEvent("reset"));
+        soundButton.setOnAction(e -> handleButtonEvent("mute"));
+        playButton.setOnAction(e -> handleButtonEvent("play"));
 
         main.setOnKeyPressed(this::handleKeyEvent);
 

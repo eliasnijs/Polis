@@ -5,17 +5,15 @@ import polis.components.TileModel;
 
 public class CursorTileModel extends TileModel {
 
-    private String status;
     private String color;
     private String strokeColor;
-    private int strokeWidth;
+    private final int strokeWidth;
 
     public CursorTileModel(int row, int column, int cellSize){
         super(row, column, cellSize);
         this.color = "#00000000";
         this.strokeColor = "#00000000";
         this.strokeWidth = 7;
-        status = "AVAILABLE";
     }
 
     public String getColor(){
@@ -30,14 +28,6 @@ public class CursorTileModel extends TileModel {
     public void setStroke(String color){
         this.strokeColor = color;
         fireInvalidationEvent();
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getStrokeColor() {

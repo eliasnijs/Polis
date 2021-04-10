@@ -7,11 +7,12 @@ import polis.components.buildings.buildingtile.BuildingTileView;
 import polis.components.cursor.CursorFieldModel;
 import polis.components.cursor.CursorManager;
 import polis.components.cursor.cursortile.CursorTileModel;
-import polis.components.cursor.cursortile.CursorTileView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import java.util.concurrent.LinkedTransferQueue;
 
 public class CursorManagerSelect extends CursorManager {
 
@@ -41,16 +42,15 @@ public class CursorManagerSelect extends CursorManager {
     }
 
     public void clearSelectedTiles(){
-        for (int[] c : selected) {
-            getCursorFieldModel().deleteTile(c[0],c[1]);
-        } selected.clear();
+        getCursorFieldModel().deleteTiles();
+        selected.clear();
     }
 
     public void colorSelectedTiles(){
         for (int[] c : selected) {
             CursorTileModel cursorTile = new CursorTileModel(c[0], c[1], getCellSize());
             cursorTile.setStroke(colors.get(getTool()));
-            getCursorFieldModel().setTile(cursorTile,c[0], c[1], 1);
+            getCursorFieldModel().setTile(cursorTile);
         }
     }
 
@@ -66,19 +66,21 @@ public class CursorManagerSelect extends CursorManager {
 
     public void bulldoze(){
         for (int[] c : selected) {
-            BuildingTileView v = getBuildingField().getTiles()[c[0]][c[1]];
-            if (v != null) {
+            if (!isAvailable(c)) {
+                BuildingTileView v = getBuildingField().getTiles()[c[0]][c[1]];
                 BuildingTileModel m = v.getModel();
                 if(m.isDestructible()){
                     getBuildingField().deleteTile(c[0],c[1]);
                     for (int i = 0; i < getGridSize(); i += 1) {
                         for (int j = 0; j < getGridSize(); j += 1) {
-                            if (getBuildingField().getTiles()[i][j] == v) {
-                                getBuildingField().getTiles()[i][j] = null;
-                                getCursorField()[i][j].getModel().setStatus("AVAILABLE");
+                            if (getBuildingField().getTiles()[i][j] == getBuildingField().getTiles()[c[0]][c[1]]) {
+                                if (i != c[0] || j != c[1]) {
+                                    getBuildingField().getTiles()[i][j] = null;
+                                }
                             }
                         }
                     }
+                    getBuildingField().getTiles()[c[0]][c[1]] = null;
                     if (m.getName().equals("road")) {
                         CursorManagerRoads roads = (CursorManagerRoads) manager.getManager(1);
                         boolean[] adjacent = roads.checkNeighbours(c[0],c[1]);
