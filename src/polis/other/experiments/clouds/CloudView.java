@@ -1,4 +1,4 @@
-package polis.other.clouds;
+package polis.other.experiments.clouds;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;

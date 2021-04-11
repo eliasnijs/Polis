@@ -1,5 +1,8 @@
 package polis.other;
 
+import polis.datakeepers.FieldData;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Noise {
@@ -13,6 +16,7 @@ public class Noise {
         this.roughness = roughness / width;
         grid = new float[width][height];
         this.rand = (rand == null) ? new Random() : rand;
+        start();
     }
 
     public void start() {
@@ -73,6 +77,19 @@ public class Noise {
             }
         }
         return ret;
+    }
+
+    public ArrayList<int[]> getLocations(){
+       ArrayList<int[]> locations = new ArrayList<>();
+       boolean[][] noiseMap = toBooleans();
+       for (int i = 0; i< FieldData.getGridSize(); i++) {
+            for (int j=0; j<FieldData.getGridSize();j++) {
+                if (noiseMap[i][j]) {
+                    locations.add(new int[]{i,j});
+                }
+            }
+        }
+       return locations;
     }
 
 }

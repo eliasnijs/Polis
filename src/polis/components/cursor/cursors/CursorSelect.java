@@ -1,20 +1,18 @@
 package polis.components.cursor.cursors;
 
 import polis.components.Manager;
-import polis.components.buildings.BuildingFieldModel;
-import polis.components.buildings.buildingtile.BuildingTileModel;
-import polis.components.buildings.buildingtile.BuildingTileView;
+import polis.components.playingfield.buildings.BuildingFieldModel;
+import polis.components.playingfield.buildings.BuildingTileModel;
+import polis.components.playingfield.buildings.BuildingTileView;
 import polis.components.cursor.CursorFieldModel;
-import polis.components.cursor.CursorManager;
 import polis.components.cursor.cursortile.CursorTileModel;
+import polis.datakeepers.FieldData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.LinkedTransferQueue;
 
-public class CursorManagerSelect extends CursorManager {
+public class CursorSelect extends Cursor {
 
     private static final Map<String,String> colors = Map.of(
             "bulldoze", "#D95B6699",
@@ -28,13 +26,15 @@ public class CursorManagerSelect extends CursorManager {
             "bulldoze",this::bulldoze
     );
 
-    public CursorManagerSelect(int gridSize, int cellSize, BuildingFieldModel buildingField, ArrayList<int[]> selected, CursorFieldModel tiles, Manager manager1){
-        super(gridSize, cellSize, buildingField, selected, tiles);
+    public CursorSelect(BuildingFieldModel buildingField, ArrayList<int[]> selected, CursorFieldModel tiles, Manager manager1){
+        super(buildingField, selected, tiles);
         this.manager = manager1;
     }
 
+    @Override
     public void drag(double x, double y) { }
 
+    @Override
     public void setStartDrag(double x, double y) { }
 
     public void place() {
@@ -48,7 +48,7 @@ public class CursorManagerSelect extends CursorManager {
 
     public void colorSelectedTiles(){
         for (int[] c : selected) {
-            CursorTileModel cursorTile = new CursorTileModel(c[0], c[1], getCellSize());
+            CursorTileModel cursorTile = new CursorTileModel(c[0], c[1]);
             cursorTile.setStroke(colors.get(getTool()));
             getCursorFieldModel().setTile(cursorTile);
         }
@@ -61,7 +61,7 @@ public class CursorManagerSelect extends CursorManager {
     }
 
     public boolean checkBounds(int[] c){
-        return ( c[0] >= 0 && c[0] < getGridSize() && c[1] >= 0 && c[1] < getGridSize());
+        return ( c[0] >= 0 && c[0] < FieldData.getGridSize() && c[1] >= 0 && c[1] < FieldData.getGridSize());
     }
 
     public void bulldoze(){
@@ -71,8 +71,8 @@ public class CursorManagerSelect extends CursorManager {
                 BuildingTileModel m = v.getModel();
                 if(m.isDestructible()){
                     getBuildingField().deleteTile(c[0],c[1]);
-                    for (int i = 0; i < getGridSize(); i += 1) {
-                        for (int j = 0; j < getGridSize(); j += 1) {
+                    for (int i = 0; i < FieldData.getGridSize(); i += 1) {
+                        for (int j = 0; j < FieldData.getGridSize(); j += 1) {
                             if (getBuildingField().getTiles()[i][j] == getBuildingField().getTiles()[c[0]][c[1]]) {
                                 if (i != c[0] || j != c[1]) {
                                     getBuildingField().getTiles()[i][j] = null;
@@ -82,7 +82,7 @@ public class CursorManagerSelect extends CursorManager {
                     }
                     getBuildingField().getTiles()[c[0]][c[1]] = null;
                     if (m.getName().equals("road")) {
-                        CursorManagerRoads roads = (CursorManagerRoads) manager.getManager(1);
+                        CursorRoads roads = (CursorRoads) manager.getManager(1);
                         boolean[] adjacent = roads.checkNeighbours(c[0],c[1]);
                         ArrayList<int[]> pos = new ArrayList<>();
                         Collections.addAll(pos,new int[]{-1,0},new int[]{0,1},new int[]{1,0},new int[]{0,-1});

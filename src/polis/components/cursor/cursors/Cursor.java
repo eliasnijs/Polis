@@ -1,25 +1,20 @@
-package polis.components.cursor;
+package polis.components.cursor.cursors;
 
-import polis.components.buildings.BuildingFieldModel;
-import polis.components.cursor.cursortile.CursorTileModel;
-import polis.components.cursor.cursortile.CursorTileView;
+import polis.components.playingfield.buildings.BuildingFieldModel;
+import polis.components.cursor.CursorFieldModel;
+import polis.helpers.GridCoordsConverter;
 
 import java.util.ArrayList;
 
-public abstract class CursorManager {
+public abstract class Cursor {
 
     private String tool;
-
-    private final int gridSize;
-    private final int cellSize;
 
     private final CursorFieldModel cursorField;
     private final BuildingFieldModel buildingField;
     public ArrayList<int[]> selected;
 
-    public CursorManager(int g, int c, BuildingFieldModel bf, ArrayList<int[]> s, CursorFieldModel t){
-        this.gridSize = g;
-        this.cellSize = c;
+    public Cursor(BuildingFieldModel bf, ArrayList<int[]> s, CursorFieldModel t){
         this.buildingField = bf;
         this.selected = s;
         this.cursorField = t;
@@ -27,14 +22,6 @@ public abstract class CursorManager {
 
     public BuildingFieldModel getBuildingField() {
         return buildingField;
-    }
-
-    public int getGridSize() {
-        return gridSize;
-    }
-
-    public int getCellSize() {
-        return cellSize;
     }
 
     public CursorFieldModel getCursorFieldModel(){
@@ -50,9 +37,7 @@ public abstract class CursorManager {
     }
 
     public int[] getTileFromCoordinates(double x, double y){
-        int column = (int) ((x/cellSize)/2 + y/cellSize - 0.5);
-        int row = (int) (-(x/cellSize)/2 + y/cellSize + 0.5);
-        return new int[]{row,column};
+        return GridCoordsConverter.coordsToGrid(x, y);
     }
 
     public void hoover(double x, double y) {
@@ -71,9 +56,9 @@ public abstract class CursorManager {
 
     public abstract void clearSelectedTiles();
 
-    protected abstract void drag(double x, double y);
+    public abstract void drag(double x, double y);
 
-    protected abstract void setStartDrag(double x, double y);
+    public abstract void setStartDrag(double x, double y);
 
     public abstract void place();
 

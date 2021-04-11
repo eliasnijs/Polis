@@ -12,25 +12,8 @@ public class CursorFieldModel implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
-    private final int gridSize;
-    private final int cellSize;
-
     private int pendingMode;
     private CursorTileView pendingView;
-
-
-    public CursorFieldModel(int gridSize, int cellSize){
-        this.gridSize = gridSize;
-        this.cellSize = cellSize;
-    }
-
-    public int getGridSize() {
-        return gridSize;
-    }
-
-    public int getCellSize() {
-        return cellSize;
-    }
 
     public void setTile(CursorTileModel tile){
         CursorTileView b = new CursorTileView(tile);

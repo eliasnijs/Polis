@@ -1,7 +1,6 @@
-package polis.components.buildings.buildingtile.tiles;
+package polis.components.playingfield.buildings.tiles;
 
-import polis.components.buildings.buildingtile.BuildingTileModel;
-import polis.other.ImageLoader;
+import polis.components.playingfield.buildings.BuildingTileModel;
 
 public class Building extends BuildingTileModel {
 
@@ -10,8 +9,8 @@ public class Building extends BuildingTileModel {
     private int capacity;
     private static final int[] capacities = new int[]{0,0,0,0};
 
-    public Building(ImageLoader imageLoader, int row, int column, int cellSize, String name){
-        super(imageLoader, row, column, cellSize, name, 2);
+    public Building(int row, int column, String name){
+        super(row, column, name, 2);
         level = 0;
         occupancy = 0;
         capacity = capacities[level];

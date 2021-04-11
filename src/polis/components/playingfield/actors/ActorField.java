@@ -1,4 +1,4 @@
-package polis.components;
+package polis.components.playingfield.actors;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -7,28 +7,30 @@ import polis.helpers.GridCoordsConverter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileModel implements Observable {
+public class ActorField implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
-    private final int row;
-    private final int column;
+    private ArrayList<ActorView> actors;
 
-    public TileModel(int row, int column){
-        this.row = row;
-        this.column = column;
+    public ActorField(){
+        actors = new ArrayList<>();
     }
 
-    public int getRow() {
-        return row;
+    public void newActor(int x, int y){
+        int[] c = coordsToGrid(x, y);
+        Actor actor = new Actor(c[0],c[1]);
+        ActorView actorView = new ActorView(actor);
+        actors.add(actorView);
+        fireInvalidationEvent();
     }
 
-    public int getColumn() {
-        return column;
+    public ArrayList<ActorView> getActors() {
+        return actors;
     }
 
-    public int[] gridToCoordinates(){
-        return GridCoordsConverter.gridToCoords(new int[]{row, column});
+    public int[] coordsToGrid(int x, int y){
+        return GridCoordsConverter.coordsToGrid(x, y);
     }
 
     @Override

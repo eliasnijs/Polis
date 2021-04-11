@@ -1,12 +1,11 @@
-package polis.other.clouds;
+package polis.other.experiments.clouds;
 
-import javafx.beans.binding.StringExpression;
+import polis.datakeepers.FieldData;
 import polis.other.Noise;
 
 public class Clouds {
 
     private final float roughness;
-    private final int gridSize;
     private final int multiply;
 
     private boolean[][] map;
@@ -15,15 +14,14 @@ public class Clouds {
     private int step;
 
     public Clouds(){
-        gridSize = 32;
         roughness = 0.4f;
         multiply = 5;
-        displayMap = new boolean[gridSize][gridSize];
+        displayMap = new boolean[FieldData.getGridSize()][FieldData.getGridSize()];
         init();
     }
 
     public void init(){
-        Noise n = new Noise(null, roughness, gridSize*multiply, gridSize*(multiply-1));
+        Noise n = new Noise(null, roughness, FieldData.getGridSize()*multiply, FieldData.getGridSize()*(multiply-1));
         n.start();
         map = n.toBooleans();
         step = 0;
@@ -31,11 +29,11 @@ public class Clouds {
     }
 
     public void advance(){
-        if (step == gridSize*(multiply-1)) {
+        if (step == FieldData.getGridSize()*(multiply-1)) {
             step = 0;
         }
-        if (gridSize + step - step >= 0)
-            System.arraycopy(map, step + 1, displayMap, 0, gridSize + step - step);
+        if (FieldData.getGridSize() + step - step >= 0)
+            System.arraycopy(map, step + 1, displayMap, 0, FieldData.getGridSize() + step - step);
         step++;
     }
 

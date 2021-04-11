@@ -1,8 +1,6 @@
-package polis.components.buildings.buildingtile.tiles;
+package polis.components.playingfield.buildings.tiles;
 
-import polis.components.buildings.BuildingFieldModel;
-import polis.components.buildings.buildingtile.BuildingTileModel;
-import polis.other.ImageLoader;
+import polis.components.playingfield.buildings.BuildingTileModel;
 
 public class Road extends BuildingTileModel {
 
@@ -18,9 +16,16 @@ public class Road extends BuildingTileModel {
 
     private boolean[] neighbours;
 
-    public Road(ImageLoader imageLoader, int row, int column, int cellSize, boolean[] neighbours) {
-        super(imageLoader, row, column, cellSize, "road", 1);
+    public Road(int row, int column, boolean[] neighbours) {
+        super(row, column, "road", 1);
         this.neighbours = neighbours;
+        Update();
+    }
+
+    public Road(int row, int column, boolean[] neighbours, boolean isDestructible) {
+        super(row, column, "road", 1);
+        this.neighbours = neighbours;
+        setDestructible(isDestructible);
         Update();
     }
 

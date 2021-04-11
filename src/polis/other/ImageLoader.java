@@ -2,18 +2,13 @@ package polis.other;
 
 import javafx.scene.image.Image;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class ImageLoader {
 
-    private static final String imageLocation = "/polis/tiles/";
-    private static final String[] names = new String[]{
+    private static final String tiles = "/polis/tiles/";
+    private static final String[] tilenames = new String[]{
             "road-0", "road-1", "road-2","road-3",
             "road-4", "road-5", "road-6", "road-7",
             "road-8", "road-9", "road-10", "road-11",
@@ -26,12 +21,21 @@ public class ImageLoader {
             "tree-0", "tree-1", "tree-2", "tree-3"
     };
 
+    private static final String other = "/polis/other/";
+    private static final String[] othernames = new String[]{
+            "background"
+    };
+
     private final Map<String,Image> images;
 
     public ImageLoader() {
         images = new HashMap<>();
-        for (String s : names) {
-            Image image = new Image(imageLocation+s+".png");
+        for (String s : tilenames) {
+            Image image = new Image(tiles+s+".png");
+            images.put(s,image);
+        }
+        for (String s : othernames) {
+            Image image = new Image(other+s+".png");
             images.put(s,image);
         }
     }

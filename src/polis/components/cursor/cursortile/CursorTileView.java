@@ -4,14 +4,15 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import polis.datakeepers.FieldData;
 
 public class CursorTileView extends Polygon implements InvalidationListener {
 
     private final CursorTileModel model;
 
     public CursorTileView(CursorTileModel model) {
-        super(0, 0, model.getCellSize(), 0.5 * model.getCellSize(), 0,
-                model.getCellSize(), -model.getCellSize(), 0.5 * model.getCellSize());
+        super(0, 0, FieldData.getCellSize(), 0.5 * FieldData.getCellSize(), 0,
+                FieldData.getCellSize(), -FieldData.getCellSize(), 0.5 * FieldData.getCellSize());
 
         this.model = model;
         model.addListener(this);
