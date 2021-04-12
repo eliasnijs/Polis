@@ -14,7 +14,7 @@ public class TileModel implements Observable {
     private final int row;
     private final int column;
 
-    public TileModel(int row, int column){
+    public TileModel(int row, int column) {
         this.row = row;
         this.column = column;
     }
@@ -27,7 +27,7 @@ public class TileModel implements Observable {
         return column;
     }
 
-    public int[] gridToCoordinates(){
+    public int[] gridToCoordinates() {
         return GridCoordsConverter.gridToCoords(new int[]{row, column});
     }
 
@@ -41,8 +41,8 @@ public class TileModel implements Observable {
         listenerList.remove(invalidationListener);
     }
 
-    public void fireInvalidationEvent(){
-        for(InvalidationListener listener : listenerList){
+    public void fireInvalidationEvent() {
+        for (InvalidationListener listener : listenerList) {
             listener.invalidated(this);
         }
     }

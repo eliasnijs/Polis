@@ -2,6 +2,8 @@ package polis.components.playingfield.actors;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import polis.components.playingfield.actors.actor.Actor;
+import polis.components.playingfield.actors.actor.ActorView;
 import polis.helpers.GridCoordsConverter;
 
 import java.util.ArrayList;
@@ -13,13 +15,13 @@ public class ActorField implements Observable {
 
     private ArrayList<ActorView> actors;
 
-    public ActorField(){
+    public ActorField() {
         actors = new ArrayList<>();
     }
 
-    public void newActor(int x, int y){
-        int[] c = coordsToGrid(x, y);
-        Actor actor = new Actor(c[0],c[1]);
+    public void newActor(int x, int y) {
+        int[] c = GridCoordsConverter.coordsToGrid(x, y);
+        Actor actor = new Actor(c[0], c[1]);
         ActorView actorView = new ActorView(actor);
         actors.add(actorView);
         fireInvalidationEvent();
@@ -27,10 +29,6 @@ public class ActorField implements Observable {
 
     public ArrayList<ActorView> getActors() {
         return actors;
-    }
-
-    public int[] coordsToGrid(int x, int y){
-        return GridCoordsConverter.coordsToGrid(x, y);
     }
 
     @Override
@@ -43,8 +41,8 @@ public class ActorField implements Observable {
         listenerList.remove(invalidationListener);
     }
 
-    public void fireInvalidationEvent(){
-        for(InvalidationListener listener : listenerList){
+    public void fireInvalidationEvent() {
+        for (InvalidationListener listener : listenerList) {
             listener.invalidated(this);
         }
     }

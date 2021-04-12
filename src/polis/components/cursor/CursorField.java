@@ -8,21 +8,21 @@ import polis.components.cursor.cursortile.CursorTileView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CursorFieldModel implements Observable {
+public class CursorField implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
     private int pendingMode;
     private CursorTileView pendingView;
 
-    public void setTile(CursorTileModel tile){
+    public void setTile(CursorTileModel tile) {
         CursorTileView b = new CursorTileView(tile);
         pendingMode = 0;
         pendingView = b;
         fireInvalidationEvent();
     }
 
-    public void deleteTiles(){
+    public void deleteTiles() {
         pendingMode = 1;
         fireInvalidationEvent();
     }
@@ -31,8 +31,8 @@ public class CursorFieldModel implements Observable {
         return pendingMode;
     }
 
-    public CursorTileView getPendingView(){
-        return  pendingView;
+    public CursorTileView getPendingView() {
+        return pendingView;
     }
 
     @Override
@@ -45,8 +45,8 @@ public class CursorFieldModel implements Observable {
         listenerList.remove(invalidationListener);
     }
 
-    public void fireInvalidationEvent(){
-        for(InvalidationListener listener : listenerList){
+    public void fireInvalidationEvent() {
+        for (InvalidationListener listener : listenerList) {
             listener.invalidated(this);
         }
     }

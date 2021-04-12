@@ -18,7 +18,7 @@ public class MusicPlayer {
         tracks = new ArrayList<>();
         File dir = new File("resources/polis/music/soundtracks/");
         File[] files = dir.listFiles();
-        if(files != null){
+        if (files != null) {
             for (File f : files) {
                 tracks.add(new Media(new File(f.getPath()).toURI().toString()));
             }
@@ -27,25 +27,25 @@ public class MusicPlayer {
         }
     }
 
-    public void changeMusic(Media musicFile){
+    public void changeMusic(Media musicFile) {
         mediaPlayer = new MediaPlayer(musicFile);
         mediaPlayer.setMute(muted);
         mediaPlayer.play();
         mediaPlayer.setOnEndOfMedia(this::newMusic);
     }
 
-    public void newMusic(){
+    public void newMusic() {
         changeMusic(selectRandomMusic());
     }
 
-    public void switchMute(){
+    public void switchMute() {
         if (tracks != null) {
             muted = !muted;
             mediaPlayer.setMute(muted);
         }
     }
 
-    private Media selectRandomMusic(){
+    private Media selectRandomMusic() {
         Collections.shuffle(tracks);
         return tracks.get(0);
     }

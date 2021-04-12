@@ -12,7 +12,7 @@ public class Noise {
     private final Random rand;
 
 
-   public Noise(Random rand, float roughness, int width, int height) {
+    public Noise(Random rand, float roughness, int width, int height) {
         this.roughness = roughness / width;
         grid = new float[width][height];
         this.rand = (rand == null) ? new Random() : rand;
@@ -71,25 +71,25 @@ public class Noise {
         int w = grid.length;
         int h = grid[0].length;
         boolean[][] ret = new boolean[w][h];
-        for(int i = 0;i < w;i++) {
-            for(int j = 0;j < h;j++) {
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
                 ret[i][j] = grid[i][j] < 0;
             }
         }
         return ret;
     }
 
-    public ArrayList<int[]> getLocations(){
-       ArrayList<int[]> locations = new ArrayList<>();
-       boolean[][] noiseMap = toBooleans();
-       for (int i = 0; i< FieldData.getGridSize(); i++) {
-            for (int j=0; j<FieldData.getGridSize();j++) {
+    public ArrayList<int[]> getLocations() {
+        ArrayList<int[]> locations = new ArrayList<>();
+        boolean[][] noiseMap = toBooleans();
+        for (int i = 0; i < FieldData.getGridSize(); i++) {
+            for (int j = 0; j < FieldData.getGridSize(); j++) {
                 if (noiseMap[i][j]) {
-                    locations.add(new int[]{i,j});
+                    locations.add(new int[]{i, j});
                 }
             }
         }
-       return locations;
+        return locations;
     }
 
 }

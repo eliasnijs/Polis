@@ -1,11 +1,11 @@
 package polis.datatransferers;
 
-import polis.components.playingfield.buildings.BuildingTileView;
+import polis.components.playingfield.buildings.tiles.BuildingTileView;
 
 public class PendingBuildingTileView {
 
-    private int mode;
-    private BuildingTileView view;
+    private final int mode;
+    private final BuildingTileView view;
 
     public PendingBuildingTileView(int mode, BuildingTileView view) {
         this.mode = mode;

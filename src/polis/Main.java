@@ -20,8 +20,8 @@ public class Main extends Application {
         Parent startParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(FXML_START)));
         Parent gameParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(FXML_GAME)));
 
-        Scene startScene = new Scene(startParent, 1600,685);
-        Scene gameScene = new Scene(gameParent, 1600,685);
+        Scene startScene = new Scene(startParent, 1600, 685);
+        Scene gameScene = new Scene(gameParent, 1600, 685);
         startParent.setOnMouseReleased(e -> stage.setScene(gameScene));
 
         stage.setScene(startScene);

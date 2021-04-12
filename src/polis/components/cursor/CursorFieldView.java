@@ -12,11 +12,11 @@ import polis.helpers.HelperPoly;
 
 public class CursorFieldView extends Pane implements InvalidationListener {
 
-    private final CursorFieldModel model;
-    private Cursor cursor;
+    private final CursorField model;
     private final Polygon poly;
+    private Cursor cursor;
 
-    public CursorFieldView(Manager m){
+    public CursorFieldView(Manager m) {
         this.model = m.getCursorField();
         this.cursor = m.getActiveManager();
         model.addListener(this);
@@ -25,7 +25,7 @@ public class CursorFieldView extends Pane implements InvalidationListener {
         getChildren().add(poly);
         this.setTranslateX((double) (FieldData.getGridSize() - 1) * FieldData.getCellSize());
 
-        this.setOnMouseMoved(e -> cursor.hoover(e.getX(),e.getY()));
+        this.setOnMouseMoved(e -> cursor.hoover(e.getX(), e.getY()));
         this.setOnMousePressed(e -> cursor.setStartDrag(e.getX(), e.getY()));
         this.setOnMouseDragged(e -> cursor.drag(e.getX(), e.getY()));
         this.setOnMouseReleased(e -> cursor.place());

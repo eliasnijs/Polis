@@ -8,7 +8,7 @@ public class HelperPoly extends Polygon {
 
     private static final int length = FieldData.getCellSize() * FieldData.getGridSize();
 
-    public HelperPoly(){
+    public HelperPoly() {
         super(0, 0, length, 0.5 * length, 0, length, -length, 0.5 * length);
         setFill(Color.TRANSPARENT);
         setTranslateX(FieldData.getCellSize());

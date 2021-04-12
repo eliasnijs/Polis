@@ -1,4 +1,4 @@
-package polis.components.playingfield.buildings;
+package polis.components.playingfield.buildings.tiles;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -9,21 +9,21 @@ public class BuildingTileView extends ImageView implements InvalidationListener 
 
     private BuildingTileModel model;
 
-    public BuildingTileView(BuildingTileModel m){
+    public BuildingTileView(BuildingTileModel m) {
         setModel(m);
         loadImage();
     }
 
-    public BuildingTileModel getModel(){
+    public BuildingTileModel getModel() {
         return model;
     }
 
-    public void setModel(BuildingTileModel model){
-        if(model != this.model){
+    public void setModel(BuildingTileModel model) {
+        if (model != this.model) {
             model.removeListener(this);
         }
         this.model = model;
-        if(model != null){
+        if (model != null) {
             model.addListener(this);
             int[] coords = model.gridToCoordinates();
             this.setTranslateX(coords[0]);
@@ -31,7 +31,7 @@ public class BuildingTileView extends ImageView implements InvalidationListener 
         }
     }
 
-    public void loadImage(){
+    public void loadImage() {
         Image image = model.getImage();
         setImage(image);
         setX(-0.5 * image.getWidth());

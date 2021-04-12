@@ -13,16 +13,12 @@ public class CursorTileView extends Polygon implements InvalidationListener {
     public CursorTileView(CursorTileModel model) {
         super(0, 0, FieldData.getCellSize(), 0.5 * FieldData.getCellSize(), 0,
                 FieldData.getCellSize(), -FieldData.getCellSize(), 0.5 * FieldData.getCellSize());
-
         this.model = model;
         model.addListener(this);
-
         int[] c = model.gridToCoordinates();
         this.setTranslateX(c[0]);
         this.setTranslateY(c[1]);
-
         setCursorStyle();
-
         this.setMouseTransparent(true);
     }
 

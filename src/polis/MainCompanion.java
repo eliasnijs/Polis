@@ -6,16 +6,16 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import polis.components.Manager;
+import polis.components.cursor.CursorFieldView;
+import polis.components.playingfield.PlayingFieldView;
 import polis.datakeepers.FieldData;
 import polis.helpers.HelperPoly;
 import polis.other.Background;
-import prog2.util.Viewport;
-import polis.components.Manager;
-import polis.components.playingfield.PlayingFieldView;
-import polis.components.cursor.CursorFieldView;
 import polis.other.MusicPlayer;
+import prog2.util.Viewport;
 
-public class MainCompanion  {
+public class MainCompanion {
 
     public StackPane viewportStackPane;
     public Button roadButton;
@@ -28,16 +28,14 @@ public class MainCompanion  {
     public Button soundButton;
     public Button playButton;
     public ToggleButton treeButton;
-
-    public Button activeButton;
-
     public StackPane main;
 
+    public Button activeButton;
     private Manager manager;
     private MusicPlayer musicPlayer;
     private Viewport viewport;
 
-    public void initialize(){
+    public void initialize() {
 
         musicPlayer = new MusicPlayer();
 
@@ -46,24 +44,23 @@ public class MainCompanion  {
         PlayingFieldView buildingView = new PlayingFieldView(manager);
 
         manager.setView(cursorView);
-        manager.getActiveManager().setTool("select");
-        setActiveButton(selectButton);
         manager.getBuildingField().setStartupTiles(treeButton.isSelected());
+        setActiveButton(selectButton);
 
         StackPane field = new StackPane(buildingView, cursorView);
-        Node background = background(false, field);
+        Node background = background(true, field);
         StackPane mainStack = new StackPane(background, field);
         Viewport view = new Viewport(mainStack, 0.5);
         viewport = view;
         viewportStackPane.getChildren().add(view);
 
-        setButtonActions();
+        initialiseButtonActions();
 
         view.setFocusTraversable(true);
         viewport.requestFocus();
     }
 
-    public Node background(boolean imageBackground, StackPane field){
+    public Node background(boolean imageBackground, StackPane field) {
         Node node;
         if (imageBackground) {
             node = new Background();
@@ -78,13 +75,13 @@ public class MainCompanion  {
         return node;
     }
 
-    public void setButtonActions(){
-        shoppingButton.setOnAction(e -> {handleButtonEvent(0, "commerce"); setActiveButton(shoppingButton);});
-        residenceButton.setOnAction(e -> {handleButtonEvent(0, "residence"); setActiveButton(residenceButton);});
-        factoryButton.setOnAction(e -> {handleButtonEvent(0, "industry"); setActiveButton(factoryButton);});
-        roadButton.setOnAction(e -> {handleButtonEvent(1,"road"); setActiveButton(roadButton);});
-        bulldozerButton.setOnAction(e -> {handleButtonEvent(2, "bulldoze"); setActiveButton(bulldozerButton);});
-        selectButton.setOnAction(e -> {handleButtonEvent(2, "select"); setActiveButton(selectButton);});
+    public void initialiseButtonActions() {
+        shoppingButton.setOnAction(e -> changeCursor(shoppingButton, 0, "commerce"));
+        residenceButton.setOnAction(e -> changeCursor(residenceButton, 0, "residence"));
+        factoryButton.setOnAction(e -> changeCursor(factoryButton, 0, "industry"));
+        roadButton.setOnAction(e -> changeCursor(roadButton, 1, "road"));
+        bulldozerButton.setOnAction(e -> changeCursor(bulldozerButton, 2, "bulldoze"));
+        selectButton.setOnAction(e -> changeCursor(selectButton, 2, "select"));
         nukeButton.setOnAction(e -> handleButtonEvent("reset"));
         soundButton.setOnAction(e -> handleButtonEvent("mute"));
         playButton.setOnAction(e -> handleButtonEvent("play"));
@@ -93,33 +90,55 @@ public class MainCompanion  {
 
     private void handleKeyEvent(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
-            case R:changeCursor(roadButton,0,"residence"); break;
-            case I: changeCursor(roadButton,0,"industry"); break;
-            case C: changeCursor(roadButton,0,"commerce"); break;
-            case S: changeCursor(roadButton,1,"road"); break;
-            case B: changeCursor(bulldozerButton,2,"bulldoze"); break;
-            case ESCAPE: changeCursor(selectButton,2,"select"); break;
+            case R:
+                changeCursor(residenceButton, 0, "residence");
+                break;
+            case I:
+                changeCursor(factoryButton, 0, "industry");
+                break;
+            case C:
+                changeCursor(shoppingButton, 0, "commerce");
+                break;
+            case S:
+                changeCursor(roadButton, 1, "road");
+                break;
+            case B:
+                changeCursor(bulldozerButton, 2, "bulldoze");
+                break;
+            case N:
+                handleButtonEvent("reset");
+                break;
+            case M:
+                handleButtonEvent("mute");
+                break;
+            case SPACE:
+                handleButtonEvent("play");
+                break;
+            case ESCAPE:
+                changeCursor(selectButton, 2, "select");
+                break;
         }
     }
 
-    public void changeCursor(Button button, int mode, String tool){
-        manager.setActiveManager(2, "bulldoze");
-        setActiveButton(button);
-    }
-
-    private void handleButtonEvent(int mode, String tool){
+    public void changeCursor(Button button, int mode, String tool) {
         manager.setActiveManager(mode, tool);
+        setActiveButton(button);
         viewport.requestFocus();
     }
 
-    private void handleButtonEvent(String tool){
+    private void handleButtonEvent(String tool) {
         switch (tool) {
-            case "reset": manager.getBuildingField().setStartupTiles(treeButton.isSelected()); break;
-            case "mute": muteMusicPlayer(); break;
-        } viewport.requestFocus();
+            case "reset":
+                manager.getBuildingField().setStartupTiles(treeButton.isSelected());
+                break;
+            case "mute":
+                muteMusicPlayer();
+                break;
+        }
+        viewport.requestFocus();
     }
 
-    public void muteMusicPlayer(){
+    public void muteMusicPlayer() {
         musicPlayer.switchMute();
     }
 

@@ -1,30 +1,29 @@
 package polis.components.cursor.cursors;
 
-import polis.components.playingfield.buildings.BuildingFieldModel;
-import polis.components.cursor.CursorFieldModel;
+import polis.components.cursor.CursorField;
+import polis.components.playingfield.buildings.BuildingField;
 import polis.helpers.GridCoordsConverter;
 
 import java.util.ArrayList;
 
 public abstract class Cursor {
 
+    private final CursorField cursorField;
+    private final BuildingField buildingField;
+    public ArrayList<int[]> selected;
     private String tool;
 
-    private final CursorFieldModel cursorField;
-    private final BuildingFieldModel buildingField;
-    public ArrayList<int[]> selected;
-
-    public Cursor(BuildingFieldModel bf, ArrayList<int[]> s, CursorFieldModel t){
+    public Cursor(BuildingField bf, ArrayList<int[]> s, CursorField t) {
         this.buildingField = bf;
         this.selected = s;
         this.cursorField = t;
     }
 
-    public BuildingFieldModel getBuildingField() {
+    public BuildingField getBuildingField() {
         return buildingField;
     }
 
-    public CursorFieldModel getCursorFieldModel(){
+    public CursorField getCursorFieldModel() {
         return cursorField;
     }
 
@@ -36,13 +35,9 @@ public abstract class Cursor {
         this.tool = tool;
     }
 
-    public int[] getTileFromCoordinates(double x, double y){
-        return GridCoordsConverter.coordsToGrid(x, y);
-    }
-
     public void hoover(double x, double y) {
         clearSelectedTiles();
-        addActiveTile(getTileFromCoordinates(x,y));
+        addActiveTile(GridCoordsConverter.coordsToGrid(x, y));
         colorSelectedTiles();
     }
 
@@ -50,11 +45,14 @@ public abstract class Cursor {
         return buildingField.getTiles()[c[0]][c[1]] == null;
     }
 
+    public void clearSelectedTiles() {
+        getCursorFieldModel().deleteTiles();
+        selected.clear();
+    }
+
     protected abstract void colorSelectedTiles();
 
     protected abstract void addActiveTile(int[] coords);
-
-    public abstract void clearSelectedTiles();
 
     public abstract void drag(double x, double y);
 

@@ -1,4 +1,4 @@
-package polis.components.playingfield.actors;
+package polis.components.playingfield.actors.actor;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -14,7 +14,7 @@ public class Actor implements Observable {
     private String color;
     private int[] position;
 
-    public Actor(int row, int column){
+    public Actor(int row, int column) {
         position = new int[]{row, column};
         color = "#ffffff";
     }
@@ -23,8 +23,16 @@ public class Actor implements Observable {
         return color;
     }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public int[] getCoords() {
         return GridCoordsConverter.gridToCoords(position);
+    }
+
+    public void setPosition(int[] position) {
+        this.position = position;
     }
 
     @Override
@@ -37,8 +45,8 @@ public class Actor implements Observable {
         listenerList.remove(invalidationListener);
     }
 
-    public void fireInvalidationEvent(){
-        for(InvalidationListener listener : listenerList){
+    public void fireInvalidationEvent() {
+        for (InvalidationListener listener : listenerList) {
             listener.invalidated(this);
         }
     }

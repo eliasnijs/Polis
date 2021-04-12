@@ -9,7 +9,7 @@ public class ImageLoader {
 
     private static final String tiles = "/polis/tiles/";
     private static final String[] tilenames = new String[]{
-            "road-0", "road-1", "road-2","road-3",
+            "road-0", "road-1", "road-2", "road-3",
             "road-4", "road-5", "road-6", "road-7",
             "road-8", "road-9", "road-10", "road-11",
             "road-12", "road-13", "road-14", "road-15",
@@ -26,21 +26,21 @@ public class ImageLoader {
             "background"
     };
 
-    private final Map<String,Image> images;
+    private final Map<String, Image> images;
 
     public ImageLoader() {
         images = new HashMap<>();
         for (String s : tilenames) {
-            Image image = new Image(tiles+s+".png");
-            images.put(s,image);
+            Image image = new Image(tiles + s + ".png");
+            images.put(s, image);
         }
         for (String s : othernames) {
-            Image image = new Image(other+s+".png");
-            images.put(s,image);
+            Image image = new Image(other + s + ".png");
+            images.put(s, image);
         }
     }
 
-    public Image getImage(String name){
+    public Image getImage(String name) {
         return images.get(name);
     }
 
