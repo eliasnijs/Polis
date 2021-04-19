@@ -7,7 +7,7 @@ import javafx.scene.shape.Circle;
 
 public class ActorView extends Circle implements InvalidationListener {
 
-    private Actor actor;
+    private final Actor actor;
 
     public ActorView(Actor actor) {
         this.actor = actor;
@@ -17,11 +17,16 @@ public class ActorView extends Circle implements InvalidationListener {
     }
 
     public void Update() {
+        int[] t = actor.getPosition();
+        setViewOrder(-t[0] - t[1] - 1.1);
         int[] c = actor.getCoords();
         this.setTranslateX(c[0]);
         this.setTranslateY(c[1]);
-        setViewOrder(-c[0] - c[1] - 1.0);
         this.setFill(Color.web(actor.getColor()));
+    }
+
+    public Actor getActor() {
+        return actor;
     }
 
     @Override

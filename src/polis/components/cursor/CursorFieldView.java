@@ -23,6 +23,7 @@ public class CursorFieldView extends Pane implements InvalidationListener {
 
         this.poly = new HelperPoly();
         getChildren().add(poly);
+
         this.setTranslateX((double) (FieldData.getGridSize() - 1) * FieldData.getCellSize());
 
         this.setOnMouseMoved(e -> cursor.hoover(e.getX(), e.getY()));
@@ -36,11 +37,11 @@ public class CursorFieldView extends Pane implements InvalidationListener {
     }
 
     public void addView(CursorTileView v) {
-        this.getChildren().add(v);
+        getChildren().add(v);
     }
 
     public void deleteView() {
-        this.getChildren().clear();
+        getChildren().clear();
         getChildren().add(poly);
     }
 

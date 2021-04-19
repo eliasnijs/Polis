@@ -7,7 +7,7 @@ import polis.helpers.GridCoordsConverter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileModel implements Observable {
+public abstract class TileModel implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 

@@ -18,6 +18,7 @@ public class CursorRoads extends Cursor {
             false, "#D95B6699",
             true, "#59D98699"
     );
+
     private final ArrayList<int[]> pos;
     private int[] startOfDrag;
 
@@ -72,7 +73,6 @@ public class CursorRoads extends Cursor {
             addActiveTile(new int[]{i, startOfDrag[1]});
             i += t;
         }
-
     }
 
     @Override

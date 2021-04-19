@@ -3,23 +3,36 @@ package polis.components.playingfield;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.layout.Pane;
-import polis.components.Manager;
+import polis.components.playingfield.actors.ActorField;
 import polis.components.playingfield.buildings.BuildingField;
 import polis.datakeepers.FieldData;
+import polis.datatransferers.PendingActorView;
 import polis.datatransferers.PendingBuildingTileView;
 
 public class PlayingFieldView extends Pane implements InvalidationListener {
 
-    private final BuildingField model;
+    private final BuildingField buildingModel;
+    private final ActorField actorModel;
 
-    public PlayingFieldView(Manager manager) {
-        this.model = manager.getBuildingField();
-        model.addListener(this);
+    public PlayingFieldView(BuildingField buildingModel, ActorField actorField) {
+        this.buildingModel = buildingModel;
+        this.actorModel = actorField;
+        buildingModel.addListener(this);
+        actorModel.addListener(this);
         this.setTranslateX((double) (FieldData.getGridSize() - 1) * FieldData.getCellSize());
     }
 
-    public void Update() {
-        PendingBuildingTileView pending = model.getPendingView();
+    public void updateBuildings() {
+        PendingBuildingTileView pending = buildingModel.getPendingView();
+        if (pending.getMode() == 0) {
+            getChildren().add(pending.getView());
+        } else {
+            getChildren().remove(pending.getView());
+        }
+    }
+
+    public void updateActors() {
+        PendingActorView pending = actorModel.getPending();
         if (pending.getMode() == 0) {
             getChildren().add(pending.getView());
         } else {
@@ -29,7 +42,11 @@ public class PlayingFieldView extends Pane implements InvalidationListener {
 
     @Override
     public void invalidated(Observable observable) {
-        Update();
+        if (observable.equals(buildingModel)) {
+            updateBuildings();
+        } else {
+            updateActors();
+        }
     }
 
 }

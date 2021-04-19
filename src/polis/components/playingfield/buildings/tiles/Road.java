@@ -2,15 +2,6 @@ package polis.components.playingfield.buildings.tiles;
 
 public class Road extends BuildingTileModel {
 
-    /**
-     * ROAD UPDATE
-     * <p>
-     * right  = 1
-     * below  = 2
-     * left = 4
-     * top = 8
-     **/
-
     private boolean[] neighbours;
 
     public Road(int row, int column, boolean[] neighbours) {

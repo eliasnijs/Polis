@@ -1,7 +1,5 @@
 package polis.datakeepers;
 
-import polis.other.ImageLoader;
-
 public class FieldData {
 
     private static final int CELL_SIZE = 64;

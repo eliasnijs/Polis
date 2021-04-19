@@ -7,8 +7,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import polis.components.Manager;
-import polis.components.cursor.CursorFieldView;
-import polis.components.playingfield.PlayingFieldView;
 import polis.datakeepers.FieldData;
 import polis.helpers.HelperPoly;
 import polis.other.Background;
@@ -40,14 +38,13 @@ public class MainCompanion {
         musicPlayer = new MusicPlayer();
 
         this.manager = new Manager();
-        CursorFieldView cursorView = new CursorFieldView(manager);
-        PlayingFieldView buildingView = new PlayingFieldView(manager);
-
-        manager.setView(cursorView);
-        manager.getBuildingField().setStartupTiles(treeButton.isSelected());
+        manager.getPlayingField().setStartupTiles(treeButton.isSelected());
         setActiveButton(selectButton);
 
-        StackPane field = new StackPane(buildingView, cursorView);
+        StackPane field = new StackPane(
+                manager.getPlayingFieldView(),
+                manager.getCursorView()
+        );
         Node background = background(true, field);
         StackPane mainStack = new StackPane(background, field);
         Viewport view = new Viewport(mainStack, 0.5);
@@ -58,12 +55,14 @@ public class MainCompanion {
 
         view.setFocusTraversable(true);
         viewport.requestFocus();
+
+        musicPlayer.switchMute();
     }
 
     public Node background(boolean imageBackground, StackPane field) {
         Node node;
         if (imageBackground) {
-            node = new Background();
+            node = new Background(3);
             // Kleine aanpassing aan de locatie van het speelveld zodat alles gecentreerd is
             field.setTranslateX(4.0 * FieldData.getCellSize());
             field.setTranslateY(4.5 * FieldData.getCellSize());
@@ -117,6 +116,8 @@ public class MainCompanion {
             case ESCAPE:
                 changeCursor(selectButton, 2, "select");
                 break;
+            case A:
+                manager.getPlayingField().getActorField().newActor(0,15);
         }
     }
 
@@ -129,7 +130,7 @@ public class MainCompanion {
     private void handleButtonEvent(String tool) {
         switch (tool) {
             case "reset":
-                manager.getBuildingField().setStartupTiles(treeButton.isSelected());
+                manager.getPlayingField().setStartupTiles(treeButton.isSelected());
                 break;
             case "mute":
                 muteMusicPlayer();

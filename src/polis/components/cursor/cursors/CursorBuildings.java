@@ -23,12 +23,10 @@ public class CursorBuildings extends Cursor {
     }
 
     @Override
-    public void drag(double x, double y) {
-    }
+    public void drag(double x, double y) { }
 
     @Override
-    public void setStartDrag(double x, double y) {
-    }
+    public void setStartDrag(double x, double y) { }
 
     @Override
     public void place() {

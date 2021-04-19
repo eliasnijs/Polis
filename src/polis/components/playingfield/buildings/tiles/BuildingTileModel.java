@@ -19,8 +19,7 @@ public abstract class BuildingTileModel extends TileModel {
         destructible = true;
     }
 
-    public void Update() {
-    }
+    public void Update() { }
 
     public Image getImage() {
         return image;
@@ -47,6 +46,5 @@ public abstract class BuildingTileModel extends TileModel {
         this.destructible = destructible;
     }
 
-    public void setNeighbours(boolean[] adj) {
-    }
+    public void setNeighbours(boolean[] adj) { }
 }

@@ -33,13 +33,10 @@ public class BuildingField implements Observable {
 
     public void setTile(BuildingTileModel tile) {
         BuildingTileView tileView = new BuildingTileView(tile);
-        int row = tile.getRow();
-        int column = tile.getColumn();
+        int row = tile.getRow(); int column = tile.getColumn();
         tiles[row][column] = tileView;
         if (tile.getSize() == 2) {
-            tiles[row][column + 1] = tileView;
-            tiles[row + 1][column] = tileView;
-            tiles[row + 1][column + 1] = tileView;
+            tiles[row][column + 1] = tileView; tiles[row + 1][column] = tileView; tiles[row + 1][column + 1] = tileView;
         }
         tileView.setViewOrder(-row - column - 2 * (tile.getSize() - 1) - 1.0);
         pending = new PendingBuildingTileView(0, tileView);
@@ -49,6 +46,7 @@ public class BuildingField implements Observable {
 
     public void deleteTile(int row, int column) {
         pending = new PendingBuildingTileView(1, tiles[row][column]);
+        tiles[row][column] = null;
         fireInvalidationEvent();
         pending = null;
     }
@@ -66,21 +64,7 @@ public class BuildingField implements Observable {
         int t = FieldData.getGridSize() / 2 - 1;
         for (int i = 0; i < FieldData.getGridSize() / 2 - 1; i += 1) {
             setTile(new Road(i, t, new boolean[]{true, false, true, false}, false));
-        }
-        setTile(new Road(t, t, new boolean[]{true, false, false, false}, false));
-    }
-
-    public void setStartupTiles(boolean isTrees) {
-        for (int i = 0; i < FieldData.getGridSize(); i++) {
-            for (int j = 0; j < FieldData.getGridSize(); j++) {
-                deleteTile(i, j);
-                getTiles()[i][j] = null;
-            }
-        }
-        if (isTrees) {
-            setStartupTrees(-.2f);
-        }
-        setStartupRoads();
+        } setTile(new Road(t, t, new boolean[]{true, false, false, false}, false));
     }
 
     @Override

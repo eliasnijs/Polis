@@ -1,4 +1,4 @@
-package polis.other;
+package polis.datakeepers;
 
 import javafx.scene.image.Image;
 
@@ -43,6 +43,5 @@ public class ImageLoader {
     public Image getImage(String name) {
         return images.get(name);
     }
-
 
 }

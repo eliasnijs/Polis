@@ -22,12 +22,10 @@ public class Noise {
     public void start() {
         int xHeight = grid.length - 1;
         int yHeight = grid[0].length - 1;
-
         grid[0][0] = rand.nextFloat() - 0.5f;
         grid[0][yHeight] = rand.nextFloat() - 0.5f;
         grid[xHeight][0] = rand.nextFloat() - 0.5f;
         grid[xHeight][yHeight] = rand.nextFloat() - 0.5f;
-
         generate(0, 0, xHeight, yHeight);
     }
 
@@ -61,10 +59,6 @@ public class Noise {
         generate(xMid, yLength, xHeight, yMid);
         generate(xLength, yMid, xMid, yHeight);
         generate(xMid, yMid, xHeight, yHeight);
-    }
-
-    public float[][] getGrid() {
-        return grid;
     }
 
     public boolean[][] toBooleans() {

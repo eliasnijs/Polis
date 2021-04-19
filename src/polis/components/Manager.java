@@ -6,27 +6,40 @@ import polis.components.cursor.cursors.Cursor;
 import polis.components.cursor.cursors.CursorBuildings;
 import polis.components.cursor.cursors.CursorRoads;
 import polis.components.cursor.cursors.CursorSelect;
+import polis.components.playingfield.PlayingField;
+import polis.components.playingfield.PlayingFieldView;
 import polis.components.playingfield.buildings.BuildingField;
 
 import java.util.ArrayList;
 
 public class Manager {
 
+    private final PlayingField playingField;
     private final CursorField cursorField;
-    private final BuildingField buildingField;
-    private final ArrayList<Cursor> cursors;
+
     private Cursor activeManager;
-    private CursorFieldView view;
+    private final ArrayList<Cursor> cursors;
+
+    private final CursorFieldView cursorView;
+    private final PlayingFieldView playingFieldView;
 
     public Manager() {
         ArrayList<int[]> selected = new ArrayList<>();
-        this.buildingField = new BuildingField();
+        this.playingField = new PlayingField();
         this.cursorField = new CursorField();
+
+        this.cursorView = new CursorFieldView(this);
+        this.playingFieldView = new PlayingFieldView(playingField.getBuildingField(), playingField.getActorField());
+
+        playingField.setView(playingFieldView);
+
         cursors = new ArrayList<>();
-        cursors.add(new CursorBuildings(buildingField, selected, cursorField));
-        cursors.add(new CursorRoads(buildingField, selected, cursorField));
-        cursors.add(new CursorSelect(buildingField, selected, cursorField, this));
+        cursors.add(new CursorBuildings(playingField.getBuildingField(), selected, cursorField));
+        cursors.add(new CursorRoads(playingField.getBuildingField(), selected, cursorField));
+        cursors.add(new CursorSelect(playingField.getBuildingField(), selected, cursorField, this));
+
         activeManager = cursors.get(2);
+        cursorView.setModel(activeManager);
         activeManager.setTool("select");
     }
 
@@ -35,26 +48,33 @@ public class Manager {
     }
 
     public BuildingField getBuildingField() {
-        return buildingField;
+        return playingField.getBuildingField();
     }
 
     public CursorField getCursorField() {
         return cursorField;
     }
 
-    public void setView(CursorFieldView view) {
-        this.view = view;
-    }
-
     public void setActiveManager(int i, String tool) {
         activeManager.clearSelectedTiles();
         activeManager = cursors.get(i);
         activeManager.setTool(tool);
-        view.setModel(activeManager);
+        cursorView.setModel(activeManager);
     }
 
     public Cursor getManager(int i) {
         return cursors.get(i);
     }
 
+    public CursorFieldView getCursorView() {
+        return cursorView;
+    }
+
+    public PlayingFieldView getPlayingFieldView() {
+        return playingFieldView;
+    }
+
+    public PlayingField getPlayingField() {
+        return playingField;
+    }
 }
