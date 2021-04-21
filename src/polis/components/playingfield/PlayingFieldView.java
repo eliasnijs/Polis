@@ -33,6 +33,7 @@ public class PlayingFieldView extends Pane implements InvalidationListener {
 
     public void updateActors() {
         PendingActorView pending = actorModel.getPending();
+        System.out.println(pending.getMode() + " " + pending.getView().getActor());
         if (pending.getMode() == 0) {
             getChildren().add(pending.getView());
         } else {

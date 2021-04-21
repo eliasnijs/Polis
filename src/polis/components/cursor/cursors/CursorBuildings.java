@@ -3,8 +3,8 @@ package polis.components.cursor.cursors;
 import polis.components.cursor.CursorField;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.playingfield.buildings.BuildingField;
-import polis.components.playingfield.buildings.tiles.Building;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
+import polis.components.playingfield.buildings.tiles.buildings.*;
 import polis.datakeepers.FieldData;
 
 import java.util.ArrayList;
@@ -12,6 +12,12 @@ import java.util.Collections;
 import java.util.Map;
 
 public class CursorBuildings extends Cursor {
+
+    private final Map<String, BuildingFactory> buildings = Map.of(
+            "residence", new ResidenceFactory(),
+            "industry", new IndustryFactory(),
+            "commerce", new CommerceFactory()
+    );
 
     private static final Map<Boolean, String> colors = Map.of(
             false, "#D95B6699",
@@ -68,7 +74,8 @@ public class CursorBuildings extends Cursor {
         if (checkAvailable()) {
             int[] c = selected.get(0);
             if (checkBounds(c)) {
-                BuildingTileModel b = new Building(c[0], c[1], getTool());
+                BuildingTileModel b = buildings.get(getTool()).createBuilding();
+                b.setPosition(c[0],c[1]);
                 getBuildingField().setTile(b);
             }
         }

@@ -1,14 +1,14 @@
 package polis.components.playingfield.buildings.tiles;
 
-public class Building extends BuildingTileModel {
+public abstract class Building extends BuildingTileModel {
 
     private static final int[] capacities = new int[]{0, 0, 0, 0};
     private int level;
     private int occupancy;
     private int capacity;
 
-    public Building(int row, int column, String name) {
-        super(row, column, name, 2);
+    public Building(int row, int column, String name, String function) {
+        super(row, column, name, function, 2);
         level = 0;
         occupancy = 0;
         capacity = capacities[level];

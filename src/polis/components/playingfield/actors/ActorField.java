@@ -8,8 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.util.Duration;
 import polis.components.playingfield.actors.actor.Actor;
 import polis.components.playingfield.actors.actor.ActorView;
-import polis.components.playingfield.actors.actor.movers.Immigrant;
-import polis.components.playingfield.actors.actor.movers.MoverManager;
+import polis.components.playingfield.actors.actor.movers.*;
 import polis.components.playingfield.buildings.BuildingField;
 import polis.datatransferers.PendingActorView;
 
@@ -32,25 +31,25 @@ public class ActorField implements Observable {
         pending = null;
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(.5), this::act));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), this::act));
         timeline.play();
     }
 
     public void act(ActionEvent actionEvent) {
         for (ActorView actorView : actors) {
             actorView.getActor().act();
-        } System.out.println(actors.size());
-    }
+        }
+   }
 
     public PendingActorView getPending() {
         return pending;
     }
 
     public void newActor(int x, int y) {
-        Immigrant actor = new Immigrant(x,y,moverManager);
+        Cargo actor = new Cargo(x, y, moverManager);
         ActorView actorView = new ActorView(actor);
         actors.add(actorView);
-        pending = new PendingActorView(0,actorView);
+        pending = new PendingActorView(0, actorView);
         fireInvalidationEvent();
         pending = null;
     }
@@ -58,20 +57,28 @@ public class ActorField implements Observable {
     public void newActor(Actor actor) {
         ActorView actorView = new ActorView(actor);
         actors.add(actorView);
-        pending = new PendingActorView(0,actorView);
+        pending = new PendingActorView(0, actorView);
         fireInvalidationEvent();
     }
 
-    public void removeActor(Actor actor){
+    public void removeActor(Actor actor) {
         boolean found = false;
         int index = 0;
+        System.out.println(index);
         while (!found && index < actors.size()) {
             if (actors.get(index).getActor() == actor) {
-                pending = new PendingActorView(1,actors.get(index));
-                actors.remove(actors.get(index));
+                pending = new PendingActorView(1, actors.get(index));;
+                actors.remove(index);
                 found = true;
             }
-        } fireInvalidationEvent();
+            index += 1;
+        }
+        fireInvalidationEvent();
+    }
+
+    public void nextActorPhase(Actor previous, Actor next) {
+        newActor(next);
+        removeActor(previous);
     }
 
     public BuildingField getBuildingField() {

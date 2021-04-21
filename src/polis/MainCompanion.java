@@ -117,7 +117,7 @@ public class MainCompanion {
                 changeCursor(selectButton, 2, "select");
                 break;
             case A:
-                manager.getPlayingField().getActorField().newActor(0,15);
+                manager.getPlayingField().getActorField().newActor(0, 15);
         }
     }
 

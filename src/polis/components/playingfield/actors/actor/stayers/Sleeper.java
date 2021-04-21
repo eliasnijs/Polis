@@ -1,6 +1,6 @@
 package polis.components.playingfield.actors.actor.stayers;
 
-public class Sleeper extends Stayer{
+public class Sleeper extends Stayer {
 
     private static final String COLOR = "#000000";
 

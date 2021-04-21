@@ -7,19 +7,22 @@ import polis.datakeepers.FieldData;
 public abstract class BuildingTileModel extends TileModel {
 
     private final String name;
+    private final String function;
     private final int size;
     private Image image;
     private boolean destructible;
 
-    public BuildingTileModel(int row, int column, String name, int size) {
+    public BuildingTileModel(int row, int column, String name, String function, int size) {
         super(row, column);
+        this.function = function;
         this.image = FieldData.getImageLoader().getImage(name + "-0");
         this.name = name;
         this.size = size;
         destructible = true;
     }
 
-    public void Update() { }
+    public void Update() {
+    }
 
     public Image getImage() {
         return image;
@@ -28,6 +31,10 @@ public abstract class BuildingTileModel extends TileModel {
     public void setImage(String name) {
         this.image = FieldData.getImageLoader().getImage(name);
         fireInvalidationEvent();
+    }
+
+    public String getFunction() {
+        return function;
     }
 
     public String getName() {
@@ -46,5 +53,6 @@ public abstract class BuildingTileModel extends TileModel {
         this.destructible = destructible;
     }
 
-    public void setNeighbours(boolean[] adj) { }
+    public void setNeighbours(boolean[] adj) {
+    }
 }

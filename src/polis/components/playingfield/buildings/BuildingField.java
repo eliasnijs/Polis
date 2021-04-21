@@ -58,7 +58,7 @@ public class BuildingField implements Observable {
         ArrayList<int[]> locations = noise.getLocations();
         locations.removeIf(c -> c[1] == FieldData.getGridSize() / 2 - 1 && c[0] < FieldData.getGridSize() / 2);
         for (int[] c : locations) {
-            setTile(new Tree(c[0], c[1], "tree", 1));
+            setTile(new Tree(c[0], c[1]));
         }
     }
 
@@ -66,7 +66,8 @@ public class BuildingField implements Observable {
         int t = FieldData.getGridSize() / 2 - 1;
         for (int i = 0; i < FieldData.getGridSize() / 2 - 1; i += 1) {
             setTile(new Road(i, t, new boolean[]{true, false, true, false}, false));
-        }setTile(new Road(t, t, new boolean[]{true, false, false, false}, false));
+        }
+        setTile(new Road(t, t, new boolean[]{true, false, false, false}, false));
     }
 
     @Override

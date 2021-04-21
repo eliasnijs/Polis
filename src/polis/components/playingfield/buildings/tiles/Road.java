@@ -5,13 +5,13 @@ public class Road extends BuildingTileModel {
     private boolean[] neighbours;
 
     public Road(int row, int column, boolean[] neighbours) {
-        super(row, column, "road", 1);
+        super(row, column, "road","transport" ,1);
         this.neighbours = neighbours;
         Update();
     }
 
     public Road(int row, int column, boolean[] neighbours, boolean isDestructible) {
-        super(row, column, "road", 1);
+        super(row, column, "road", "transport", 1);
         this.neighbours = neighbours;
         setDestructible(isDestructible);
         Update();

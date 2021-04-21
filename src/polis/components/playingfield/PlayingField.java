@@ -11,7 +11,7 @@ public class PlayingField {
     private BuildingField buildingField;
     private final ActorField actorField;
 
-    public PlayingField(){
+    public PlayingField() {
         buildingField = new BuildingField();
         actorField = new ActorField(buildingField);
     }
@@ -34,7 +34,8 @@ public class PlayingField {
         view.getChildren().clear();
         if (isTrees) {
             buildingField.setStartupTrees(-.2f);
-        } buildingField.setStartupRoads();
+        }
+        buildingField.setStartupRoads();
     }
 
     public void setView(PlayingFieldView view) {

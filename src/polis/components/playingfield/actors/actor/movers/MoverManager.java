@@ -10,12 +10,12 @@ import polis.datakeepers.FieldData;
 
 public class MoverManager {
 
+    private final static int[] DC = {-1, 0, 1, 0};
+    private final static int[] DR = {0, -1, 0, 1};
     private final ActorField actorField;
     private final BuildingField buildingField;
-    private final static int[] DC = { -1, 0, 1, 0 };
-    private final static int[] DR = { 0, -1, 0, 1};
 
-    public MoverManager(ActorField actorField){
+    public MoverManager(ActorField actorField) {
         this.actorField = actorField;
         this.buildingField = actorField.getBuildingField();
     }
@@ -23,15 +23,21 @@ public class MoverManager {
     public boolean isRoad(int row, int column) {
         if (checkBounds(new int[]{row, column})) {
             BuildingTileView t = buildingField.getTiles()[row][column];
-            if (t != null) { return t.getModel().getName().equals("road"); }
-        } return false;
+            if (t != null) {
+                return t.getModel().getName().equals("road");
+            }
+        }
+        return false;
     }
 
-    public BuildingTileModel getBuilding(int row, int column, int direction){
+    public BuildingTileModel getBuilding(int row, int column, int direction) {
         if (checkBounds(new int[]{row + DR[direction], column + DC[direction]})) {
             BuildingTileView t = buildingField.getTiles()[row + DR[direction]][column + DC[direction]];
-            if (t != null) { return t.getModel(); }
-        } return null;
+            if (t != null) {
+                return t.getModel();
+            }
+        }
+        return null;
     }
 
     public boolean canMove(int row, int column, int direction) {
@@ -42,11 +48,8 @@ public class MoverManager {
         return (c[0] >= 0 && c[0] < FieldData.getGridSize() && c[1] >= 0 && c[1] < FieldData.getGridSize());
     }
 
-    public void destinationReached(Mover mover){
-        int[] pos = mover.getPosition();
-        Actor actor = new Sleeper(pos[0],pos[1]);
-        actorField.newActor(actor);
-        actorField.removeActor(mover);
+    public void destinationReached(Mover mover, Actor next) {
+        actorField.nextActorPhase(mover, next);
     }
 
 }

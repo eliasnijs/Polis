@@ -18,7 +18,6 @@ public abstract class Mover extends Actor {
     private final Random RG;
     private int direction;
 
-    // r = 0; f = 1; c = 2
     private final String destination;
 
     public Mover(int row, int column, MoverManager moverManager, String destination, String color) {
@@ -40,9 +39,9 @@ public abstract class Mover extends Actor {
     }
 
     public void act(){
-        checkSurrounding();
         changeDirection();
         move();
+        checkSurrounding();
     }
 
     public void move() {
@@ -58,7 +57,8 @@ public abstract class Mover extends Actor {
         while (! canMoveInDirection(newDirection)) {
             i ++;
             newDirection = (direction + diffs[t][i]) % 4;
-        } direction = newDirection;
+        }
+        direction = newDirection;
     }
 
     private boolean canMoveInDirection(int direction) {
@@ -68,24 +68,38 @@ public abstract class Mover extends Actor {
 
     private ArrayList<BuildingTileModel> surroundings(){
         ArrayList<BuildingTileModel> buildings = new ArrayList<>();
-        int checkDirection = 0;
-        while (checkDirection < 4){
+        int index = 0;
+        while (index < 4){
             int[] pos = getPosition();
-            BuildingTileModel b = moverManager.getBuilding(pos[0],pos[1],checkDirection);
+            BuildingTileModel b = moverManager.getBuilding(pos[0],pos[1],index);
             if (b != null) {
               buildings.add(b);
-            } checkDirection++;
+            }
+            index++;
         }
-        System.out.println(buildings);
         return buildings;
     }
 
-    public void checkSurrounding(){
-        for (BuildingTileModel building : surroundings()) {
-            if (building.getName().equals(destination)){
-                moverManager.destinationReached(this);
+    public void checkSurrounding() {
+        boolean found = false;
+        int index = 0;
+        ArrayList<BuildingTileModel> surroundings = surroundings();
+        while (!found && index < surroundings.size()) {
+            BuildingTileModel building = surroundings.get(index);
+            if (this.isDestinationReached(building)) {
+                moverManager.destinationReached(this, nextPhase());
+                found = true;
             }
+            index += 1;
         }
     }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public abstract Actor nextPhase();
+
+    public abstract boolean isDestinationReached(BuildingTileModel b);
 
 }

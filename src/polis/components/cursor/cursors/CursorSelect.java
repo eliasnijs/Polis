@@ -62,6 +62,7 @@ public class CursorSelect extends Cursor {
         return (c[0] >= 0 && c[0] < FieldData.getGridSize() && c[1] >= 0 && c[1] < FieldData.getGridSize());
     }
 
+    // :(
     public void bulldoze() {
         for (int[] c : selected) {
             if (!isAvailable(c)) {

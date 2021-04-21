@@ -6,7 +6,7 @@ public class Stayer extends Actor {
 
     private int time;
 
-    public Stayer(int row, int column, String color , int time) {
+    public Stayer(int row, int column, String color, int time) {
         super(row, column);
         this.time = time;
         setColor(color);
@@ -18,7 +18,7 @@ public class Stayer extends Actor {
         time0();
     }
 
-    public void time0(){
+    public void time0() {
         if (time == 0) {
             System.out.println("stayer is done");
         }

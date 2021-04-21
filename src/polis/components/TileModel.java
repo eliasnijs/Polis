@@ -11,12 +11,18 @@ public abstract class TileModel implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
-    private final int row;
-    private final int column;
+    private int row;
+    private int column;
 
     public TileModel(int row, int column) {
         this.row = row;
         this.column = column;
+    }
+
+    public void setPosition(int row, int column){
+        this.row = row;
+        this.column = column;
+        fireInvalidationEvent();
     }
 
     public int getRow() {

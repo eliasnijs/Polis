@@ -4,10 +4,10 @@ import polis.components.playingfield.actors.actor.Actor;
 import polis.components.playingfield.actors.actor.stayers.Sleeper;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
 
-public class Immigrant extends Mover{
+public class Shopper extends Mover {
 
-    public Immigrant(int row, int column, MoverManager moverManager) {
-        super(row, column, moverManager, "residence","#d2d2d2");
+    public Shopper(int row, int column, MoverManager moverManager) {
+        super(row, column, moverManager, "commerce","#FA4F4C");
     }
 
     @Override
@@ -17,8 +17,7 @@ public class Immigrant extends Mover{
 
     @Override
     public boolean isDestinationReached(BuildingTileModel b) {
-        return b.getFunction().equals(getDestination());
+        return b.getName().equals(getDestination());
     }
-
 
 }
