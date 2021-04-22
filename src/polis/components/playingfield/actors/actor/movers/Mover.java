@@ -1,6 +1,9 @@
 package polis.components.playingfield.actors.actor.movers;
 
+import polis.components.playingfield.actors.ActorField;
+import polis.components.playingfield.actors.MoverManager;
 import polis.components.playingfield.actors.actor.Actor;
+import polis.components.playingfield.actors.actor.stayers.Sleeper;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
 import polis.datakeepers.FieldData;
 
@@ -20,9 +23,9 @@ public abstract class Mover extends Actor {
 
     private final String destination;
 
-    public Mover(int row, int column, MoverManager moverManager, String destination, String color) {
-        super(row, column);
-        this.moverManager = moverManager;
+    public Mover(int row, int column, String destination, String color, String name, ActorField actorField) {
+        super(row, column, actorField, name);
+        this.moverManager = actorField.getMoverManager();
         this.destination = destination;
         setColor(color);
         direction = 0;
@@ -36,6 +39,12 @@ public abstract class Mover extends Actor {
         c[0] = c[0] + FieldData.getCellSize()/16*3 - DC[direction] * FieldData.getCellSize()/2;
         c[1] = c[1] + FieldData.getCellSize()/16*6 - DR[direction] * FieldData.getCellSize()/4;
         return c;
+    }
+
+    @Override
+    public void time0() {
+        Actor actor = new Sleeper(0,0,getActorField());
+        transitionToNextFase(actor);
     }
 
     public void act(){
@@ -87,7 +96,7 @@ public abstract class Mover extends Actor {
         while (!found && index < surroundings.size()) {
             BuildingTileModel building = surroundings.get(index);
             if (this.isDestinationReached(building)) {
-                moverManager.destinationReached(this, nextPhase());
+                getActorField().nextActorPhase(this, nextPhase());
                 found = true;
             }
             index += 1;
@@ -97,8 +106,6 @@ public abstract class Mover extends Actor {
     public String getDestination() {
         return destination;
     }
-
-    public abstract Actor nextPhase();
 
     public abstract boolean isDestinationReached(BuildingTileModel b);
 

@@ -1,18 +1,19 @@
 package polis.components.playingfield.actors.actor.movers;
 
+import polis.components.playingfield.actors.ActorField;
 import polis.components.playingfield.actors.actor.Actor;
 import polis.components.playingfield.actors.actor.stayers.Sleeper;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
 
-public class JobSeeker extends Mover{
+public class JobSeeker extends Mover {
 
-    public JobSeeker(int row, int column, MoverManager moverManager) {
-        super(row, column, moverManager, "job","#3A7AFA");
+    public JobSeeker(int row, int column, ActorField actorField) {
+        super(row, column, "job","#3A7AFA", "jobseeker",actorField);
     }
 
     @Override
     public Actor nextPhase() {
-        return new Sleeper(getPosition()[0],getPosition()[1]);
+        return new Sleeper(getPosition()[0],getPosition()[1], getActorField());
     }
 
     @Override

@@ -1,8 +1,5 @@
-package polis.components.playingfield.actors.actor.movers;
+package polis.components.playingfield.actors;
 
-import polis.components.playingfield.actors.ActorField;
-import polis.components.playingfield.actors.actor.Actor;
-import polis.components.playingfield.actors.actor.stayers.Sleeper;
 import polis.components.playingfield.buildings.BuildingField;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
 import polis.components.playingfield.buildings.tiles.BuildingTileView;
@@ -12,11 +9,9 @@ public class MoverManager {
 
     private final static int[] DC = {-1, 0, 1, 0};
     private final static int[] DR = {0, -1, 0, 1};
-    private final ActorField actorField;
     private final BuildingField buildingField;
 
     public MoverManager(ActorField actorField) {
-        this.actorField = actorField;
         this.buildingField = actorField.getBuildingField();
     }
 
@@ -46,10 +41,6 @@ public class MoverManager {
 
     public boolean checkBounds(int[] c) {
         return (c[0] >= 0 && c[0] < FieldData.getGridSize() && c[1] >= 0 && c[1] < FieldData.getGridSize());
-    }
-
-    public void destinationReached(Mover mover, Actor next) {
-        actorField.nextActorPhase(mover, next);
     }
 
 }
