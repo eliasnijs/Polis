@@ -24,6 +24,7 @@ public class Immigrant extends Mover {
     @Override
     public void time0() {
         getActorField().removeActor(this);
+        getActorField().getSimulator().slowDown();
     }
 
 }

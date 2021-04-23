@@ -17,6 +17,8 @@ public abstract class Actor implements Observable {
     private String color;
     private int[] position;
     private int age;
+    private int residentId;
+    private int[] baseCoords;
 
     public Actor(int row, int column, ActorField actorfield, String name) {
         position = new int[]{row, column};

@@ -21,4 +21,9 @@ public class Cargo extends Mover {
         return b.getName().equals(getDestination());
     }
 
+    @Override
+    public void time0() {
+        getActorField().removeActor(this);
+    }
+
 }

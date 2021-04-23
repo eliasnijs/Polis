@@ -1,14 +1,10 @@
 package polis.components.playingfield.actors;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.event.ActionEvent;
-import javafx.util.Duration;
 import polis.components.playingfield.actors.actor.Actor;
 import polis.components.playingfield.actors.actor.ActorView;
-import polis.components.playingfield.actors.actor.movers.Cargo;
+import polis.components.playingfield.actors.actor.movers.Immigrant;
 import polis.components.playingfield.buildings.BuildingField;
 import polis.datatransferers.PendingActorView;
 import polis.helpers.PropertyLoader;
@@ -25,20 +21,18 @@ public class ActorField implements Observable {
     private final BuildingField buildingField;
     private final MoverManager moverManager;
     private final PropertyLoader propertyLoader;
+    private final Simulator simulator;
 
     public ActorField(BuildingField buildingField) {
         this.buildingField = buildingField;
         this.moverManager = new MoverManager(this);
         propertyLoader = new PropertyLoader();
+        simulator = new Simulator(this);
         actors = new ArrayList<>();
         pending = null;
-        Timeline timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(.5), this::act));
-        timeline.play();
     }
 
-    public void act(ActionEvent actionEvent) {
+    public void act() {
         for (ActorView actorView : actors) {
             actorView.getActor().next();
         }
@@ -49,7 +43,7 @@ public class ActorField implements Observable {
     }
 
     public void newActor(int x, int y) {
-        Cargo actor = new Cargo(x, y, this);
+        Immigrant actor = new Immigrant(x, y, this);
         ActorView actorView = new ActorView(actor);
         actors.add(actorView);
         pending = new PendingActorView(0, actorView);
@@ -97,6 +91,10 @@ public class ActorField implements Observable {
 
     public ArrayList<ActorView> getActors() {
         return actors;
+    }
+
+    public Simulator getSimulator() {
+        return simulator;
     }
 
     @Override
