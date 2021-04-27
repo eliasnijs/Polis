@@ -18,4 +18,9 @@ public class Sleeper extends Stayer {
         return new JobSeeker(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
     }
 
+    @Override
+    public boolean homeExists(){
+        return getHome().getCapacity() >= getResidentId();
+    }
+
 }

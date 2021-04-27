@@ -18,7 +18,7 @@ public class Commerce extends Building {
         super(row, column, "commerce", "job", BuildingProperties.COMMERCE);
         PropertyLoader p = new PropertyLoader();
         goodsPerCustomer = Double.parseDouble(p.getProperty("engine","goods.per.customer"));
-        customersPerTrader = Double.parseDouble(p.getProperty("engine","customers.per.trader "));
+        customersPerTrader = Double.parseDouble(p.getProperty("engine","customers.per.trader"));
     }
 
     @Override

@@ -11,6 +11,7 @@ public class JobSeeker extends Mover {
 
     // true -> industryWorker; false -> commerceWorker;
     private boolean next;
+    private Building building;
 
     public JobSeeker(int row, int column, ActorField actorField, int[] coords, int id, Building home) {
         super(row, column, "job","#3A7AFA", "jobseeker",actorField, coords, id, home);
@@ -28,15 +29,15 @@ public class JobSeeker extends Mover {
     public Actor nextPhase() {
         getHome().factorCapacity(Double.parseDouble(
                 getActorField().getPropertyLoader().getProperty("engine","factor.job.found")));
-        return (next)? nextPhaseIndustry() : nextPhaseCommerce();
+        return (next)? nextPhaseCommerce() : nextPhaseIndustry();
     }
 
     public Actor nextPhaseIndustry() {
-       return new Worker(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
+       return new Worker(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), building);
     }
 
     public Actor nextPhaseCommerce() {
-        return new Trader(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
+        return new Trader(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), building);
     }
 
     @Override
@@ -44,6 +45,7 @@ public class JobSeeker extends Mover {
         next = b.getName().equals("commerce");
         if ((b.getName().equals("commerce") || b.getName().equals("industry")) && b.getOccupancy() < b.getCapacity()) {
             b.plusOccupancy();
+            building = (Building) b;
             return true;
         }
         return false;

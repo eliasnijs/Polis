@@ -11,9 +11,17 @@ public class Stayer extends Actor {
         setColor(color);
     }
 
+    public boolean homeExists(){
+        return true;
+    }
+
     @Override
     public void time0() {
-        transitionToNextFase(nextPhase());
+        if (homeExists()) {
+            transitionToNextFase(nextPhase());
+        } else {
+            getActorField().removeActor(this);
+        }
     }
 
     @Override
