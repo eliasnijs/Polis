@@ -14,4 +14,6 @@ public class Tree extends BuildingTileModel {
         return (int) (Math.random() * (amountOfOptions));
     }
 
+
+
 }

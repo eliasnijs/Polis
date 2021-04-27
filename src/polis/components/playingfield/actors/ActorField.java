@@ -33,7 +33,8 @@ public class ActorField implements Observable {
     }
 
     public void act() {
-        for (ActorView actorView : actors) {
+        ArrayList<ActorView> actorsTemp = new ArrayList<>(actors);
+        for (ActorView actorView : actorsTemp) {
             actorView.getActor().next();
         }
     }
@@ -60,7 +61,6 @@ public class ActorField implements Observable {
     public void removeActor(Actor actor) {
         boolean found = false;
         int index = 0;
-        System.out.println(index);
         while (!found && index < actors.size()) {
             if (actors.get(index).getActor() == actor) {
                 pending = new PendingActorView(1, actors.get(index));

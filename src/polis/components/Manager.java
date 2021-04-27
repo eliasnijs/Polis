@@ -8,7 +8,10 @@ import polis.components.cursor.cursors.CursorRoads;
 import polis.components.cursor.cursors.CursorSelect;
 import polis.components.playingfield.PlayingField;
 import polis.components.playingfield.PlayingFieldView;
+import polis.components.playingfield.actors.FrameLine;
 import polis.components.playingfield.buildings.BuildingField;
+import polis.uicomponents.Stats;
+import polis.uicomponents.StatsConstructor;
 
 import java.util.ArrayList;
 
@@ -22,6 +25,11 @@ public class Manager {
 
     private final CursorFieldView cursorView;
     private final PlayingFieldView playingFieldView;
+
+    private final Stats statsModel;
+    private final StatsConstructor statsConstructor;
+
+    private final FrameLine frameLine;
 
     public Manager() {
         ArrayList<int[]> selected = new ArrayList<>();
@@ -41,6 +49,11 @@ public class Manager {
         activeManager = cursors.get(2);
         cursorView.setModel(activeManager);
         activeManager.setTool("select");
+
+        statsModel = new Stats();
+        statsConstructor = new StatsConstructor(statsModel, playingField.getBuildingField());
+
+        frameLine = new FrameLine(playingField.getActorField().getSimulator(), statsConstructor);
     }
 
     public Cursor getActiveManager() {
@@ -62,9 +75,7 @@ public class Manager {
         cursorView.setModel(activeManager);
     }
 
-    public Cursor getManager(int i) {
-        return cursors.get(i);
-    }
+    public Cursor getManager(int i) { return cursors.get(i); }
 
     public CursorFieldView getCursorView() {
         return cursorView;
@@ -74,7 +85,11 @@ public class Manager {
         return playingFieldView;
     }
 
-    public PlayingField getPlayingField() {
-        return playingField;
+    public PlayingField getPlayingField() { return playingField; }
+
+    public Stats getStatsModel() {
+        return statsModel;
     }
+
+    public FrameLine getFrameLine() { return frameLine; }
 }

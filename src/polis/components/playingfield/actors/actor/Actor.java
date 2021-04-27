@@ -3,6 +3,7 @@ package polis.components.playingfield.actors.actor;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import polis.components.playingfield.actors.ActorField;
+import polis.components.playingfield.buildings.tiles.Building;
 import polis.helpers.GridCoordsConverter;
 
 import java.util.ArrayList;
@@ -19,12 +20,20 @@ public abstract class Actor implements Observable {
     private int age;
     private int residentId;
     private int[] baseCoords;
+    private Building home;
 
-    public Actor(int row, int column, ActorField actorfield, String name) {
+    public Actor(int row, int column, ActorField actorfield, String name, int[] coords, int id, Building home) {
         position = new int[]{row, column};
         color = "#ffffff";
+        this.baseCoords = coords;
+        this.residentId = id;
         this.actorField = actorfield;
         this.age = Integer.parseInt(actorfield.getPropertyLoader().getProperty("engine", name + ".age"));
+        this.home = home;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     public String getColor() {
@@ -59,6 +68,30 @@ public abstract class Actor implements Observable {
         if (age == 0) {
             time0();
         }
+    }
+
+    public Building getHome() {
+        return home;
+    }
+
+    public void setHome(Building home) {
+        this.home = home;
+    }
+
+    public int getResidentId() {
+        return residentId;
+    }
+
+    public void setResidentId(int residentId) {
+        this.residentId = residentId;
+    }
+
+    public int[] getBaseCoords() {
+        return baseCoords;
+    }
+
+    public void setBaseCoords(int[] baseCoords) {
+        this.baseCoords = baseCoords;
     }
 
     public void transitionToNextFase(Actor actor) {

@@ -89,7 +89,7 @@ public class CursorRoads extends Cursor {
         for (int[] c : selected) {
             if (isAvailable(c)) {
                 boolean[] adjacent = checkNeighbours(c[0], c[1]);
-                Road r = new Road(c[0], c[1], adjacent);
+                Road r = new Road(c[0], c[1], adjacent, true);
                 getBuildingField().setTile(r);
                 for (int i = 0; i < pos.size(); i++) {
                     int[] s = pos.get(i);

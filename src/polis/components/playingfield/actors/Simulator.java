@@ -1,9 +1,5 @@
 package polis.components.playingfield.actors;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.util.Duration;
 import polis.components.playingfield.actors.actor.Actor;
 import polis.components.playingfield.actors.actor.movers.Immigrant;
 import polis.datakeepers.FieldData;
@@ -23,6 +19,8 @@ public class Simulator {
     private double framesUntilNextSpawn;
     private double tempo;
 
+    private boolean spawn = false;
+
     private final Random RG;
 
 
@@ -38,23 +36,16 @@ public class Simulator {
         RG = new Random();
         tempo = initialRate;
         framesUntilNextSpawn();
-
-        initiateTimeline();
-    }
-
-    public void initiateTimeline() {
-        Timeline timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(.25), this::nextFrame));
-        timeline.play();
     }
 
     public void spawn() {
-        Actor actor = new Immigrant(0, FieldData.getGridSize() / 2 - 1, actorField);
-        actorField.newActor(actor);
+        if (spawn) {
+            Actor actor = new Immigrant(0, FieldData.getGridSize() / 2 - 1, actorField);
+            actorField.newActor(actor);
+        }
     }
 
-    public void nextFrame(ActionEvent actionEvent) {
+    public void nextFrame() {
         actorField.act();
         framesUntilNextSpawn -= 1;
         recovery();
@@ -64,17 +55,16 @@ public class Simulator {
         }
     }
 
-    public void recovery() {
-        tempo = Math.max(tempo * recoveryFactor, initialRate);
-    }
+    public void recovery() { tempo = Math.max(tempo * recoveryFactor, initialRate); }
 
     public void slowDown() {
         tempo = Math.min(tempo * slowDownFactor, slowestRate);
-        System.out.println("tempo " + tempo);
     }
 
-    public void framesUntilNextSpawn() {
-        framesUntilNextSpawn = RG.nextInt((int) tempo);
+    public void framesUntilNextSpawn() { framesUntilNextSpawn = RG.nextInt((int) tempo); }
+
+    public void setSpawn(boolean spawn) {
+        this.spawn = spawn;
     }
 
 }

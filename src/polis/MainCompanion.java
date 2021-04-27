@@ -11,6 +11,7 @@ import polis.datakeepers.FieldData;
 import polis.helpers.HelperPoly;
 import polis.other.Background;
 import polis.other.MusicPlayer;
+import polis.uicomponents.StatsPanel;
 import prog2.util.Viewport;
 
 public class MainCompanion {
@@ -24,9 +25,10 @@ public class MainCompanion {
     public Button bulldozerButton;
     public Button selectButton;
     public Button soundButton;
-    public Button playButton;
+    public ToggleButton playButton;
     public ToggleButton treeButton;
     public StackPane main;
+    public StatsPanel statsPanel;
 
     public Button activeButton;
     private Manager manager;
@@ -40,6 +42,8 @@ public class MainCompanion {
         this.manager = new Manager();
         manager.getPlayingField().setStartupTiles(treeButton.isSelected());
         setActiveButton(selectButton);
+
+        statsPanel.setModel(manager.getStatsModel());
 
         StackPane field = new StackPane(
                 manager.getPlayingFieldView(),
@@ -135,6 +139,8 @@ public class MainCompanion {
             case "mute":
                 muteMusicPlayer();
                 break;
+            case "play":
+                manager.getFrameLine().play(playButton.isSelected());
         }
         viewport.requestFocus();
     }

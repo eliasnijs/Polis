@@ -2,25 +2,27 @@ package polis.components.playingfield.buildings;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import polis.components.playingfield.buildings.tiles.BuildingTileModel;
-import polis.components.playingfield.buildings.tiles.BuildingTileView;
-import polis.components.playingfield.buildings.tiles.Road;
-import polis.components.playingfield.buildings.tiles.Tree;
+import polis.components.playingfield.buildings.tiles.*;
 import polis.datakeepers.FieldData;
 import polis.datatransferers.PendingBuildingTileView;
+import polis.helpers.PropertyLoader;
 import polis.other.Noise;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class BuildingField implements Observable {
 
+    private final PropertyLoader propertyLoader;
     private final List<InvalidationListener> listenerList = new ArrayList<>();
     private final BuildingTileView[][] tiles;
     private PendingBuildingTileView pending;
 
     public BuildingField() {
+        propertyLoader = new PropertyLoader();
         tiles = new BuildingTileView[FieldData.getGridSize()][FieldData.getGridSize()];
+
     }
 
     public BuildingTileView[][] getTiles() {
@@ -53,6 +55,20 @@ public class BuildingField implements Observable {
         pending = null;
     }
 
+    public HashSet<Building> getBuildingTilesArray(){
+        HashSet<Building> tilesArray = new HashSet<>();
+        for (BuildingTileView[] row : tiles) {
+            for (BuildingTileView tile : row) {
+                if (tile != null) {
+                    if (tile.getModel().getSize() == 2) {
+                        tilesArray.add((Building) tile.getModel());
+                    }
+                }
+            }
+        }
+        return tilesArray;
+    }
+
     public void setStartupTrees(float roughness) {
         Noise noise = new Noise(null, roughness, FieldData.getGridSize(), FieldData.getGridSize());
         ArrayList<int[]> locations = noise.getLocations();
@@ -68,6 +84,10 @@ public class BuildingField implements Observable {
             setTile(new Road(i, t, new boolean[]{true, false, true, false}, false));
         }
         setTile(new Road(t, t, new boolean[]{true, false, false, false}, false));
+    }
+
+    public PropertyLoader getPropertyLoader() {
+        return propertyLoader;
     }
 
     @Override

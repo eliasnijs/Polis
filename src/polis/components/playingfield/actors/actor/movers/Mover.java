@@ -4,6 +4,7 @@ import polis.components.playingfield.actors.ActorField;
 import polis.components.playingfield.actors.MoverManager;
 import polis.components.playingfield.actors.actor.Actor;
 import polis.components.playingfield.actors.actor.stayers.Sleeper;
+import polis.components.playingfield.buildings.tiles.Building;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
 import polis.datakeepers.FieldData;
 
@@ -23,8 +24,8 @@ public abstract class Mover extends Actor {
 
     private final String destination;
 
-    public Mover(int row, int column, String destination, String color, String name, ActorField actorField) {
-        super(row, column, actorField, name);
+    public Mover(int row, int column, String destination, String color, String name, ActorField actorField, int[] coords, int id, Building home) {
+        super(row, column, actorField, name, coords, id, home);
         this.moverManager = actorField.getMoverManager();
         this.destination = destination;
         setColor(color);
@@ -43,7 +44,7 @@ public abstract class Mover extends Actor {
 
     @Override
     public void time0() {
-        Actor actor = new Sleeper(0,0,getActorField());
+        Actor actor = new Sleeper(getBaseCoords()[0],getBaseCoords()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
         transitionToNextFase(actor);
     }
 
@@ -82,7 +83,7 @@ public abstract class Mover extends Actor {
             int[] pos = getPosition();
             BuildingTileModel b = moverManager.getBuilding(pos[0],pos[1],index);
             if (b != null) {
-              buildings.add(b);
+                buildings.add(b);
             }
             index++;
         }

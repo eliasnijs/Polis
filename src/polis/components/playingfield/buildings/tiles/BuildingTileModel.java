@@ -53,6 +53,14 @@ public abstract class BuildingTileModel extends TileModel {
         this.destructible = destructible;
     }
 
-    public void setNeighbours(boolean[] adj) {
-    }
+    public void setNeighbours(boolean[] adj){}
+
+    public double getCapacity() { return 0; }
+
+    public int getOccupancy() { return 0; }
+
+    public void plusOccupancy(){}
+
+    public void minOccupancy(){}
+
 }
