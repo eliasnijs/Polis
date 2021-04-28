@@ -8,10 +8,9 @@ import java.util.Properties;
 
 public class PropertyLoader {
 
-    private final Map<String, Properties> map;
+    private static final Map<String, Properties> map = new HashMap<>();
 
     public PropertyLoader(){
-        map = new HashMap<>();
         loadProperties("engine");
         loadProperties("levels");
     }
@@ -27,7 +26,7 @@ public class PropertyLoader {
         map.put(name,properties);
     }
 
-    public String getProperty(String file, String name){
+    public static String getProperty(String file, String name){
         return map.get(file).getProperty(name);
     }
 

@@ -5,30 +5,40 @@ import polis.components.playingfield.actors.actor.Actor;
 import polis.components.playingfield.actors.actor.stayers.Customer;
 import polis.components.playingfield.buildings.tiles.Building;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
+import polis.components.playingfield.buildings.tiles.buildings.Commerce;
+import polis.helpers.PropertyLoader;
 
 public class Shopper extends Mover {
 
+    private Commerce shop;
+
     public Shopper(int row, int column, ActorField actorField, int[] coords, int id, Building home) {
-        super(row, column, "commerce","#FA4F4C", "shopper", actorField, coords, id, home);
+        super(row, column, "commerce","#3A7AFA", "shopper", actorField, coords, id, home);
     }
 
     @Override
     public void time0() {
         super.time0();
         getHome().factorCapacity(Double.parseDouble(
-                getActorField().getPropertyLoader().getProperty("engine","factor.shop.not.found")));
+                PropertyLoader.getProperty("engine","factor.shop.not.found")));
     }
 
     @Override
     public Actor nextPhase() {
         getHome().factorCapacity(Double.parseDouble(
-                getActorField().getPropertyLoader().getProperty("engine","factor.shop.found")));
-        return new Customer(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
+                PropertyLoader.getProperty("engine","factor.shop.found")));
+        shop.plusOccupancy();
+        return new Customer(
+                getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), shop);
     }
 
     @Override
     public boolean isDestinationReached(BuildingTileModel b) {
-        return b.getName().equals(getDestination()) && b.getOccupancy() < b.getCapacity();
+        if (b.getName().equals(getDestination())) {
+            shop = (Commerce) b;
+            return shop.getGoods() > shop.getOccupancy() && shop.getOccupancy() < shop.getJobs() * 3;
+        }
+        return false;
     }
 
 }

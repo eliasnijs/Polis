@@ -2,10 +2,12 @@ package polis.uicomponents;
 
 import polis.components.playingfield.buildings.BuildingField;
 import polis.components.playingfield.buildings.tiles.Building;
+import polis.components.playingfield.buildings.tiles.BuildingTileView;
+import polis.components.playingfield.buildings.tiles.buildings.Commerce;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
+
+import static java.lang.Math.ceil;
 
 public class StatsConstructor {
 
@@ -21,46 +23,74 @@ public class StatsConstructor {
         Update();
     }
 
-    public String setTime(){
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-        Date date = new Date();
-        return formatter.format(date);
+    public boolean checkValidity(BuildingTileView view){
+        if (view != null) {
+            return view.getModel() instanceof Building;
+        }  return false;
+    }
+
+    public void importBuilding(BuildingTileView view) {
+        building = null;
+        if (checkValidity(view)) {
+            building = (Building) view.getModel();
+        }
     }
 
     public void Update() {
-        model.setTime(setTime());
         if (building == null) {
+            model.setLocation("General");
             generalStats();
         } else {
+            model.setLocation(building.getName().toUpperCase()
+                    + "(" + building.getRow() + "x" + building.getColumn() + ")");
             tileStats();
         }
     }
 
-    public void generalStats(){
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public void generalStats() {
         model.reset();
         HashSet<Building> buildings = buildingField.getBuildingTilesArray();
         for (Building b : buildings) {
-            if (b.getName().equals("residence")) {
-                model.setBewoners(b.getOccupancy(),b.getCapacity());
-            } else if (b.getName().equals("industry") || b.getName().equals("commerce")) {
-                model.setJobs(b.getOccupancy(),b.getCapacity());
-            }
+            updateStats(b);
         }
     }
 
-    public void tileStats(){
+    public void tileStats() {
+        model.reset();
+        updateStats(building);
     }
 
-    public void residence(){
-
+    private void updateStats(Building building) {
+        switch (building.getName()) {
+            case "residence":
+                residence(building);
+                break;
+            case "industry":
+                industry(building);
+                break;
+            case "commerce":
+                commerce(building);
+                break;
+        }
     }
 
-    public void commerce(){
-
+    public void residence(Building b) {
+        model.addBewoners(b.getOccupancy(), b.getCapacity());
     }
 
-    public void industry(){
+    public void industry(Building b) {
+        model.addJobs(b.getOccupancy(), b.getCapacity());
+    }
 
+    public void commerce(Building b) {
+        Commerce shop = (Commerce) b;
+        model.addKlanten(shop.getOccupancy(), shop.getCapacity());
+        model.addGoederen(shop.getGoods(), shop.getGoodsCapacity());
+        model.addJobs(shop.getJobs(), ceil(shop.getJobsCapacity()));
     }
 
 }

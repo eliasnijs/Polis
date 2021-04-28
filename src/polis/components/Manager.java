@@ -75,7 +75,9 @@ public class Manager {
         cursorView.setModel(activeManager);
     }
 
-    public Cursor getManager(int i) { return cursors.get(i); }
+    public Cursor getManager(int i) {
+        return cursors.get(i);
+    }
 
     public CursorFieldView getCursorView() {
         return cursorView;
@@ -85,11 +87,19 @@ public class Manager {
         return playingFieldView;
     }
 
-    public PlayingField getPlayingField() { return playingField; }
+    public PlayingField getPlayingField() {
+        return playingField;
+    }
 
     public Stats getStatsModel() {
         return statsModel;
     }
 
-    public FrameLine getFrameLine() { return frameLine; }
+    public StatsConstructor getStatsConstructor() {
+        return statsConstructor;
+    }
+
+    public FrameLine getFrameLine() {
+        return frameLine;
+    }
 }

@@ -11,23 +11,69 @@ public class Commerce extends Building {
     private double jobs;
     private double jobsCapacity;
 
-    private double customersPerTrader;
-    private double goodsPerCustomer;
+    private final double customersPerTrader;
+    private final double goodsPerCustomer;
+
+    private final double goodTrade;
+    private final double badTrade;
 
     public Commerce(int row, int column) {
         super(row, column, "commerce", "job", BuildingProperties.COMMERCE);
         PropertyLoader p = new PropertyLoader();
-        goodsPerCustomer = Double.parseDouble(p.getProperty("engine","goods.per.customer"));
-        customersPerTrader = Double.parseDouble(p.getProperty("engine","customers.per.trader"));
+        goodsPerCustomer = Double.parseDouble(PropertyLoader.getProperty("engine", "goods.per.customer"));
+        customersPerTrader = Double.parseDouble(PropertyLoader.getProperty("engine", "customers.per.trader"));
+        goodTrade = Double.parseDouble(PropertyLoader.getProperty("engine", "factor.good.trade"));
+        badTrade = Double.parseDouble(PropertyLoader.getProperty("engine", "factor.bad.trade"));
+        updateCapacities();
     }
 
     @Override
     public void Update() {
         super.Update();
-        setCapacity(Math.min(jobsCapacity*customersPerTrader + 1, goods));
+        updateCapacities();
+        goodTrade();
+    }
+
+    public void updateCapacities() {
         jobsCapacity = getCapacity() / customersPerTrader;
         goodsCapacity = getCapacity() * goodsPerCustomer;
     }
 
+    public void goodTrade() {
+        if (getCapacity() == getOccupancy()) {
+            factorCapacity(goodTrade);
+        }
+    }
+
+    public void badTrade() {
+        factorCapacity(badTrade);
+        Update();
+    }
+
+    public double getGoods() {
+        return goods;
+    }
+
+    public double getGoodsCapacity() {
+        return goodsCapacity;
+    }
+
+    public double getJobs() {
+        return jobs;
+    }
+
+    public double getJobsCapacity() {
+        return jobsCapacity;
+    }
+
+    public void addGoods(int amount) {
+        goods += amount;
+        Update();
+    }
+
+    public void addJobs(int amount) {
+        jobs += amount;
+        Update();
+    }
 
 }

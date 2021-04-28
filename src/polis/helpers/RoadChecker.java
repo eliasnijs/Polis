@@ -9,18 +9,12 @@ import java.util.Collections;
 
 public class RoadChecker {
 
-    private final BuildingField buildingField;
-    private final ArrayList<int[]> pos;
+    private static final ArrayList<int[]> pos = new ArrayList<>();
 
-    public RoadChecker(BuildingField buildingField) {
-        this.buildingField = buildingField;
-        this.pos = new ArrayList<>();
-        Collections.addAll(pos, new int[]{-1, 0}, new int[]{0, 1}, new int[]{1, 0}, new int[]{0, -1});
-    }
-
-    public boolean[] check (int row, int column) {
+    public static boolean[] checkRoadNeighbours(BuildingField buildingField, int row, int column) {
         boolean[] check = new boolean[]{false, false, false, false};
         BuildingTileView[][] tiles = buildingField.getTiles();
+        Collections.addAll(pos, new int[]{-1, 0}, new int[]{0, 1}, new int[]{1, 0}, new int[]{0, -1});
         for (int i = 0; i < 4; i++) {
             int[] s = pos.get(i);
             if(bounds(row+s[0],column+s[1])){
@@ -32,7 +26,7 @@ public class RoadChecker {
         } return check;
     }
 
-    public boolean bounds(int r, int c) {
+    public static boolean bounds(int r, int c) {
         return (r >= 0 && r < FieldData.getGridSize() && c >= 0 && c < FieldData.getGridSize());
     }
 

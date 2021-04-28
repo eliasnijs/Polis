@@ -5,6 +5,7 @@ import javafx.beans.Observable;
 import polis.components.playingfield.actors.ActorField;
 import polis.components.playingfield.buildings.tiles.Building;
 import polis.helpers.GridCoordsConverter;
+import polis.helpers.PropertyLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public abstract class Actor implements Observable {
         this.baseCoords = coords;
         this.residentId = id;
         this.actorField = actorfield;
-        this.age = Integer.parseInt(actorfield.getPropertyLoader().getProperty("engine", name + ".age"));
+        this.age = Integer.parseInt(PropertyLoader.getProperty("engine", name + ".age"));
         this.home = home;
     }
 

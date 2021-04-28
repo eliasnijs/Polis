@@ -8,8 +8,8 @@ import polis.uicomponents.StatsConstructor;
 
 public class FrameLine {
 
-    private Simulator simulator;
-    private StatsConstructor statsConstructor;
+    private final Simulator simulator;
+    private final StatsConstructor statsConstructor;
 
     private Timeline timeline;
 
@@ -23,7 +23,6 @@ public class FrameLine {
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(.5), this::nextFrame));
-        timeline.play();
     }
 
     public void nextFrame(ActionEvent actionEvent){
@@ -32,7 +31,10 @@ public class FrameLine {
     }
 
     public void play(boolean selected){
-        simulator.setSpawn(selected);
+        timeline.stop();
+        if (selected) {
+            timeline.play();
+        }
     }
 
 }

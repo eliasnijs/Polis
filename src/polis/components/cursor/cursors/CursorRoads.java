@@ -3,10 +3,10 @@ package polis.components.cursor.cursors;
 import polis.components.cursor.CursorField;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.playingfield.buildings.BuildingField;
-import polis.components.playingfield.buildings.tiles.BuildingTileView;
 import polis.components.playingfield.buildings.tiles.Road;
 import polis.datakeepers.FieldData;
 import polis.helpers.GridCoordsConverter;
+import polis.helpers.RoadChecker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +60,16 @@ public class CursorRoads extends Cursor {
         }
     }
 
+    @Override
+    public void drag(double x, double y) {
+        int[] c = GridCoordsConverter.coordsToGrid(x, y);
+        if (startOfDrag != null) {
+            clearSelectedTiles();
+            selectDragTiles(c[0], c[1]);
+            colorSelectedTiles();
+        }
+    }
+
     public void selectDragTiles(int x, int y) {
         int t = (startOfDrag[1] > y) ? -1 : 1;
         int i = startOfDrag[1];
@@ -75,47 +85,24 @@ public class CursorRoads extends Cursor {
         }
     }
 
-    @Override
-    public void drag(double x, double y) {
-        int[] c = GridCoordsConverter.coordsToGrid(x, y);
-        if (startOfDrag != null) {
-            clearSelectedTiles();
-            selectDragTiles(c[0], c[1]);
-            colorSelectedTiles();
-        }
-    }
-
     public void placeTiles() {
         for (int[] c : selected) {
             if (isAvailable(c)) {
-                boolean[] adjacent = checkNeighbours(c[0], c[1]);
-                Road r = new Road(c[0], c[1], adjacent, true);
-                getBuildingField().setTile(r);
-                for (int i = 0; i < pos.size(); i++) {
-                    int[] s = pos.get(i);
-                    if (adjacent[i]) {
-                        boolean[] adj = checkNeighbours(c[0] + s[0], c[1] + s[1]);
-                        getBuildingField().getTiles()[c[0] + s[0]][c[1] + s[1]].getModel().setNeighbours(adj);
-                    }
-                }
+                boolean[] adjacent = RoadChecker.checkRoadNeighbours(getBuildingField(),c[0],c[1]);
+                getBuildingField().setTile(new Road(c[0], c[1], adjacent, true));
+                updateRemainingRoads(adjacent, c);
             }
         }
     }
 
-    public boolean[] checkNeighbours(int row, int column) {
-        boolean[] neighbours = new boolean[]{false, false, false, false};
-        for (int i = 0; i < 4; i++) {
-            int[] c = pos.get(i);
-            if (checkBounds(new int[]{row + c[0], column + c[1]})) {
-                BuildingTileView t = getBuildingField().getTiles()[row + c[0]][column + c[1]];
-                if (t != null) {
-                    if (t.getModel().getName().equals("road")) {
-                        neighbours[i] = true;
-                    }
-                }
+    public void updateRemainingRoads(boolean[] adjacent, int[] c){
+        for (int i = 0; i < pos.size(); i++) {
+            int[] s = pos.get(i);
+            if (adjacent[i]) {
+                boolean[] adj = RoadChecker.checkRoadNeighbours(getBuildingField(), c[0] + s[0], c[1] + s[1]);
+                getBuildingField().getTiles()[c[0] + s[0]][c[1] + s[1]].getModel().setNeighbours(adj);
             }
         }
-        return neighbours;
     }
 
 }

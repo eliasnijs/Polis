@@ -7,6 +7,7 @@ import polis.components.playingfield.buildings.BuildingField;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
 import polis.components.playingfield.buildings.tiles.BuildingTileView;
 import polis.datakeepers.FieldData;
+import polis.helpers.RoadChecker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,14 +82,13 @@ public class CursorSelect extends Cursor {
                     }
                     getBuildingField().getTiles()[c[0]][c[1]] = null;
                     if (m.getName().equals("road")) {
-                        CursorRoads roads = (CursorRoads) manager.getManager(1);
-                        boolean[] adjacent = roads.checkNeighbours(c[0], c[1]);
+                        boolean[] adjacent = RoadChecker.checkRoadNeighbours(getBuildingField(),c[0],c[1]);
                         ArrayList<int[]> pos = new ArrayList<>();
-                        Collections.addAll(pos, new int[]{-1, 0}, new int[]{0, 1}, new int[]{1, 0}, new int[]{0, -1});
+                        Collections.addAll(pos, new int[]{-1 , 0}, new int[]{0, 1}, new int[]{1, 0}, new int[]{0, -1});
                         for (int i = 0; i < pos.size(); i++) {
                             int[] s = pos.get(i);
                             if (adjacent[i]) {
-                                boolean[] adj = roads.checkNeighbours(c[0] + s[0], c[1] + s[1]);
+                                boolean[] adj = RoadChecker.checkRoadNeighbours(getBuildingField(), c[0] + s[0], c[1] + s[1]);
                                 getBuildingField().getTiles()[c[0] + s[0]][c[1] + s[1]].getModel().setNeighbours(adj);
                             }
                         }
@@ -99,11 +99,11 @@ public class CursorSelect extends Cursor {
     }
 
     public void select() {
-        for (int[] c : selected) {
+        if (selected.size() > 0) {
+            int[] c = selected.get(0);
             BuildingTileView view = getBuildingField().getTiles()[c[0]][c[1]];
-            if (view != null) {
-                view.getModel().Update();
-            }
+            manager.getStatsConstructor().importBuilding(view);
+            manager.getStatsConstructor().Update();
         }
     }
 

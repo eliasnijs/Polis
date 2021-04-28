@@ -4,6 +4,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import polis.datakeepers.FieldData;
 
 public class ActorView extends Circle implements InvalidationListener {
 
@@ -12,7 +13,7 @@ public class ActorView extends Circle implements InvalidationListener {
     public ActorView(Actor actor) {
         this.actor = actor;
         actor.addListener(this);
-        setRadius(10);
+        setRadius(FieldData.getCellSize()/6.0);
         Update();
     }
 

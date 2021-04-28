@@ -3,18 +3,22 @@ package polis.components.playingfield.actors.actor.stayers;
 import polis.components.playingfield.actors.ActorField;
 import polis.components.playingfield.actors.actor.Actor;
 import polis.components.playingfield.buildings.tiles.Building;
+import polis.components.playingfield.buildings.tiles.buildings.Commerce;
 
 public class Customer extends Stayer {
 
-    private static final String COLOR = "#000000";
+    private final Commerce shop;
 
-    public Customer(int row, int column, ActorField actorField, int[] coords, int id, Building home) {
-        super(row, column, COLOR, "customer", actorField, coords, id, home);
+    public Customer(int row, int column, ActorField actorField, int[] coords, int id, Building home, Commerce shop) {
+        super(row, column, "customer", actorField, coords, id, home);
+        this.shop = shop;
     }
 
     @Override
     public Actor nextPhase() {
-        return new Sleeper(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
+        shop.minOccupancy();
+        shop.addGoods(-1);
+        return new Sleeper(getBaseCoords()[0],getBaseCoords()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
     }
 
 }

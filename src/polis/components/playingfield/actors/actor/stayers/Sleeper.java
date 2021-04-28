@@ -7,10 +7,8 @@ import polis.components.playingfield.buildings.tiles.Building;
 
 public class Sleeper extends Stayer {
 
-    private static final String COLOR = "#000000";
-
     public Sleeper(int row, int column, ActorField actorField, int[] coords, int id, Building home) {
-        super(row, column, COLOR, "sleeper", actorField, coords, id, home);
+        super(row, column, "sleeper", actorField, coords, id, home);
     }
 
     @Override
@@ -19,8 +17,13 @@ public class Sleeper extends Stayer {
     }
 
     @Override
-    public boolean homeExists(){
-        return getHome().getCapacity() >= getResidentId();
+    public void time0() {
+        if (getResidentId() <= getHome().getCapacity()) {
+            transitionToNextFase(nextPhase());
+        } else {
+            getHome().minOccupancy();
+            getActorField().removeActor(this);
+        }
     }
 
 }

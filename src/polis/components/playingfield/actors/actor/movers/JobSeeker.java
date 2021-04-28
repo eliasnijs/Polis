@@ -6,15 +6,18 @@ import polis.components.playingfield.actors.actor.stayers.Trader;
 import polis.components.playingfield.actors.actor.stayers.Worker;
 import polis.components.playingfield.buildings.tiles.Building;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
+import polis.components.playingfield.buildings.tiles.buildings.Commerce;
+import polis.components.playingfield.buildings.tiles.buildings.Industry;
+import polis.helpers.PropertyLoader;
 
 public class JobSeeker extends Mover {
 
     // true -> industryWorker; false -> commerceWorker;
     private boolean next;
-    private Building building;
+    private BuildingTileModel building;
 
     public JobSeeker(int row, int column, ActorField actorField, int[] coords, int id, Building home) {
-        super(row, column, "job","#3A7AFA", "jobseeker",actorField, coords, id, home);
+        super(row, column, "job","#FA4F4C", "jobseeker",actorField, coords, id, home);
         next = false;
     }
 
@@ -22,31 +25,39 @@ public class JobSeeker extends Mover {
     public void time0() {
         super.time0();
         getHome().factorCapacity(Double.parseDouble(
-                getActorField().getPropertyLoader().getProperty("engine","factor.job.not.found")));
+                PropertyLoader.getProperty("engine","factor.job.not.found")));
     }
 
     @Override
     public Actor nextPhase() {
         getHome().factorCapacity(Double.parseDouble(
-                getActorField().getPropertyLoader().getProperty("engine","factor.job.found")));
+                PropertyLoader.getProperty("engine","factor.job.found")));
         return (next)? nextPhaseCommerce() : nextPhaseIndustry();
     }
 
     public Actor nextPhaseIndustry() {
-       return new Worker(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), building);
+        Industry industry = (Industry) building;
+        building.plusOccupancy();
+        return new Worker(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), industry);
     }
 
     public Actor nextPhaseCommerce() {
-        return new Trader(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), building);
+        Commerce shop = (Commerce) building;
+        shop.addJobs(1);
+        return new Trader(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), shop);
     }
 
     @Override
     public boolean isDestinationReached(BuildingTileModel b) {
-        next = b.getName().equals("commerce");
-        if ((b.getName().equals("commerce") || b.getName().equals("industry")) && b.getOccupancy() < b.getCapacity()) {
-            b.plusOccupancy();
-            building = (Building) b;
-            return true;
+        building = b;
+        if (b.getName().equals("commerce")) {
+            Commerce c = (Commerce) b;
+            next = c.getJobs() < Math.ceil(c.getJobsCapacity());
+            if (!next) {c.badTrade();}
+            return next;
+        }
+        if (b.getName().equals("industry")) {
+            return b.getOccupancy() < b.getCapacity();
         }
         return false;
     }

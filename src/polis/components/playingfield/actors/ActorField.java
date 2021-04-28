@@ -7,7 +7,6 @@ import polis.components.playingfield.actors.actor.ActorView;
 import polis.components.playingfield.actors.actor.movers.Immigrant;
 import polis.components.playingfield.buildings.BuildingField;
 import polis.datatransferers.PendingActorView;
-import polis.helpers.PropertyLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +19,11 @@ public class ActorField implements Observable {
     private PendingActorView pending;
     private final BuildingField buildingField;
     private final MoverManager moverManager;
-    private final PropertyLoader propertyLoader;
     private final Simulator simulator;
 
     public ActorField(BuildingField buildingField) {
         this.buildingField = buildingField;
         this.moverManager = new MoverManager(this);
-        propertyLoader = new PropertyLoader();
         simulator = new Simulator(this);
         actors = new ArrayList<>();
         pending = null;
@@ -79,10 +76,6 @@ public class ActorField implements Observable {
 
     public MoverManager getMoverManager() {
         return moverManager;
-    }
-
-    public PropertyLoader getPropertyLoader() {
-        return propertyLoader;
     }
 
     public BuildingField getBuildingField() {

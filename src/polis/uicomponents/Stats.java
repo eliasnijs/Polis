@@ -10,72 +10,69 @@ public class Stats implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
 
-    private String time;
+    private String location;
     private String name;
 
-    private double[] bewoners;
-    private double[] jobs;
-    private double[] goederen;
-    private double[] klanten;
+    private int[] bewoners;
+    private int[] jobs;
+    private int[] goederen;
+    private int[] klanten;
 
     public Stats() {
-        time = "00:00";
+        location = "General";
         name = "STATISTIEKEN";
-        this.bewoners = new double[]{0,0};
-        this.jobs = new double[]{0,0};
-        this.goederen = new double[]{0,0};
-        this.klanten = new double[]{0,0};
+        reset();
     }
 
     public void reset(){
-        this.bewoners = new double[]{0,0};
-        this.jobs = new double[]{0,0};
-        this.goederen = new double[]{0,0};
-        this.klanten = new double[]{0,0};
+        this.bewoners = new int[]{0,0};
+        this.jobs = new int[]{0,0};
+        this.goederen = new int[]{0,0};
+        this.klanten = new int[]{0,0};
     }
 
-    public double[] getBewoners() {
+    public int[] getBewoners() {
         return bewoners;
     }
 
-    public void setBewoners(double occ, double cap) {
+    public void addBewoners(double occ, double cap) {
         bewoners[0] += occ; bewoners[1] += cap;
         fireInvalidationEvent();
     }
 
-    public double[] getJobs() {
+    public int[] getJobs() {
         return jobs;
     }
 
-    public void setJobs(double occ, double cap) {
+    public void addJobs(double occ, double cap) {
         jobs[0] += occ; jobs[1] += cap;
         fireInvalidationEvent();
     }
 
-    public double[] getGoederen() {
+    public int[] getGoederen() {
         return goederen;
     }
 
-    public void setGoederen(double[] goederen) {
-        this.goederen = goederen;
+    public void addGoederen(double occ, double cap) {
+        goederen[0] += occ; goederen[1] += cap;
         fireInvalidationEvent();
     }
 
-    public double[] getKlanten() {
+    public int[] getKlanten() {
         return klanten;
     }
 
-    public void setKlanten(double[] klanten) {
-        this.klanten = klanten;
+    public void addKlanten(double occ, double cap) {
+        klanten[0] += occ; klanten[1] += cap;
         fireInvalidationEvent();
     }
 
-    public String getTime() {
-        return time;
+    public String getLocation() {
+        return location;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setLocation(String location) {
+        this.location = location;
         fireInvalidationEvent();
     }
 

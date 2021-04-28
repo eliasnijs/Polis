@@ -2,22 +2,23 @@ package polis.components.playingfield.actors.actor.stayers;
 
 import polis.components.playingfield.actors.ActorField;
 import polis.components.playingfield.actors.actor.Actor;
+import polis.components.playingfield.actors.actor.movers.Shopper;
 import polis.components.playingfield.buildings.tiles.Building;
+import polis.components.playingfield.buildings.tiles.buildings.Commerce;
 
 public class Trader extends Stayer {
 
-    private static final String COLOR = "#E6005D";
+    private final Commerce commerce;
 
-    private final Building commerce;
-
-    public Trader(int row, int column, ActorField actorField, int[] coords, int id, Building home, Building commerce) {
-        super(row, column, COLOR, "worker", actorField, coords, id, home);
+    public Trader(int row, int column, ActorField actorField, int[] coords, int id, Building home, Commerce commerce) {
+        super(row, column, "worker", actorField, coords, id, home);
         this.commerce = commerce;
     }
 
     @Override
     public Actor nextPhase() {
-        return new Sleeper(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
+        commerce.addJobs(-1);
+        return new Shopper(getBaseCoords()[0],getBaseCoords()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
     }
 
 }

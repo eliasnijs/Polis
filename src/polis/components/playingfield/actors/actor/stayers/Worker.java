@@ -5,26 +5,23 @@ import polis.components.playingfield.actors.actor.Actor;
 import polis.components.playingfield.actors.actor.movers.Cargo;
 import polis.components.playingfield.actors.actor.movers.Shopper;
 import polis.components.playingfield.buildings.tiles.Building;
+import polis.helpers.PropertyLoader;
 
 public class Worker extends Stayer {
 
-    private static final String COLOR = "#E6005D";
-
-    private double spawnTime;
-    private double time;
-
+    private double stepsPerGoods;
     private Building factory;
 
     public Worker(int row, int column, ActorField actorField, int[] coords, int id, Building home, Building factory) {
-        super(row, column, COLOR, "trader", actorField, coords, id, home);
+        super(row, column, "trader", actorField, coords, id, home);
         this.factory = factory;
-        spawnTime = Double.parseDouble(
-                getActorField().getPropertyLoader().getProperty("engine","steps.per.goods"));
-        time = spawnTime;
+        stepsPerGoods = Double.parseDouble(
+                PropertyLoader.getProperty("engine","steps.per.goods"));
     }
 
     @Override
     public Actor nextPhase() {
+        factory.minOccupancy();
         return new Shopper(getBaseCoords()[0],getBaseCoords()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
     }
 
@@ -36,10 +33,8 @@ public class Worker extends Stayer {
     @Override
     public void act() {
         super.act();
-        time -= 1;
-        if (time == 0) {
+        if (getAge()%stepsPerGoods == 0) {
             spawnCargo();
-            time = spawnTime;
         }
     }
 

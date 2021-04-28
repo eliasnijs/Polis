@@ -79,7 +79,7 @@ public abstract class Mover extends Actor {
     private ArrayList<BuildingTileModel> surroundings(){
         ArrayList<BuildingTileModel> buildings = new ArrayList<>();
         int index = 0;
-        while (index < 4){
+        while (index < 4) {
             int[] pos = getPosition();
             BuildingTileModel b = moverManager.getBuilding(pos[0],pos[1],index);
             if (b != null) {
@@ -103,6 +103,9 @@ public abstract class Mover extends Actor {
             index += 1;
         }
     }
+
+    @Override
+    public Actor nextPhase(){return null;};
 
     public String getDestination() {
         return destination;
