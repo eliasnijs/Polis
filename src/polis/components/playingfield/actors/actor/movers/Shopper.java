@@ -27,7 +27,7 @@ public class Shopper extends Mover {
     public Actor nextPhase() {
         getHome().factorCapacity(Double.parseDouble(
                 PropertyLoader.getProperty("engine","factor.shop.found")));
-        shop.plusOccupancy();
+        shop.addOccupancy(1);
         return new Customer(
                 getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), shop);
     }
@@ -36,7 +36,7 @@ public class Shopper extends Mover {
     public boolean isDestinationReached(BuildingTileModel b) {
         if (b.getName().equals(getDestination())) {
             shop = (Commerce) b;
-            return shop.getGoods() > shop.getOccupancy() && shop.getOccupancy() < shop.getJobs() * 3;
+            return Math.floor(shop.getGoods()) > Math.floor(shop.getOccupancy()) && Math.floor(shop.getOccupancy()) < Math.floor(shop.getJobs()) * 3;
         }
         return false;
     }

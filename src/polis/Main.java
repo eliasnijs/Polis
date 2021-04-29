@@ -8,26 +8,26 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
+/**
+ *  Start het programma.
+ * **/
+
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        String TITLE = "POLIS2021 @ Universiteit Gent";
-        String FXML_GAME = "/polis/main.fxml";
-        String FXML_START = "/polis/startmenu.fxml";
-
-        Parent startParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(FXML_START)));
-        Parent gameParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(FXML_GAME)));
-
+        Parent startParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/polis/startmenu.fxml")));
         Scene startScene = new Scene(startParent, 1600, 685);
-        Scene gameScene = new Scene(gameParent, 1600, 685);
+
+        Parent gameParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/polis/main.fxml")));
+        Scene gameScene = new Scene(gameParent, startScene.getWidth(), startScene.getHeight());
+
         startParent.setOnMouseReleased(e -> stage.setScene(gameScene));
+        startParent.setOnKeyReleased(e -> stage.setScene(gameScene));
 
         stage.setScene(startScene);
-        stage.setTitle(TITLE);
+        stage.setTitle("POLIS2021 @ Universiteit Gent");
         stage.show();
-
     }
 
 }

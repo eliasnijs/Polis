@@ -6,9 +6,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import polis.components.Manager;
 import polis.components.cursor.cursors.Cursor;
-import polis.components.cursor.cursortile.CursorTileView;
 import polis.datakeepers.FieldData;
 import polis.helpers.HelperPoly;
+
+import java.util.Map;
 
 public class CursorFieldView extends Pane implements InvalidationListener {
 
@@ -16,43 +17,40 @@ public class CursorFieldView extends Pane implements InvalidationListener {
     private final Polygon poly;
     private Cursor cursor;
 
+    private final Map<Integer, Runnable> events = Map.of(
+            0, this::addView,
+            1, this::deleteView
+    );
+
     public CursorFieldView(Manager m) {
-        this.model = m.getCursorField();
-        this.cursor = m.getActiveManager();
+        model = m.getCursorField();
+        cursor = m.getActiveCursor();
         model.addListener(this);
-
-        this.poly = new HelperPoly();
+        poly = new HelperPoly();
         getChildren().add(poly);
-
-        this.setTranslateX((double) (FieldData.getGridSize() - 1) * FieldData.getCellSize());
-
-        this.setOnMouseMoved(e -> cursor.hoover(e.getX(), e.getY()));
-        this.setOnMousePressed(e -> cursor.setStartDrag(e.getX(), e.getY()));
-        this.setOnMouseDragged(e -> cursor.drag(e.getX(), e.getY()));
-        this.setOnMouseReleased(e -> cursor.place());
+        setTranslateX((double) (FieldData.getGridSize() - 1) * FieldData.getCellSize());
+        setOnMouseMoved(e -> cursor.hoover(e.getX(), e.getY()));
+        setOnMousePressed(e -> cursor.setStartDrag(e.getX(), e.getY()));
+        setOnMouseDragged(e -> cursor.drag(e.getX(), e.getY()));
+        setOnMouseReleased(e -> cursor.place());
     }
 
     public void setModel(Cursor manager) {
         this.cursor = manager;
     }
 
-    public void addView(CursorTileView v) {
-        getChildren().add(v);
+    private void addView() {
+        getChildren().add(model.getPendingView());
     }
 
-    public void deleteView() {
+    private void deleteView() {
         getChildren().clear();
         getChildren().add(poly);
     }
 
     @Override
     public void invalidated(Observable observable) {
-        CursorTileView t = model.getPendingView();
-        if (model.getPendingMode() == 0) {
-            addView(t);
-        } else {
-            deleteView();
-        }
+        events.get(model.getPendingMode()).run();
     }
 
 }

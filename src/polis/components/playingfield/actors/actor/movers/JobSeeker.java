@@ -35,13 +35,13 @@ public class JobSeeker extends Mover {
         return (next)? nextPhaseCommerce() : nextPhaseIndustry();
     }
 
-    public Actor nextPhaseIndustry() {
+    private Actor nextPhaseIndustry() {
         Industry industry = (Industry) building;
-        building.plusOccupancy();
+        industry.addOccupancy(1);
         return new Worker(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), industry);
     }
 
-    public Actor nextPhaseCommerce() {
+    private Actor nextPhaseCommerce() {
         Commerce shop = (Commerce) building;
         shop.addJobs(1);
         return new Trader(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), shop);
@@ -57,7 +57,7 @@ public class JobSeeker extends Mover {
             return next;
         }
         if (b.getName().equals("industry")) {
-            return b.getOccupancy() < b.getCapacity();
+            return b.getOccupancy() < Math.floor(b.getCapacity());
         }
         return false;
     }

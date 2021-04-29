@@ -6,6 +6,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import polis.datakeepers.FieldData;
 
+/**
+ * Verantwoordelijk voor de visuele representatie van een actor.
+ * **/
 public class ActorView extends Circle implements InvalidationListener {
 
     private final Actor actor;
@@ -17,7 +20,7 @@ public class ActorView extends Circle implements InvalidationListener {
         Update();
     }
 
-    public void Update() {
+    private void Update() {
         int[] t = actor.getPosition();
         setViewOrder(-t[0] - t[1] - 1.1);
         int[] c = actor.getCoords();

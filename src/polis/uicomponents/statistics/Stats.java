@@ -1,10 +1,16 @@
-package polis.uicomponents;
+package polis.uicomponents.statistics;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * De statistieken klasse.
+ * Deze klasse houdt alle data in verband met de statistieken bij. Het is ook de brug tussen
+ * de controller en view.
+ * **/
 
 public class Stats implements Observable {
 
@@ -95,7 +101,7 @@ public class Stats implements Observable {
         listenerList.remove(invalidationListener);
     }
 
-    public void fireInvalidationEvent() {
+    private void fireInvalidationEvent() {
         for (InvalidationListener listener : listenerList) {
             listener.invalidated(this);
         }

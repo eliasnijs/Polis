@@ -40,7 +40,7 @@ public class CursorBuildings extends Cursor {
         clearSelectedTiles();
     }
 
-    public boolean checkAvailable() {
+    private boolean checkAvailable() {
         for (int[] c : selected) {
             if (!isAvailable(c)) {
                 return false;
@@ -59,7 +59,7 @@ public class CursorBuildings extends Cursor {
     }
 
     @Override
-    public boolean checkBounds(int[] c) {
+    protected boolean checkBounds(int[] c) {
         return (c[0] >= 0 && c[0] < FieldData.getGridSize() - 1 && c[1] >= 0 && c[1] < FieldData.getGridSize() - 1);
     }
 
@@ -70,7 +70,7 @@ public class CursorBuildings extends Cursor {
         }
     }
 
-    public void placeTiles() {
+    private void placeTiles() {
         if (checkAvailable()) {
             int[] c = selected.get(0);
             if (checkBounds(c)) {

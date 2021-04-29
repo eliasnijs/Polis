@@ -1,9 +1,14 @@
-package polis.uicomponents;
+package polis.uicomponents.statistics;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+
+/**
+ * Visuele representatie van het de statistieken.
+ * Verantwoordelijk voor het binnenhalen, en tonen van de juiste statistieken.
+ * **/
 
 public class StatsPanel extends VBox implements InvalidationListener {
 
@@ -17,12 +22,12 @@ public class StatsPanel extends VBox implements InvalidationListener {
     private Stats model;
 
     public StatsPanel () {
-        location = new Label("00:00:00 ");
-        name = new Label("STATISTIEKEN");
-        bewoners = new Label("Bewoners: ");
-        jobs = new Label("Jobs: ");
-        goederen = new Label("Goederen: ");
-        klanten = new Label("Klanten: ");
+        location = new Label();
+        name = new Label();
+        bewoners = new Label();
+        jobs = new Label();
+        goederen = new Label();
+        klanten = new Label();
         this.getChildren().addAll(location, name, bewoners, jobs, goederen, klanten);
         this.getChildren().forEach(o -> o.setId("statsLabel"));
         name.setId("statsTitle");
@@ -30,22 +35,16 @@ public class StatsPanel extends VBox implements InvalidationListener {
     }
 
     public void setModel(Stats model) {
-        if (model != this.model) {
-            model.removeListener(this);
-        }
         this.model = model;
-        if (model != null) {
-            model.addListener(this);
-        }
+        model.addListener(this);
         Update();
     }
 
-
-    public void Update(){
+    private void Update(){
         location.setText(model.getLocation());
         name.setText(model.getName());
-        getChildren().removeIf(o -> o != name && o != location);
-
+        getChildren().clear();
+        getChildren().addAll(location, name);
         configureLabel(bewoners,
                 "Bewoners: " + model.getBewoners()[0] + "/" + model.getBewoners()[1],
                 model.getBewoners()[1]);
@@ -58,11 +57,11 @@ public class StatsPanel extends VBox implements InvalidationListener {
         configureLabel(klanten,
                 "Klanten: " + model.getKlanten()[0] + "/" + model.getKlanten()[1],
                 model.getKlanten()[1]);
-
     }
 
+    // Zorgt ervoor dat geen lege data getoond wordt.
     private void configureLabel(Label label, String message, double capacity){
-        if (capacity != 0) {
+        if (capacity > 0) {
             label.setText(message);
             getChildren().add(label);
         }

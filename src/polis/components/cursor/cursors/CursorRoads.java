@@ -29,7 +29,7 @@ public class CursorRoads extends Cursor {
     }
 
     @Override
-    public boolean checkBounds(int[] c) {
+    protected boolean checkBounds(int[] c) {
         return (c[0] >= 0 && c[0] < FieldData.getGridSize() && c[1] >= 0 && c[1] < FieldData.getGridSize());
     }
 
@@ -52,7 +52,7 @@ public class CursorRoads extends Cursor {
     }
 
     @Override
-    public void colorSelectedTiles() {
+    protected void colorSelectedTiles() {
         for (int[] c : selected) {
             CursorTileModel cursorTile = new CursorTileModel(c[0], c[1]);
             cursorTile.setColor(colors.get(isAvailable(c)));
@@ -70,7 +70,7 @@ public class CursorRoads extends Cursor {
         }
     }
 
-    public void selectDragTiles(int x, int y) {
+    private void selectDragTiles(int x, int y) {
         int t = (startOfDrag[1] > y) ? -1 : 1;
         int i = startOfDrag[1];
         while (i != y + t) {
@@ -85,22 +85,12 @@ public class CursorRoads extends Cursor {
         }
     }
 
-    public void placeTiles() {
+    private void placeTiles() {
         for (int[] c : selected) {
             if (isAvailable(c)) {
                 boolean[] adjacent = RoadChecker.checkRoadNeighbours(getBuildingField(),c[0],c[1]);
                 getBuildingField().setTile(new Road(c[0], c[1], adjacent, true));
-                updateRemainingRoads(adjacent, c);
-            }
-        }
-    }
-
-    public void updateRemainingRoads(boolean[] adjacent, int[] c){
-        for (int i = 0; i < pos.size(); i++) {
-            int[] s = pos.get(i);
-            if (adjacent[i]) {
-                boolean[] adj = RoadChecker.checkRoadNeighbours(getBuildingField(), c[0] + s[0], c[1] + s[1]);
-                getBuildingField().getTiles()[c[0] + s[0]][c[1] + s[1]].getModel().setNeighbours(adj);
+                updateSurroundingRoads(c);
             }
         }
     }

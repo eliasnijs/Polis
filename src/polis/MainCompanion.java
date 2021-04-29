@@ -2,17 +2,25 @@ package polis;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import polis.components.Manager;
 import polis.datakeepers.FieldData;
-import polis.helpers.HelperPoly;
-import polis.other.Background;
+import polis.uicomponents.Background;
 import polis.other.MusicPlayer;
-import polis.uicomponents.StatsPanel;
+import polis.uicomponents.statistics.StatsPanel;
 import prog2.util.Viewport;
+
+import java.util.Map;
+
+import static javafx.scene.input.KeyCode.*;
+
+/**
+ *  Dit is de companion klasse voor main.fxml
+ *  Hier worden de non-visuele aspecten opgestart en de visuele componenten geconfigureerd indien nodig.
+ * **/
 
 public class MainCompanion {
 
@@ -27,102 +35,74 @@ public class MainCompanion {
     public Button soundButton;
     public ToggleButton playButton;
     public ToggleButton treeButton;
+    public Slider timeSlider;
     public StackPane main;
     public StatsPanel statsPanel;
 
-    public Button activeButton;
+    private Viewport viewport;
     private Manager manager;
     private MusicPlayer musicPlayer;
-    private Viewport viewport;
+    public Button activeButton;
+
+    private final Map<KeyCode,Runnable> events = Map.of (
+            R, () -> changeCursor(residenceButton, 0, "residence"),
+            I, () -> changeCursor(factoryButton, 0, "industry"),
+            C, () -> changeCursor(shoppingButton, 0, "commerce"),
+            S, () -> changeCursor(roadButton, 1, "road"),
+            B, () -> changeCursor(bulldozerButton, 2, "bulldoze"),
+            N, () -> {manager.getPlayingField().setStartupTiles(treeButton.isSelected());viewport.requestFocus();},
+            M, () -> {musicPlayer.switchMute(); viewport.requestFocus();},
+            SPACE, () -> {
+                playButton.setSelected(!playButton.isSelected());
+                manager.getFrameLine().play(playButton.isSelected());
+                viewport.requestFocus(); },
+            ESCAPE, () -> changeCursor(selectButton, 2, "select")
+    );
 
     public void initialize() {
-
-        musicPlayer = new MusicPlayer();
-
-        this.manager = new Manager();
+        manager = new Manager();
         manager.getPlayingField().setStartupTiles(treeButton.isSelected());
+
+        initialiseActions();
+        activeButton = selectButton;
         setActiveButton(selectButton);
 
         statsPanel.setModel(manager.getStatsModel());
 
-        StackPane field = new StackPane(
-                manager.getPlayingFieldView(),
-                manager.getCursorView()
-        );
-        Node background = background(true, field);
-        StackPane mainStack = new StackPane(background, field);
+        musicPlayer = new MusicPlayer();
+
+        StackPane field = new StackPane(manager.getPlayingFieldView(), manager.getCursorView());
+        StackPane mainStack = new StackPane(configureBackground(field), field);
         Viewport view = new Viewport(mainStack, 0.5);
         viewport = view;
         viewportStackPane.getChildren().add(view);
 
-        initialiseButtonActions();
-
         view.setFocusTraversable(true);
         viewport.requestFocus();
-
-        musicPlayer.switchMute();
     }
 
-    public Node background(boolean imageBackground, StackPane field) {
-        Node node;
-        if (imageBackground) {
-            node = new Background(3);
-            // Kleine aanpassing aan de locatie van het speelveld zodat alles gecentreerd is
-            field.setTranslateX(4.0 * FieldData.getCellSize());
-            field.setTranslateY(4.5 * FieldData.getCellSize());
-        } else {
-            HelperPoly poly = new HelperPoly();
-            poly.setFill(Color.web("#88A129"));
-            node = poly;
-        }
-        return node;
+    public Node configureBackground(StackPane field){
+        // Kleine aanpassing aan de locatie van het speelveld zodat alles gecentreerd is
+        field.setTranslateX(4.0 * FieldData.getCellSize());
+        field.setTranslateY(4.5 * FieldData.getCellSize());
+        return new Background(3);
     }
 
-    public void initialiseButtonActions() {
-        shoppingButton.setOnAction(e -> changeCursor(shoppingButton, 0, "commerce"));
-        residenceButton.setOnAction(e -> changeCursor(residenceButton, 0, "residence"));
-        factoryButton.setOnAction(e -> changeCursor(factoryButton, 0, "industry"));
-        roadButton.setOnAction(e -> changeCursor(roadButton, 1, "road"));
-        bulldozerButton.setOnAction(e -> changeCursor(bulldozerButton, 2, "bulldoze"));
-        selectButton.setOnAction(e -> changeCursor(selectButton, 2, "select"));
-        nukeButton.setOnAction(e -> handleButtonEvent("reset"));
-        soundButton.setOnAction(e -> handleButtonEvent("mute"));
-        playButton.setOnAction(e -> handleButtonEvent("play"));
-        main.setOnKeyPressed(this::handleKeyEvent);
-    }
-
-    private void handleKeyEvent(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case R:
-                changeCursor(residenceButton, 0, "residence");
-                break;
-            case I:
-                changeCursor(factoryButton, 0, "industry");
-                break;
-            case C:
-                changeCursor(shoppingButton, 0, "commerce");
-                break;
-            case S:
-                changeCursor(roadButton, 1, "road");
-                break;
-            case B:
-                changeCursor(bulldozerButton, 2, "bulldoze");
-                break;
-            case N:
-                handleButtonEvent("reset");
-                break;
-            case M:
-                handleButtonEvent("mute");
-                break;
-            case SPACE:
-                handleButtonEvent("play");
-                break;
-            case ESCAPE:
-                changeCursor(selectButton, 2, "select");
-                break;
-            case A:
-                manager.getPlayingField().getActorField().newActor(0, 15);
-        }
+    public void initialiseActions() {
+        shoppingButton.setOnAction(o -> events.get(C).run());
+        residenceButton.setOnAction(o -> events.get(R).run());
+        factoryButton.setOnAction(o -> events.get(I).run());
+        roadButton.setOnAction(o -> events.get(S).run());
+        bulldozerButton.setOnAction(o -> events.get(B).run());
+        selectButton.setOnAction(o -> events.get(ESCAPE).run());
+        nukeButton.setOnAction(o -> events.get(N).run());
+        soundButton.setOnAction(o -> events.get(M).run());
+        playButton.setOnAction(o -> {playButton.setSelected(!playButton.isSelected()); events.get(SPACE).run();});
+        main.setOnKeyPressed(o -> {
+            if (events.containsKey(o.getCode())) {
+                events.get(o.getCode()).run();} });
+        timeSlider.valueProperty().addListener((observableValue, oldVal, newVal) ->
+                manager.getFrameLine().setSpeed(newVal.intValue()) );
     }
 
     public void changeCursor(Button button, int mode, String tool) {
@@ -131,28 +111,8 @@ public class MainCompanion {
         viewport.requestFocus();
     }
 
-    private void handleButtonEvent(String tool) {
-        switch (tool) {
-            case "reset":
-                manager.getPlayingField().setStartupTiles(treeButton.isSelected());
-                break;
-            case "mute":
-                muteMusicPlayer();
-                break;
-            case "play":
-                manager.getFrameLine().play(playButton.isSelected());
-        }
-        viewport.requestFocus();
-    }
-
-    public void muteMusicPlayer() {
-        musicPlayer.switchMute();
-    }
-
     public void setActiveButton(Button a) {
-        if (activeButton != null) {
-            activeButton.setStyle("-fx-background-color: #00000000");
-        }
+        activeButton.setStyle("-fx-background-color: #00000000");
         this.activeButton = a;
         activeButton.setStyle("-fx-background-color: #5DC9D4");
     }

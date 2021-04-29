@@ -2,6 +2,10 @@ package polis.helpers;
 
 import polis.datakeepers.FieldData;
 
+/**
+ * Helper-klasse met 2 statische methodes voor het converteren van
+ * grid coördinaten naar globale coördinaten en omgekeerd.
+ * **/
 public class GridCoordsConverter {
 
     public static int[] gridToCoords(int[] c) {

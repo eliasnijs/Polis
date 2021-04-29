@@ -7,6 +7,10 @@ import polis.datakeepers.FieldData;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Geeft een array terug die aanduidt of de naburige tegels een weg zijn.
+ * De array geeft dit terug in volgende volgorde: top, rechts, onder, links
+ * **/
 public class RoadChecker {
 
     private static final ArrayList<int[]> pos = new ArrayList<>();
@@ -26,9 +30,8 @@ public class RoadChecker {
         } return check;
     }
 
-    public static boolean bounds(int r, int c) {
+    private static boolean bounds(int r, int c) {
         return (r >= 0 && r < FieldData.getGridSize() && c >= 0 && c < FieldData.getGridSize());
     }
-
 
 }

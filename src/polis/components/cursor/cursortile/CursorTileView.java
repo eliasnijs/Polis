@@ -15,22 +15,17 @@ public class CursorTileView extends Polygon implements InvalidationListener {
                 FieldData.getCellSize(), -FieldData.getCellSize(), 0.5 * FieldData.getCellSize());
         this.model = model;
         model.addListener(this);
-        int[] c = model.gridToCoordinates();
-        setTranslateX(c[0]);
-        setTranslateY(c[1]);
-        setCursorStyle();
+        invalidated(model);
+        setTranslateX(model.gridToCoordinates()[0]);
+        setTranslateY(model.gridToCoordinates()[1]);
         setMouseTransparent(true);
-    }
-
-    public void setCursorStyle() {
-        setFill(Color.web(model.getColor()));
-        setStroke(Color.web(model.getStrokeColor()));
-        setStrokeWidth(model.getStrokeWidth());
     }
 
     @Override
     public void invalidated(Observable o) {
-        setCursorStyle();
+        setFill(Color.web(model.getColor()));
+        setStroke(Color.web(model.getStrokeColor()));
+        setStrokeWidth(model.getStrokeWidth());
     }
 
 }

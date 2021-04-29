@@ -2,6 +2,9 @@ package polis.components.playingfield.buildings.tiles;
 
 import polis.components.playingfield.buildings.tiles.buildings.BuildingProperties;
 
+/**
+ * Klasse die een gebouw representeert.
+ * **/
 public abstract class Building extends BuildingTileModel {
 
     private final BuildingProperties properties;
@@ -12,7 +15,7 @@ public abstract class Building extends BuildingTileModel {
     private final int[] levelInterval;
 
     public Building(int row, int column, String name, String function, BuildingProperties buildingProperties) {
-        super(row, column, name, function, 2);
+        super(row, column, name, 2);
         this.properties = buildingProperties;
         level = 0;
         levelInterval = new int[]{-1,-1};
@@ -30,20 +33,19 @@ public abstract class Building extends BuildingTileModel {
         }
     }
 
-    public void loadLevel () {
-        levelInterval[0] = properties.getLevelChanges(level + level - 2);
-        levelInterval[1] = properties.getLevelChanges(level + level - 1);
-        setImage(getName() + "-" + level);
-    }
-
-    @Override
     public int getOccupancy() {
         return occupancy;
     }
 
-    @Override
     public double getCapacity() {
         return capacity;
+    }
+
+
+    private void loadLevel() {
+        levelInterval[0] = properties.getLevelChanges(level + level - 2);
+        levelInterval[1] = properties.getLevelChanges(level + level - 1);
+        setImage(getName() + "-" + level);
     }
 
     public void factorCapacity(double factor) {
@@ -54,19 +56,9 @@ public abstract class Building extends BuildingTileModel {
         Update();
     }
 
-    public void setCapacity(double capacity) {
-        this.capacity = capacity;
-    }
-
-    @Override
-    public void plusOccupancy() {
-        occupancy += 1;
+    public void addOccupancy(int amount) {
+        occupancy += amount;
         Update();
-    }
-
-    @Override
-    public void minOccupancy() {
-        occupancy -= 1;
     }
 
 }

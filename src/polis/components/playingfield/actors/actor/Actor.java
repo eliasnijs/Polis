@@ -10,6 +10,9 @@ import polis.helpers.PropertyLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * KLasse die algemene data van een actor bijhoudt.
+ * **/
 public abstract class Actor implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
@@ -33,7 +36,7 @@ public abstract class Actor implements Observable {
         this.home = home;
     }
 
-    public int getAge() {
+    protected int getAge() {
         return age;
     }
 
@@ -41,7 +44,7 @@ public abstract class Actor implements Observable {
         return color;
     }
 
-    public void setColor(String color) {
+    protected void setColor(String color) {
         this.color = color;
         fireInvalidationEvent();
     }
@@ -54,12 +57,12 @@ public abstract class Actor implements Observable {
         return position;
     }
 
-    public void setPosition(int[] position) {
+    protected void setPosition(int[] position) {
         this.position = position;
         fireInvalidationEvent();
     }
 
-    public ActorField getActorField() {
+    protected ActorField getActorField() {
         return actorField;
     }
 
@@ -71,37 +74,37 @@ public abstract class Actor implements Observable {
         }
     }
 
-    public Building getHome() {
+    protected Building getHome() {
         return home;
     }
 
-    public void setHome(Building home) {
+    protected void setHome(Building home) {
         this.home = home;
     }
 
-    public int getResidentId() {
+    protected int getResidentId() {
         return residentId;
     }
 
-    public void setResidentId(int residentId) {
+    protected void setResidentId(int residentId) {
         this.residentId = residentId;
     }
 
-    public int[] getBaseCoords() {
+    protected int[] getBaseCoords() {
         return baseCoords;
     }
 
-    public void setBaseCoords(int[] baseCoords) {
+    protected void setBaseCoords(int[] baseCoords) {
         this.baseCoords = baseCoords;
     }
 
-    public void transitionToNextFase(Actor actor) {
+    protected void transitionToNextFase(Actor actor) {
         actorField.nextActorPhase(this, actor);
     }
 
-    public abstract void time0();
+    protected abstract void time0();
 
-    public abstract void act();
+    protected abstract void act();
 
     public abstract Actor nextPhase();
 
@@ -115,7 +118,7 @@ public abstract class Actor implements Observable {
         listenerList.remove(invalidationListener);
     }
 
-    public void fireInvalidationEvent() {
+    private void fireInvalidationEvent() {
         for (InvalidationListener listener : listenerList) {
             listener.invalidated(this);
         }

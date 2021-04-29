@@ -7,10 +7,8 @@ import polis.components.playingfield.buildings.BuildingField;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
 import polis.components.playingfield.buildings.tiles.BuildingTileView;
 import polis.datakeepers.FieldData;
-import polis.helpers.RoadChecker;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 
 public class CursorSelect extends Cursor {
@@ -20,12 +18,12 @@ public class CursorSelect extends Cursor {
             "select", "#FFFFFF"
     );
 
-    private final Manager manager;
-
     private final Map<String, Runnable> tools = Map.of(
             "select", this::select,
             "bulldoze", this::bulldoze
     );
+
+    private final Manager manager;
 
     public CursorSelect(BuildingField buildingField, ArrayList<int[]> selected, CursorField tiles, Manager manager) {
         super(buildingField, selected, tiles);
@@ -59,51 +57,37 @@ public class CursorSelect extends Cursor {
         }
     }
 
-    public boolean checkBounds(int[] c) {
+    protected boolean checkBounds(int[] c) {
         return (c[0] >= 0 && c[0] < FieldData.getGridSize() && c[1] >= 0 && c[1] < FieldData.getGridSize());
     }
 
-    // :(
-    public void bulldoze() {
+    private void bulldoze() {
         for (int[] c : selected) {
-            if (!isAvailable(c)) {
-                BuildingTileView v = getBuildingField().getTiles()[c[0]][c[1]];
-                BuildingTileModel m = v.getModel();
-                if (m.isDestructible()) {
-                    getBuildingField().deleteTile(c[0], c[1]);
-                    for (int i = 0; i < FieldData.getGridSize(); i += 1) {
-                        for (int j = 0; j < FieldData.getGridSize(); j += 1) {
-                            if (getBuildingField().getTiles()[i][j] == getBuildingField().getTiles()[c[0]][c[1]]) {
-                                if (i != c[0] || j != c[1]) {
-                                    getBuildingField().getTiles()[i][j] = null;
-                                }
-                            }
-                        }
-                    }
-                    getBuildingField().getTiles()[c[0]][c[1]] = null;
-                    if (m.getName().equals("road")) {
-                        boolean[] adjacent = RoadChecker.checkRoadNeighbours(getBuildingField(),c[0],c[1]);
-                        ArrayList<int[]> pos = new ArrayList<>();
-                        Collections.addAll(pos, new int[]{-1 , 0}, new int[]{0, 1}, new int[]{1, 0}, new int[]{0, -1});
-                        for (int i = 0; i < pos.size(); i++) {
-                            int[] s = pos.get(i);
-                            if (adjacent[i]) {
-                                boolean[] adj = RoadChecker.checkRoadNeighbours(getBuildingField(), c[0] + s[0], c[1] + s[1]);
-                                getBuildingField().getTiles()[c[0] + s[0]][c[1] + s[1]].getModel().setNeighbours(adj);
-                            }
-                        }
-                    }
+            if (checkAvailability(c)) {
+                if (getBuildingField().getTiles()[c[0]][c[1]].getModel().getName().equals("road")) {
+                    updateSurroundingRoads(c);
                 }
+                getBuildingField().deleteTile(c[0], c[1]);
             }
         }
     }
 
-    public void select() {
+    public boolean checkAvailability(int[] c){
+        if (!isAvailable(c)) {
+            BuildingTileModel m = getBuildingField().getTiles()[c[0]][c[1]].getModel();
+            return m.isDestructible();
+        }
+        return false;
+    }
+
+    private void select() {
         if (selected.size() > 0) {
             int[] c = selected.get(0);
             BuildingTileView view = getBuildingField().getTiles()[c[0]][c[1]];
             manager.getStatsConstructor().importBuilding(view);
             manager.getStatsConstructor().Update();
+        } else {
+            manager.getStatsConstructor().importBuilding(null);
         }
     }
 

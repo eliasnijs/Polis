@@ -4,8 +4,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import polis.datakeepers.FieldData;
 
+/**
+ * Klasse die een doorzichtige isometrische polygon tekent.
+ * Dit zorgt ervoor dat de mouseEvents zeker juist geregistreerd worden.
+ * **/
 public class HelperPoly extends Polygon {
-
+    
     private static final int length = FieldData.getCellSize() * FieldData.getGridSize();
 
     public HelperPoly() {

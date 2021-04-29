@@ -7,6 +7,10 @@ import polis.helpers.GridCoordsConverter;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Algemene tile klasse die als template dient voor de tiles van het gebouwen-veld en van het cursor-veld
+ * **/
 public abstract class TileModel implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
@@ -19,7 +23,7 @@ public abstract class TileModel implements Observable {
         this.column = column;
     }
 
-    public void setPosition(int row, int column){
+    public void setPosition(int row, int column) {
         this.row = row;
         this.column = column;
         fireInvalidationEvent();
@@ -47,7 +51,7 @@ public abstract class TileModel implements Observable {
         listenerList.remove(invalidationListener);
     }
 
-    public void fireInvalidationEvent() {
+    protected void fireInvalidationEvent() {
         for (InvalidationListener listener : listenerList) {
             listener.invalidated(this);
         }

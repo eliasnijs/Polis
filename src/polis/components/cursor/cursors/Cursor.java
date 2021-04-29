@@ -3,8 +3,10 @@ package polis.components.cursor.cursors;
 import polis.components.cursor.CursorField;
 import polis.components.playingfield.buildings.BuildingField;
 import polis.helpers.GridCoordsConverter;
+import polis.helpers.RoadChecker;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class Cursor {
 
@@ -48,6 +50,19 @@ public abstract class Cursor {
     public void clearSelectedTiles() {
         getCursorFieldModel().deleteTiles();
         selected.clear();
+    }
+
+    public void updateSurroundingRoads(int[] c){
+        ArrayList<int[]> pos = new ArrayList<>();
+        Collections.addAll(pos, new int[]{-1 , 0}, new int[]{0, 1}, new int[]{1, 0}, new int[]{0, -1});
+        boolean[] adjacent = RoadChecker.checkRoadNeighbours(getBuildingField(),c[0],c[1]);
+        for (int i = 0; i < pos.size(); i++) {
+            int[] s = pos.get(i);
+            if (adjacent[i]) {
+                boolean[] adj = RoadChecker.checkRoadNeighbours(getBuildingField(), c[0] + s[0], c[1] + s[1]);
+                getBuildingField().getTiles()[c[0] + s[0]][c[1] + s[1]].getModel().setNeighbours(adj);
+            }
+        }
     }
 
     protected abstract void colorSelectedTiles();

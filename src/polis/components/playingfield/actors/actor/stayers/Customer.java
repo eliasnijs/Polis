@@ -16,7 +16,7 @@ public class Customer extends Stayer {
 
     @Override
     public Actor nextPhase() {
-        shop.minOccupancy();
+        shop.addOccupancy(-1);
         shop.addGoods(-1);
         return new Sleeper(getBaseCoords()[0],getBaseCoords()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
     }

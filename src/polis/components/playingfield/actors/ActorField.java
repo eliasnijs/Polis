@@ -4,13 +4,15 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import polis.components.playingfield.actors.actor.Actor;
 import polis.components.playingfield.actors.actor.ActorView;
-import polis.components.playingfield.actors.actor.movers.Immigrant;
 import polis.components.playingfield.buildings.BuildingField;
 import polis.datatransferers.PendingActorView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Verantwoordelijk voor het bijhouden van alle actors.
+ * **/
 public class ActorField implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
@@ -38,14 +40,6 @@ public class ActorField implements Observable {
 
     public PendingActorView getPending() {
         return pending;
-    }
-
-    public void newActor(int x, int y) {
-        Immigrant actor = new Immigrant(x, y, this);
-        ActorView actorView = new ActorView(actor);
-        actors.add(actorView);
-        pending = new PendingActorView(0, actorView);
-        fireInvalidationEvent();
     }
 
     public void newActor(Actor actor) {
@@ -100,7 +94,7 @@ public class ActorField implements Observable {
         listenerList.remove(invalidationListener);
     }
 
-    public void fireInvalidationEvent() {
+    private void fireInvalidationEvent() {
         for (InvalidationListener listener : listenerList) {
             listener.invalidated(this);
         }

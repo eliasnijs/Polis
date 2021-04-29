@@ -5,6 +5,10 @@ import polis.datakeepers.FieldData;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Genereert noise.
+ * **/
+
 public class Noise {
 
     private final float roughness;
@@ -19,7 +23,7 @@ public class Noise {
         start();
     }
 
-    public void start() {
+    private void start() {
         int xHeight = grid.length - 1;
         int yHeight = grid[0].length - 1;
         grid[0][0] = rand.nextFloat() - 0.5f;
@@ -61,7 +65,7 @@ public class Noise {
         generate(xMid, yMid, xHeight, yHeight);
     }
 
-    public boolean[][] toBooleans() {
+    private boolean[][] toBooleans() {
         int w = grid.length;
         int h = grid[0].length;
         boolean[][] ret = new boolean[w][h];

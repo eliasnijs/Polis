@@ -30,6 +30,20 @@
     -fx-background-color: #5DC9D4;
 }
 
+.track {
+    -fx-background-color: #00000000;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 45px;
+}
+
+.thumb {
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-background-color: #5DC9D4FF;
+    -fx-border-radius: 90px;
+}
+
 #panel {
     -fx-background-radius: 9px;
     -fx-border-radius: 9px;
@@ -63,6 +77,10 @@
     -fx-text-fill: #797979;
     -fx-font-size: 24px;
     -fx-alignment: center;
+}
+
+#effects {
+    -fx-effect: innershadow(gaussian,red,10,10,0,0);
 }
 
 #playButton:selected {

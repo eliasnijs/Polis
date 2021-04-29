@@ -54,13 +54,13 @@ public abstract class Mover extends Actor {
         checkSurrounding();
     }
 
-    public void move() {
+    private void move() {
         int[] pos = getPosition();
         pos[0] += DR[direction]; pos[1] += DC[direction];
         setPosition(pos);
     }
 
-    public void changeDirection(){
+    private void changeDirection(){
         int t = RG.nextInt(6);
         int i = 0;
         int newDirection = (direction + diffs[t][i]) % 4;
@@ -90,7 +90,7 @@ public abstract class Mover extends Actor {
         return buildings;
     }
 
-    public void checkSurrounding() {
+    private void checkSurrounding() {
         boolean found = false;
         int index = 0;
         ArrayList<BuildingTileModel> surroundings = surroundings();
@@ -105,12 +105,12 @@ public abstract class Mover extends Actor {
     }
 
     @Override
-    public Actor nextPhase(){return null;};
+    public Actor nextPhase(){return null;}
 
     public String getDestination() {
         return destination;
     }
 
-    public abstract boolean isDestinationReached(BuildingTileModel b);
+    protected abstract boolean isDestinationReached(BuildingTileModel b);
 
 }

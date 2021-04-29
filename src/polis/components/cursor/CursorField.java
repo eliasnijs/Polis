@@ -45,7 +45,7 @@ public class CursorField implements Observable {
         listenerList.remove(invalidationListener);
     }
 
-    public void fireInvalidationEvent() {
+    private void fireInvalidationEvent() {
         for (InvalidationListener listener : listenerList) {
             listener.invalidated(this);
         }

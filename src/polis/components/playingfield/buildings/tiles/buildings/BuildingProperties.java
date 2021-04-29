@@ -2,6 +2,9 @@ package polis.components.playingfield.buildings.tiles.buildings;
 
 import polis.helpers.PropertyLoader;
 
+/**
+ * Enum die voor elk gebouw een oplijsting van properties bijhoudt.
+ * **/
 public enum BuildingProperties {
 
     RESIDENCE("residential"),
@@ -13,7 +16,6 @@ public enum BuildingProperties {
     private final int[] levelChanges;
 
     BuildingProperties(String name) {
-        PropertyLoader p = new PropertyLoader();
         minimumCapacity = (int) Double.parseDouble(PropertyLoader.getProperty("engine", name + ".capacity.minimal"));
         initialCapacity = (int) Double.parseDouble(PropertyLoader.getProperty("engine", name + ".capacity.initial"));
         levelChanges = new int[]{

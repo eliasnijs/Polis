@@ -5,6 +5,9 @@ import polis.components.playingfield.buildings.tiles.BuildingTileModel;
 import polis.components.playingfield.buildings.tiles.BuildingTileView;
 import polis.datakeepers.FieldData;
 
+/**
+ * verantwoordelijk voor het coordineren van de bewegende actors.
+ * **/
 public class MoverManager {
 
     private final static int[] DC = {-1, 0, 1, 0};
@@ -15,7 +18,7 @@ public class MoverManager {
         this.buildingField = actorField.getBuildingField();
     }
 
-    public boolean isRoad(int row, int column) {
+    private boolean isRoad(int row, int column) {
         if (checkBounds(new int[]{row, column})) {
             BuildingTileView t = buildingField.getTiles()[row][column];
             if (t != null) {
@@ -39,7 +42,7 @@ public class MoverManager {
         return isRoad(row + DR[direction], column + DC[direction]);
     }
 
-    public boolean checkBounds(int[] c) {
+    private boolean checkBounds(int[] c) {
         return (c[0] >= 0 && c[0] < FieldData.getGridSize() && c[1] >= 0 && c[1] < FieldData.getGridSize());
     }
 

@@ -7,6 +7,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Verantwoordelijk voor alles gerelateerd aan muziek afspelen.
+ * **/
+
 public class MusicPlayer {
 
     private final ArrayList<Media> tracks;
@@ -27,14 +31,14 @@ public class MusicPlayer {
         }
     }
 
-    public void changeMusic(Media musicFile) {
+    private void changeMusic(Media musicFile) {
         mediaPlayer = new MediaPlayer(musicFile);
         mediaPlayer.setMute(muted);
         mediaPlayer.play();
         mediaPlayer.setOnEndOfMedia(this::newMusic);
     }
 
-    public void newMusic() {
+    private void newMusic() {
         changeMusic(selectRandomMusic());
     }
 

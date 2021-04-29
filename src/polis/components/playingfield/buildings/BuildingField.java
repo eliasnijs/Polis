@@ -2,35 +2,32 @@ package polis.components.playingfield.buildings;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import polis.components.playingfield.buildings.tiles.*;
+import polis.components.playingfield.buildings.tiles.BuildingTileModel;
+import polis.components.playingfield.buildings.tiles.BuildingTileView;
+import polis.components.playingfield.buildings.tiles.Road;
+import polis.components.playingfield.buildings.tiles.Tree;
 import polis.datakeepers.FieldData;
 import polis.datatransferers.PendingBuildingTileView;
-import polis.helpers.PropertyLoader;
 import polis.other.Noise;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Klasse die alle gebouwen bijhoudt en het opvragen en bijwerken van de gebouwen faciliteert.
+ * **/
 public class BuildingField implements Observable {
 
-    private final PropertyLoader propertyLoader;
     private final List<InvalidationListener> listenerList = new ArrayList<>();
     private final BuildingTileView[][] tiles;
     private PendingBuildingTileView pending;
 
     public BuildingField() {
-        propertyLoader = new PropertyLoader();
         tiles = new BuildingTileView[FieldData.getGridSize()][FieldData.getGridSize()];
-
     }
 
     public BuildingTileView[][] getTiles() {
         return tiles;
-    }
-
-    public PendingBuildingTileView getPendingView() {
-        return pending;
     }
 
     public void setTile(BuildingTileModel tile) {
@@ -46,27 +43,23 @@ public class BuildingField implements Observable {
         tileView.setViewOrder(-row - column - 2 * (tile.getSize() - 1) - 1.0);
         pending = new PendingBuildingTileView(0, tileView);
         fireInvalidationEvent();
-        pending = null;
     }
 
-    public void deleteTile(int row, int column) {
-        pending = new PendingBuildingTileView(1, tiles[row][column]);
+    public void deleteTile(int r, int c) {
+        BuildingTileView b = tiles[r][c];
+        pending = new PendingBuildingTileView(1, tiles[r][c]);
         fireInvalidationEvent();
-        pending = null;
-    }
-
-    public HashSet<Building> getBuildingTilesArray(){
-        HashSet<Building> tilesArray = new HashSet<>();
-        for (BuildingTileView[] row : tiles) {
-            for (BuildingTileView tile : row) {
-                if (tile != null) {
-                    if (tile.getModel().getSize() == 2) {
-                        tilesArray.add((Building) tile.getModel());
-                    }
+        for (int i = 0; i < FieldData.getGridSize(); i++) {
+            for (int j = 0; j < FieldData.getGridSize(); j++) {
+                if (tiles[i][j] == b) {
+                    tiles[i][j] = null;
                 }
             }
         }
-        return tilesArray;
+    }
+
+    public PendingBuildingTileView getPendingView() {
+        return pending;
     }
 
     public void setStartupTrees(float roughness) {
@@ -86,10 +79,6 @@ public class BuildingField implements Observable {
         setTile(new Road(t, t, new boolean[]{true, false, false, false}, false));
     }
 
-    public PropertyLoader getPropertyLoader() {
-        return propertyLoader;
-    }
-
     @Override
     public void addListener(InvalidationListener invalidationListener) {
         listenerList.add(invalidationListener);
@@ -100,7 +89,7 @@ public class BuildingField implements Observable {
         listenerList.remove(invalidationListener);
     }
 
-    public void fireInvalidationEvent() {
+    private void fireInvalidationEvent() {
         for (InvalidationListener listener : listenerList) {
             listener.invalidated(this);
         }

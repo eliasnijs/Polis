@@ -9,8 +9,8 @@ import polis.helpers.PropertyLoader;
 
 public class Worker extends Stayer {
 
-    private double stepsPerGoods;
-    private Building factory;
+    private final double stepsPerGoods;
+    private final Building factory;
 
     public Worker(int row, int column, ActorField actorField, int[] coords, int id, Building home, Building factory) {
         super(row, column, "trader", actorField, coords, id, home);
@@ -21,11 +21,11 @@ public class Worker extends Stayer {
 
     @Override
     public Actor nextPhase() {
-        factory.minOccupancy();
+        factory.addOccupancy(-1);
         return new Shopper(getBaseCoords()[0],getBaseCoords()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
     }
 
-    public void spawnCargo(){
+    private void spawnCargo(){
         Cargo cargo = new Cargo(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), factory);
         getActorField().newActor(cargo);
     }

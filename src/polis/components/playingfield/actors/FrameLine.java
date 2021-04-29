@@ -4,28 +4,32 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.util.Duration;
-import polis.uicomponents.StatsConstructor;
+import polis.uicomponents.statistics.StatsController;
 
+
+/**
+ * Verantwoordelijk voor de tijdlijn.
+ * **/
 public class FrameLine {
 
     private final Simulator simulator;
-    private final StatsConstructor statsConstructor;
+    private final StatsController statsConstructor;
 
     private Timeline timeline;
 
-    public FrameLine(Simulator simulator, StatsConstructor statsConstructor){
+    public FrameLine(Simulator simulator, StatsController statsConstructor){
         this.simulator = simulator;
         this.statsConstructor = statsConstructor;
         initiateTimeline();
     }
 
-    public void initiateTimeline(){
+    private void initiateTimeline(){
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(.5), this::nextFrame));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(.25), this::nextFrame));
     }
 
-    public void nextFrame(ActionEvent actionEvent){
+    private void nextFrame(ActionEvent actionEvent){
         simulator.nextFrame();
         statsConstructor.Update();
     }
@@ -35,6 +39,10 @@ public class FrameLine {
         if (selected) {
             timeline.play();
         }
+    }
+
+    public void setSpeed(int amount){
+        timeline.setRate(amount/100.0);
     }
 
 }

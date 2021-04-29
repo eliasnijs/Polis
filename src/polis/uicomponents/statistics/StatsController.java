@@ -1,4 +1,4 @@
-package polis.uicomponents;
+package polis.uicomponents.statistics;
 
 import polis.components.playingfield.buildings.BuildingField;
 import polis.components.playingfield.buildings.tiles.Building;
@@ -6,24 +6,42 @@ import polis.components.playingfield.buildings.tiles.BuildingTileView;
 import polis.components.playingfield.buildings.tiles.buildings.Commerce;
 
 import java.util.HashSet;
+import java.util.Map;
 
-import static java.lang.Math.ceil;
+/**
+ *  De controller voor de statistieken.
+ *  Verantwoordelijk voor het updaten van de data binnenin de statistieken.
+ * **/
 
-public class StatsConstructor {
+public class StatsController {
 
     private final BuildingField buildingField;
     private final Stats model;
 
     private Building building;
 
-    public StatsConstructor(Stats model, BuildingField buildingField) {
+    private final Map<Boolean,Runnable> map = Map.of(
+            true, this::generalStats,
+            false, this::tileStats
+    );
+
+
+    public StatsController(Stats model, BuildingField buildingField) {
         this.buildingField = buildingField;
         this.model = model;
         building = null;
         Update();
     }
 
-    public boolean checkValidity(BuildingTileView view){
+    public void Update() {
+        map.get(building == null).run();
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    private boolean checkValidity(BuildingTileView view){
         if (view != null) {
             return view.getModel() instanceof Building;
         }  return false;
@@ -36,30 +54,32 @@ public class StatsConstructor {
         }
     }
 
-    public void Update() {
-        if (building == null) {
-            model.setLocation("General");
-            generalStats();
-        } else {
-            model.setLocation(building.getName().toUpperCase()
-                    + "(" + building.getRow() + "x" + building.getColumn() + ")");
-            tileStats();
-        }
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
-    }
-
-    public void generalStats() {
+    private void generalStats() {
+        model.setLocation("General");
         model.reset();
-        HashSet<Building> buildings = buildingField.getBuildingTilesArray();
+        HashSet<Building> buildings = getBuildingTilesArray();
         for (Building b : buildings) {
             updateStats(b);
         }
     }
 
-    public void tileStats() {
+    public HashSet<Building> getBuildingTilesArray(){
+        HashSet<Building> tilesArray = new HashSet<>();
+        for (BuildingTileView[] row : buildingField.getTiles()) {
+            for (BuildingTileView tile : row) {
+                if (tile != null) {
+                    if (tile.getModel() instanceof Building) {
+                        tilesArray.add((Building) tile.getModel());
+                    }
+                }
+            }
+        }
+        return tilesArray;
+    }
+
+    private void tileStats() {
+        model.setLocation(building.getName().toUpperCase()
+                + "(" + building.getRow() + "x" + building.getColumn() + ")");
         model.reset();
         updateStats(building);
     }
@@ -78,19 +98,19 @@ public class StatsConstructor {
         }
     }
 
-    public void residence(Building b) {
+    private void residence(Building b) {
         model.addBewoners(b.getOccupancy(), b.getCapacity());
     }
 
-    public void industry(Building b) {
+    private void industry(Building b) {
         model.addJobs(b.getOccupancy(), b.getCapacity());
     }
 
-    public void commerce(Building b) {
+    private void commerce(Building b) {
         Commerce shop = (Commerce) b;
         model.addKlanten(shop.getOccupancy(), shop.getCapacity());
         model.addGoederen(shop.getGoods(), shop.getGoodsCapacity());
-        model.addJobs(shop.getJobs(), ceil(shop.getJobsCapacity()));
+        model.addJobs(shop.getJobs(), Math.ceil(shop.getJobsCapacity()));
     }
 
 }
