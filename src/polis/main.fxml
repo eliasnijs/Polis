@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import polis.uicomponents.statistics.StatsPanel?>
-<?import polis.uicomponents.TimeSlider?>
-<?import java.net.URL?>
-<StackPane fx:id="main" prefHeight="685" prefWidth="1600" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polis.MainCompanion">
+<?import polis.uicomponents.*?>
+<?import polis.uicomponents.statistics.*?>
+
+<StackPane fx:id="main" minHeight="400.0" minWidth="1000.0" prefHeight="685" prefWidth="1600" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polis.MainCompanion">
    <stylesheets>
       <URL value="@/polis/stylesheet.css" />
    </stylesheets>

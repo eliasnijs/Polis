@@ -2,7 +2,11 @@ package polis.components.playingfield.buildings;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import polis.components.playingfield.buildings.tiles.*;
+import polis.components.Manager;
+import polis.components.playingfield.buildings.tiles.BuildingTileModel;
+import polis.components.playingfield.buildings.tiles.BuildingTileView;
+import polis.components.playingfield.buildings.tiles.Road;
+import polis.components.playingfield.buildings.tiles.Tree;
 import polis.datakeepers.FieldData;
 import polis.datatransferers.PendingBuildingTileView;
 import polis.helpers.RoadChecker;
@@ -18,10 +22,12 @@ import java.util.List;
 public class BuildingField implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
+    private final Manager manager;
     private final BuildingTileView[][] tiles;
     private PendingBuildingTileView pending;
 
-    public BuildingField() {
+    public BuildingField(Manager manager) {
+        this.manager = manager;
         tiles = new BuildingTileView[FieldData.getGridSize()][FieldData.getGridSize()];
     }
 
@@ -42,20 +48,25 @@ public class BuildingField implements Observable {
         tileView.setViewOrder(-row - column - 2 * (tile.getSize() - 1) - 1.0);
         pending = new PendingBuildingTileView(0, tileView);
         fireInvalidationEvent();
+        manager.getStatsConstructor().Update();
     }
 
     public void deleteTile(int r, int c) {
         BuildingTileView v = tiles[r][c];
         pending = new PendingBuildingTileView(1, tiles[r][c]);
         fireInvalidationEvent();
-        BuildingTileModel b;
+        BuildingTileModel b = null;
         for (int i = 0; i < FieldData.getGridSize(); i++) {
             for (int j = 0; j < FieldData.getGridSize(); j++) {
                 if (tiles[i][j] == v) {
+                    b = tiles[i][j].getModel();
                     tiles[i][j].getModel().setAlive(false);
                     tiles[i][j] = null;
                 }
             }
+        }
+        if (manager.getStatsConstructor().getBuilding() == b) {
+            manager.getStatsConstructor().setBuilding(null);
         }
         updateSurroundingRoads(new int[]{r,c});
     }

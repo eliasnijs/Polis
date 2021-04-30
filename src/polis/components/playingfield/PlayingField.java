@@ -1,5 +1,6 @@
 package polis.components.playingfield;
 
+import polis.components.Manager;
 import polis.components.playingfield.actors.ActorField;
 import polis.components.playingfield.buildings.BuildingField;
 
@@ -15,8 +16,8 @@ public class PlayingField {
     private BuildingField buildingField;
     private final ActorField actorField;
 
-    public PlayingField() {
-        buildingField = new BuildingField();
+    public PlayingField(Manager manager) {
+        buildingField = new BuildingField(manager);
         actorField = new ActorField(buildingField);
     }
 

@@ -7,10 +7,9 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import polis.components.Manager;
-import polis.components.playingfield.actors.actor.movers.Immigrant;
 import polis.datakeepers.FieldData;
-import polis.uicomponents.Background;
 import polis.other.MusicPlayer;
+import polis.uicomponents.Background;
 import polis.uicomponents.statistics.StatsPanel;
 import prog2.util.Viewport;
 
@@ -57,10 +56,7 @@ public class MainCompanion {
                 playButton.setSelected(!playButton.isSelected());
                 manager.getFrameLine().play(playButton.isSelected());
                 viewport.requestFocus(); },
-            ESCAPE, () -> changeCursor(selectButton, 2, "select"),
-            A,() -> manager.getPlayingField().getActorField().newActor(
-                    new Immigrant(0,15,manager.getPlayingField().getActorField())
-            )
+            ESCAPE, () -> changeCursor(selectButton, 2, "select")
     );
 
     public void initialize() {

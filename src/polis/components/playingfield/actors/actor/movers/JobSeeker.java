@@ -35,17 +35,6 @@ public class JobSeeker extends Mover {
         return (next)? nextPhaseCommerce() : nextPhaseIndustry();
     }
 
-    private Actor nextPhaseIndustry() {
-        Industry industry = (Industry) building;
-        industry.addOccupancy(1);
-        return new Worker(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), industry);
-    }
-
-    private Actor nextPhaseCommerce() {
-        Commerce shop = (Commerce) building;
-        shop.addJobs(1);
-        return new Trader(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), shop);
-    }
 
     @Override
     public boolean isDestinationReached(BuildingTileModel b) {
@@ -59,6 +48,18 @@ public class JobSeeker extends Mover {
             return b.getOccupancy() < (int) b.getCapacity();
         }
         return false;
+    }
+
+    private Actor nextPhaseIndustry() {
+        Industry industry = (Industry) building;
+        industry.addOccupancy(1);
+        return new Worker(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), industry);
+    }
+
+    private Actor nextPhaseCommerce() {
+        Commerce shop = (Commerce) building;
+        shop.addJobs(1);
+        return new Trader(getPosition()[0],getPosition()[1], getActorField(), getBaseCoords(), getResidentId(), getHome(), shop);
     }
 
 }

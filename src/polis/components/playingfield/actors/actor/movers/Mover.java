@@ -9,6 +9,7 @@ import polis.components.playingfield.buildings.tiles.BuildingTileModel;
 import polis.datakeepers.FieldData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public abstract class Mover extends Actor {
@@ -47,6 +48,9 @@ public abstract class Mover extends Actor {
         Actor actor = new Sleeper(getBaseCoords()[0],getBaseCoords()[1], getActorField(), getBaseCoords(), getResidentId(), getHome());
         transitionToNextFase(actor);
     }
+
+    @Override
+    public Actor nextPhase(){return null;}
 
     public void act(){
         changeDirection();
@@ -98,6 +102,7 @@ public abstract class Mover extends Actor {
         boolean found = false;
         int index = 0;
         ArrayList<BuildingTileModel> surroundings = surroundings();
+        Collections.shuffle(surroundings);
         if (surroundings.size() > 0) {
             while (!found && index < surroundings.size()) {
                 BuildingTileModel building = surroundings.get(index);
@@ -113,9 +118,6 @@ public abstract class Mover extends Actor {
             } getActorField().removeActor(this);
         }
     }
-
-    @Override
-    public Actor nextPhase(){return null;}
 
     public String getDestination() {
         return destination;

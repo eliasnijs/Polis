@@ -24,7 +24,7 @@ public class Stats implements Observable {
 
     public Stats() {
         location = "General";
-        name = "STATISTIEKEN";
+        name = "STATISTICS";
         reset();
     }
 

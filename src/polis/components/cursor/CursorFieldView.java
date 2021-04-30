@@ -7,7 +7,7 @@ import javafx.scene.shape.Polygon;
 import polis.components.Manager;
 import polis.components.cursor.cursors.Cursor;
 import polis.datakeepers.FieldData;
-import polis.helpers.HelperPoly;
+import polis.uicomponents.HelperPoly;
 
 import java.util.Map;
 

@@ -34,7 +34,7 @@ public class Manager {
 
     public Manager() {
         ArrayList<int[]> selected = new ArrayList<>();
-        playingField = new PlayingField();
+        playingField = new PlayingField(this);
         cursorField = new CursorField();
         cursorView = new CursorFieldView(this);
         playingFieldView = new PlayingFieldView(playingField.getBuildingField(), playingField.getActorField());

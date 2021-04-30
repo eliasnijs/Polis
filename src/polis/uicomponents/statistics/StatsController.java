@@ -37,8 +37,14 @@ public class StatsController {
         map.get(building == null).run();
     }
 
+    public Building getBuilding() {
+        return building;
+    }
+
     public void setBuilding(Building building) {
+        model.reset();
         this.building = building;
+        Update();
     }
 
     private boolean checkValidity(BuildingTileView view){
@@ -50,7 +56,7 @@ public class StatsController {
     public void importBuilding(BuildingTileView view) {
         building = null;
         if (checkValidity(view)) {
-            building = (Building) view.getModel();
+            setBuilding((Building) view.getModel());
         }
     }
 
