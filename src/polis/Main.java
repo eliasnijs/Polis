@@ -17,7 +17,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
         Font.loadFont(Objects.requireNonNull(Main.class.getResource("/polis/fonts/VT323-Regular.ttf")).toExternalForm(), 10);
 
         Parent startParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/polis/startmenu.fxml")));
