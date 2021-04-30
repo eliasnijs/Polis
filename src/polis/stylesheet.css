@@ -3,10 +3,9 @@
     /*-fx-background-color:  linear-gradient(rgba(80,110,99,1) 0%, rgba(46,69,68,1) 100%);*/
 }
 
-
 .label, .button, .toggle-button {
     -fx-text-fill: white;
-    -fx-font-family: VT323;
+    -fx-font-family: "VT323";
     -fx-font-weight: bold;
     -fx-font-size: 24px;
     -fx-background-radius: 0px

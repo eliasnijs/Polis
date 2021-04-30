@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -16,6 +17,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
+        Font.loadFont(Objects.requireNonNull(Main.class.getResource("/polis/fonts/VT323-Regular.ttf")).toExternalForm(), 10);
+
         Parent startParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/polis/startmenu.fxml")));
         Scene startScene = new Scene(startParent, 1600, 685);
 
