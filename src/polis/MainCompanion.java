@@ -103,7 +103,7 @@ public class MainCompanion {
                 events.get(o.getCode()).run();} });
         timeSlider.valueProperty().addListener((observableValue, oldVal, newVal) ->
                 manager.getFrameLine().setSpeed(newVal.intValue()) );
-    }
+   }
 
     public void changeCursor(Button button, int mode, String tool) {
         manager.setActiveManager(mode, tool);

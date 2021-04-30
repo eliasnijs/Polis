@@ -66,8 +66,9 @@ public class BuildingField implements Observable {
             }
         }
         if (manager.getStatsConstructor().getBuilding() == b) {
-            manager.getStatsConstructor().setBuilding(null);
+            manager.getStatsConstructor().importBuilding(null);
         }
+        manager.getStatsConstructor().Update();
         updateSurroundingRoads(new int[]{r,c});
     }
 
