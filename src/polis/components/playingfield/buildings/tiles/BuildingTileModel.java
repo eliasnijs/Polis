@@ -7,12 +7,13 @@ import polis.datakeepers.FieldData;
 /**
  * BuildingTile klasse. Deze klasse staat in voor het bijhouden van data voor een gebouw, decoratie, straat.
  * In andere woorden, deze klasse staat in voor alle zaken die op het bouw-veld kunnen geplaatst worden.
- * **/
+ **/
 public abstract class BuildingTileModel extends TileModel {
 
     private final String name;
     private final int size;
     private Image image;
+    private boolean isAlive;
     private boolean destructible;
 
     public BuildingTileModel(int row, int column, String name, int size) {
@@ -21,6 +22,7 @@ public abstract class BuildingTileModel extends TileModel {
         this.name = name;
         this.size = size;
         destructible = true;
+        isAlive = true;
     }
 
     public Image getImage() {
@@ -48,12 +50,26 @@ public abstract class BuildingTileModel extends TileModel {
         this.destructible = destructible;
     }
 
-    public void Update() { }
+    public void Update() {
+    }
 
-    public void setNeighbours(boolean[] adj){}
+    public void setNeighbours(boolean[] adj) {
+    }
 
-    public double getCapacity() { return 0; }
+    public double getCapacity() {
+        return 0;
+    }
 
-    public int getOccupancy() { return 0; }
+    public int getOccupancy() {
+        return 0;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
 
 }

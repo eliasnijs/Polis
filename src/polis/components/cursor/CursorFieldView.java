@@ -11,6 +11,9 @@ import polis.helpers.HelperPoly;
 
 import java.util.Map;
 
+/**
+ * Klasse die alle cursor-tiles toont en de muis-acties afhandelt.
+ * **/
 public class CursorFieldView extends Pane implements InvalidationListener {
 
     private final CursorField model;

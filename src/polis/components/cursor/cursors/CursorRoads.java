@@ -4,14 +4,15 @@ import polis.components.cursor.CursorField;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.playingfield.buildings.BuildingField;
 import polis.components.playingfield.buildings.tiles.Road;
-import polis.datakeepers.FieldData;
 import polis.helpers.GridCoordsConverter;
 import polis.helpers.RoadChecker;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 
+/**
+ * Cursor om wegen te plaatsen.
+ * **/
 public class CursorRoads extends Cursor {
 
     private static final Map<Boolean, String> colors = Map.of(
@@ -19,18 +20,10 @@ public class CursorRoads extends Cursor {
             true, "#59D98699"
     );
 
-    private final ArrayList<int[]> pos;
-    private int[] startOfDrag;
+     private int[] startOfDrag;
 
     public CursorRoads(BuildingField bf, ArrayList<int[]> s, CursorField t) {
         super(bf, s, t);
-        pos = new ArrayList<>();
-        Collections.addAll(pos, new int[]{-1, 0}, new int[]{0, 1}, new int[]{1, 0}, new int[]{0, -1});
-    }
-
-    @Override
-    protected boolean checkBounds(int[] c) {
-        return (c[0] >= 0 && c[0] < FieldData.getGridSize() && c[1] >= 0 && c[1] < FieldData.getGridSize());
     }
 
     @Override
@@ -90,7 +83,7 @@ public class CursorRoads extends Cursor {
             if (isAvailable(c)) {
                 boolean[] adjacent = RoadChecker.checkRoadNeighbours(getBuildingField(),c[0],c[1]);
                 getBuildingField().setTile(new Road(c[0], c[1], adjacent, true));
-                updateSurroundingRoads(c);
+                getBuildingField().updateSurroundingRoads(c);
             }
         }
     }

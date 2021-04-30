@@ -33,7 +33,7 @@ public class Worker extends Stayer {
     @Override
     public void act() {
         super.act();
-        if (getAge()%stepsPerGoods == 0) {
+        if (getAge()%stepsPerGoods == 0 && factory.isAlive()) {
             spawnCargo();
         }
     }

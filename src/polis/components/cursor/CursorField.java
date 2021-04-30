@@ -8,6 +8,9 @@ import polis.components.cursor.cursortile.CursorTileView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasse die de visualisatie van alle tiles coordineert.
+ * **/
 public class CursorField implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();

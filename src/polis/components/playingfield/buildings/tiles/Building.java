@@ -14,7 +14,7 @@ public abstract class Building extends BuildingTileModel {
     private double capacity;
     private final int[] levelInterval;
 
-    public Building(int row, int column, String name, String function, BuildingProperties buildingProperties) {
+    public Building(int row, int column, String name, BuildingProperties buildingProperties) {
         super(row, column, name, 2);
         this.properties = buildingProperties;
         level = 0;
@@ -49,10 +49,8 @@ public abstract class Building extends BuildingTileModel {
     }
 
     public void factorCapacity(double factor) {
-        capacity = capacity*factor;
-        if (capacity < properties.getMinimumCapacity()) {
-            capacity = properties.getMinimumCapacity();
-        }
+        capacity = Math.min(capacity*factor, 1000000);
+        capacity = Math.max(properties.getMinimumCapacity(), capacity*factor);
         Update();
     }
 

@@ -5,12 +5,14 @@ import polis.components.cursor.CursorField;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.playingfield.buildings.BuildingField;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
-import polis.components.playingfield.buildings.tiles.BuildingTileView;
-import polis.datakeepers.FieldData;
 
 import java.util.ArrayList;
 import java.util.Map;
 
+
+/**
+ * Cursor om zaken te selecteren of verwijderen.
+ * **/
 public class CursorSelect extends Cursor {
 
     private static final Map<String, String> colors = Map.of(
@@ -57,16 +59,9 @@ public class CursorSelect extends Cursor {
         }
     }
 
-    protected boolean checkBounds(int[] c) {
-        return (c[0] >= 0 && c[0] < FieldData.getGridSize() && c[1] >= 0 && c[1] < FieldData.getGridSize());
-    }
-
     private void bulldoze() {
         for (int[] c : selected) {
             if (checkAvailability(c)) {
-                if (getBuildingField().getTiles()[c[0]][c[1]].getModel().getName().equals("road")) {
-                    updateSurroundingRoads(c);
-                }
                 getBuildingField().deleteTile(c[0], c[1]);
             }
         }
@@ -83,8 +78,7 @@ public class CursorSelect extends Cursor {
     private void select() {
         if (selected.size() > 0) {
             int[] c = selected.get(0);
-            BuildingTileView view = getBuildingField().getTiles()[c[0]][c[1]];
-            manager.getStatsConstructor().importBuilding(view);
+            manager.getStatsConstructor().importBuilding(getBuildingField().getTiles()[c[0]][c[1]]);
             manager.getStatsConstructor().Update();
         } else {
             manager.getStatsConstructor().importBuilding(null);

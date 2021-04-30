@@ -6,6 +6,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import polis.datakeepers.FieldData;
 
+/**
+ * Visuele representatie van een cursor-tile
+ * **/
 public class CursorTileView extends Polygon implements InvalidationListener {
 
     private final CursorTileModel model;

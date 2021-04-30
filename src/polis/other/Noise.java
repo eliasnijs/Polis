@@ -33,7 +33,6 @@ public class Noise {
         generate(0, 0, xHeight, yHeight);
     }
 
-
     private float roughen(float v, int l, int h) {
         return v + roughness * (float) (rand.nextGaussian() * (h - l));
     }

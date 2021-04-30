@@ -18,7 +18,7 @@ public class Commerce extends Building {
     private final double badTrade;
 
     public Commerce(int row, int column) {
-        super(row, column, "commerce", "job", BuildingProperties.COMMERCE);
+        super(row, column, "commerce", BuildingProperties.COMMERCE);
         goodsPerCustomer = Double.parseDouble(PropertyLoader.getProperty("engine", "goods.per.customer"));
         customersPerTrader = Double.parseDouble(PropertyLoader.getProperty("engine", "customers.per.trader"));
         goodTrade = Double.parseDouble(PropertyLoader.getProperty("engine", "factor.good.trade"));
@@ -30,7 +30,6 @@ public class Commerce extends Building {
     public void Update() {
         super.Update();
         updateCapacities();
-        goodTrade();
     }
 
     private void updateCapacities() {
@@ -38,10 +37,8 @@ public class Commerce extends Building {
         goodsCapacity = getCapacity() * goodsPerCustomer;
     }
 
-    private void goodTrade() {
-        if (getCapacity() == getOccupancy()) {
-            factorCapacity(goodTrade);
-        }
+    public void goodTrade() {
+        factorCapacity(goodTrade);
     }
 
     public void badTrade() {

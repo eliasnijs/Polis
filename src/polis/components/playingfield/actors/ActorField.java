@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Verantwoordelijk voor het bijhouden van alle actors.
- * **/
+ **/
 public class ActorField implements Observable {
 
     private final List<InvalidationListener> listenerList = new ArrayList<>();
@@ -52,14 +52,16 @@ public class ActorField implements Observable {
     public void removeActor(Actor actor) {
         boolean found = false;
         int index = 0;
+        ActorView v = null;
         while (!found && index < actors.size()) {
             if (actors.get(index).getActor() == actor) {
-                pending = new PendingActorView(1, actors.get(index));
+                v  = actors.get(index);
                 actors.remove(index);
                 found = true;
             }
             index += 1;
         }
+        pending = new PendingActorView(1, v);
         fireInvalidationEvent();
     }
 

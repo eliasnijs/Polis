@@ -63,10 +63,14 @@ public abstract class Mover extends Actor {
     private void changeDirection(){
         int t = RG.nextInt(6);
         int i = 0;
+        boolean stop = false;
         int newDirection = (direction + diffs[t][i]) % 4;
-        while (! canMoveInDirection(newDirection)) {
-            i ++;
+        while (! canMoveInDirection(newDirection) && !stop) {
+            i += 1;
             newDirection = (direction + diffs[t][i]) % 4;
+            if (i >= 3) {
+                stop = true;
+            }
         }
         direction = newDirection;
     }
@@ -94,13 +98,19 @@ public abstract class Mover extends Actor {
         boolean found = false;
         int index = 0;
         ArrayList<BuildingTileModel> surroundings = surroundings();
-        while (!found && index < surroundings.size()) {
-            BuildingTileModel building = surroundings.get(index);
-            if (this.isDestinationReached(building)) {
-                getActorField().nextActorPhase(this, nextPhase());
-                found = true;
+        if (surroundings.size() > 0) {
+            while (!found && index < surroundings.size()) {
+                BuildingTileModel building = surroundings.get(index);
+                if (this.isDestinationReached(building)) {
+                    getActorField().nextActorPhase(this, nextPhase());
+                    found = true;
+                }
+                index += 1;
             }
-            index += 1;
+        } else {
+            if (getHome() != null) {
+                getHome().addOccupancy(-1);
+            } getActorField().removeActor(this);
         }
     }
 

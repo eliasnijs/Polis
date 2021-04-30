@@ -18,7 +18,7 @@ public class Sleeper extends Stayer {
 
     @Override
     public void time0() {
-        if (getResidentId() <= (int) getHome().getCapacity()) {
+        if (getResidentId() <= (int) getHome().getCapacity() && getHome().isAlive()) {
             transitionToNextFase(nextPhase());
         } else {
             getHome().addOccupancy(-1);

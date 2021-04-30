@@ -4,13 +4,19 @@ import polis.components.cursor.CursorField;
 import polis.components.cursor.cursortile.CursorTileModel;
 import polis.components.playingfield.buildings.BuildingField;
 import polis.components.playingfield.buildings.tiles.BuildingTileModel;
-import polis.components.playingfield.buildings.tiles.buildings.*;
+import polis.components.playingfield.buildings.tiles.buildings.BuildingFactory;
+import polis.components.playingfield.buildings.tiles.buildings.CommerceFactory;
+import polis.components.playingfield.buildings.tiles.buildings.IndustryFactory;
+import polis.components.playingfield.buildings.tiles.buildings.ResidenceFactory;
 import polis.datakeepers.FieldData;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
+/**
+ * Cursor om gebouwen te plaatsen.
+ **/
 public class CursorBuildings extends Cursor {
 
     private final Map<String, BuildingFactory> buildings = Map.of(

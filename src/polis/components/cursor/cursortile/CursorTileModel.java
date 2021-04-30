@@ -3,6 +3,9 @@ package polis.components.cursor.cursortile;
 
 import polis.components.TileModel;
 
+/**
+ * Klasse die data van een cursor-tile bijhoudt.
+ * **/
 public class CursorTileModel extends TileModel {
 
     private final int strokeWidth;

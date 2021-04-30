@@ -2,15 +2,14 @@ package polis.components.playingfield.buildings;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import polis.components.playingfield.buildings.tiles.BuildingTileModel;
-import polis.components.playingfield.buildings.tiles.BuildingTileView;
-import polis.components.playingfield.buildings.tiles.Road;
-import polis.components.playingfield.buildings.tiles.Tree;
+import polis.components.playingfield.buildings.tiles.*;
 import polis.datakeepers.FieldData;
 import polis.datatransferers.PendingBuildingTileView;
+import polis.helpers.RoadChecker;
 import polis.other.Noise;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,14 +45,30 @@ public class BuildingField implements Observable {
     }
 
     public void deleteTile(int r, int c) {
-        BuildingTileView b = tiles[r][c];
+        BuildingTileView v = tiles[r][c];
         pending = new PendingBuildingTileView(1, tiles[r][c]);
         fireInvalidationEvent();
+        BuildingTileModel b;
         for (int i = 0; i < FieldData.getGridSize(); i++) {
             for (int j = 0; j < FieldData.getGridSize(); j++) {
-                if (tiles[i][j] == b) {
+                if (tiles[i][j] == v) {
+                    tiles[i][j].getModel().setAlive(false);
                     tiles[i][j] = null;
                 }
+            }
+        }
+        updateSurroundingRoads(new int[]{r,c});
+    }
+
+    public void updateSurroundingRoads(int[] c){
+        ArrayList<int[]> pos = new ArrayList<>();
+        Collections.addAll(pos, new int[]{-1 , 0}, new int[]{0, 1}, new int[]{1, 0}, new int[]{0, -1});
+        boolean[] adjacent = RoadChecker.checkRoadNeighbours(this,c[0],c[1]);
+        for (int i = 0; i < pos.size(); i++) {
+            int[] s = pos.get(i);
+            if (adjacent[i]) {
+                boolean[] adj = RoadChecker.checkRoadNeighbours(this, c[0] + s[0], c[1] + s[1]);
+                this.getTiles()[c[0] + s[0]][c[1] + s[1]].getModel().setNeighbours(adj);
             }
         }
     }

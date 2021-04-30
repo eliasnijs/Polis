@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * De statistieken klasse.
- * Deze klasse houdt alle data in verband met de statistieken bij. Het is ook de brug tussen
- * de controller en view.
+ * Deze klasse houdt alle data in verband met de statistieken bij.
  * **/
 
 public class Stats implements Observable {

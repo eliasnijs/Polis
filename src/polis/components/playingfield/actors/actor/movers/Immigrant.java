@@ -19,7 +19,7 @@ public class Immigrant extends Mover {
 
     @Override
     public boolean isDestinationReached(BuildingTileModel b) {
-        if (b.getName().equals(getDestination()) && b.getOccupancy() < Math.floor(b.getCapacity())) {
+        if (b.getName().equals(getDestination()) && b.getOccupancy() < (int)(b.getCapacity())) {
             setBaseCoords(getPosition());
             setResidentId(b.getOccupancy() + 1);
             setHome((Building) b);

@@ -23,9 +23,9 @@ public class JobSeeker extends Mover {
 
     @Override
     public void time0() {
-        super.time0();
         getHome().factorCapacity(Double.parseDouble(
                 PropertyLoader.getProperty("engine","factor.job.not.found")));
+        super.time0();
     }
 
     @Override
@@ -53,11 +53,10 @@ public class JobSeeker extends Mover {
         if (b.getName().equals("commerce")) {
             Commerce c = (Commerce) b;
             next = c.getJobs() < Math.ceil(c.getJobsCapacity());
-            if (!next) {c.badTrade();}
             return next;
         }
         if (b.getName().equals("industry")) {
-            return b.getOccupancy() < Math.floor(b.getCapacity());
+            return b.getOccupancy() < (int) b.getCapacity();
         }
         return false;
     }

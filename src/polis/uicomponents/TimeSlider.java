@@ -11,7 +11,7 @@ public class TimeSlider extends Slider {
 
     public TimeSlider(){
         this.setMin(25);
-        this.setMax(300);
+        this.setMax(500);
         this.setBlockIncrement(1);
         this.showTickLabelsProperty();
         this.setValue(100);
