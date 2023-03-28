@@ -1,0 +1,77 @@
+.root {
+    -fx-background-color: radial-gradient(center 50% 100%, radius 125%, #202426, #000000);
+}
+
+.label, .button {
+    -fx-text-fill: white;
+    -fx-font-family: VT323;
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+    -fx-background-radius: 0px
+}
+
+.button {
+    -fx-text-fill: black;
+    -fx-background-radius: 90px;
+    -fx-background-size: 40%;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: #00000000;
+    -fx-animated: false;
+}
+
+.button:hover {
+    -fx-effect: dropshadow(gaussian, #000000, 1, 0.99, 0, 0);
+}
+
+#panel {
+    -fx-background-radius: 9px;
+    -fx-border-radius: 9px;
+    -fx-text-fill: #000000;
+    -fx-background-color: rgba(250, 250, 250, 0.9);
+    -fx-animated: false;
+    -fx-border-width: 3px 0px 0px 0px;
+    -fx-border-color: white;
+}
+
+#label_title {
+    -fx-background-color: #d2d2d2;
+    -fx-text-fill: #202426;
+    -fx-font-size: 120px;
+}
+
+#homeButton {
+    -fx-background-image: url("/polis/icons/residency.png");
+}
+
+#industryButton {
+    -fx-background-image: url("/polis/icons/factory.png");
+}
+
+#shoppingButton {
+    -fx-background-image: url("/polis/icons/commerce.png");
+}
+
+#roadButton {
+    -fx-background-image: url("/polis/icons/road.png");
+}
+
+#bulldozerButton {
+    -fx-background-image: url("/polis/icons/bulldozer.png");
+}
+
+#selectButton {
+    -fx-background-image: url("/polis/icons/select.png");
+}
+
+#playButton {
+    -fx-background-image: url("/polis/icons/play.png");
+}
+
+#nukeButton {
+    -fx-background-image: url("/polis/icons/bomb.png");
+}
+
+#soundButton {
+    -fx-background-image: url("/polis/icons/sound.png");
+}
